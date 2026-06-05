@@ -1,0 +1,364 @@
+/* ==========================================================================
+   1. GLOBAL RESET & VARIABLES
+   ========================================================================== */
+:root {
+    --primary: #4F46E5;       /* Indigo modern */
+    --primary-light: #EEF2FF;
+    --accent: #F59E0B;        /* Amber emas hangat (cocok untuk aksen Banjar) */
+    --success: #10B981;       /* Hijau sukses */
+    --text-dark: #1F2937;     /* Hitam abu-abu elegan */
+    --text-light: #6B7280;    /* Abu-abu teks sekunder */
+    --bg-main: #F9FAFB;       /* Background utama super clean */
+    --bg-card: #FFFFFF;       /* Background card putih bersih */
+    --border-color: #E5E7EB;  /* Garis batas halus */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. NAVIGATION BAR GLOBAL (Responsive Vanilla)
+   ========================================================================== */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px); /* Efek kaca transparan modern */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-logo span {
+    color: var(--primary);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.nav-link.active {
+    color: var(--primary);
+    background-color: var(--primary-light);
+    font-weight: 600;
+}
+
+/* Hamburger Menu Mobile */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger .bar {
+    width: 24px;
+    height: 3px;
+    background-color: var(--text-dark);
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+/* ==========================================================================
+   3. MAIN LAYOUT & CONTAINER
+   ========================================================================== */
+.main-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 24px;
+    min-height: calc(100vh - 200px);
+}
+
+/* Dashboard Hero */
+.dashboard-hero {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+}
+
+.user-profile-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-avatar {
+    font-size: 40px;
+    background-color: var(--primary-light);
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.profile-info h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.profile-info p {
+    color: var(--text-light);
+    font-size: 15px;
+}
+
+/* Gamified XP Card */
+.xp-card {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    min-width: 300px;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.xp-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.xp-info strong {
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.progress-bar-bg {
+    background-color: var(--border-color);
+    height: 12px;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, var(--primary), #818CF8);
+    height: 100%;
+    width: 0%; /* Diatur dinamis lewat JS */
+    border-radius: 6px;
+    transition: width 0.5s ease-out;
+}
+
+/* ==========================================================================
+   4. DASHBOARD GRID & WIDGET CARDS
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+}
+
+.dash-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    transition: var(--transition);
+}
+
+.dash-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-badge {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    width: fit-content;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dash-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.dash-card p {
+    color: var(--text-light);
+    font-size: 15px;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+/* Button Component */
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #4338CA;
+}
+
+/* Status Widget Row */
+.status-widget h3 {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.02);
+    font-size: 15px;
+}
+
+.status-item span {
+    color: var(--text-light);
+}
+
+.status-item strong {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   5. GLOBAL FOOTER
+   ========================================================================== */
+.footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    padding: 24px;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+/* ==========================================================================
+   6. RESPONSIVE MEDIA QUERIES (Sesuai Kriteria Poin 4.UX)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 72px;
+        flex-direction: column;
+        background-color: var(--bg-card);
+        width: 100%;
+        height: calc(100vh - 72px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        padding: 24px;
+        gap: 16px;
+        transition: var(--transition);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-link {
+        display: block;
+        width: 100%;
+        padding: 14px 20px;
+    }
+
+    .dashboard-hero {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .xp-card {
+        min-width: 100%;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
