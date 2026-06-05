@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - Mind Sanctuary</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="wellness.html" class="nav-link">Wellness</a></li>
+                <li><a href="jurnal.html" class="nav-link active">Sanctuary</a></li>
+                <li><a href="edukasi.html" class="nav-link">EduInnova</a></li>
+                <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
+                <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
+                <li><a href="travel.html" class="nav-link">Wanderlust</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section class="section-header">
+            <h2>Mind Sanctuary</h2>
+            <p>Ekspresikan perasaanmu hari ini dan catat seluruh ide kreatifmu dengan rapi.</p>
+        </section>
+
+        <section class="dashboard-hero mood-section">
+            <div class="mood-intro">
+                <h3>Bagaimana suasana hatimu hari ini?</h3>
+                <p>Pilih satu emosi untuk mencatat riwayat psikologismu.</p>
+            </div>
+            <div class="mood-options">
+                <button class="btn-mood" data-mood="Senang">😊 <span>Senang</span></button>
+                <button class="btn-mood" data-mood="Biasa">😐 <span>Biasa</span></button>
+                <button class="btn-mood" data-mood="Sedih">😢 <span>Sedih</span></button>
+                <button class="btn-mood" data-mood="Kesal">😡 <span>Kesal</span></button>
+            </div>
+            <div class="current-mood-status">
+                Status Hari Ini: <strong id="todayMoodText">Belum memilih</strong>
+            </div>
+        </section>
+
+        <div class="notes-workspace">
+            
+            <div class="dash-card note-form-card">
+                <h3>Buat Catatan Baru</h3>
+                <form id="noteForm" style="margin-top: 16px;">
+                    <div class="form-group">
+                        <label for="noteTitle">Judul Catatan</label>
+                        <input type="text" id="noteTitle" placeholder="Misal: Ide Project Laravel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteCategory">Kategori</label>
+                        <select id="noteCategory">
+                            <option value="Umum">💡 Umum</option>
+                            <option value="Kuliah">📚 Kuliah</option>
+                            <option value="Kerja">💻 Kerja / Freelance</option>
+                            <option value="Penting">🔥 Penting</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteContent">Isi Catatan</label>
+                        <textarea id="noteContent" rows="5" placeholder="Tuliskan detail catatannmu di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Simpan Catatan (+10 XP)</button>
+                </form>
+            </div>
+
+            <div class="notes-output-zone">
+                <div class="search-bar-container">
+                    <input type="text" id="searchNotesInput" placeholder="🔍 Cari catatan berdasarkan judul atau isi...">
+                </div>
+
+                <div class="notes-grid" id="notesGrid">
+                    <div class="empty-notes-message" id="emptyNotesMsg">
+                        <p>Belum ada catatan tersimpan. Mulai tulis ide pertamamu!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Dibuat murni menggunakan HTML, CSS, & JS.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

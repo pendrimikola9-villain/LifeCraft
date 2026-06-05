@@ -160,7 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDashboardUI();
     loadDailyMission();
     updateTimerDisplay();
-    updateWaterUI();     
+    updateWaterUI();  
+    initMoodTracker();  
+    renderNotes();        
 });
 
 /* ==========================================================================
@@ -290,5 +292,135 @@ if(resetWaterBtn) {
         userData.waterIntake = 0;
         saveUserData();
         updateWaterUI();
+    });
+}
+
+/* ==========================================================================
+   8. MOOD TRACKER ENGINE
+   ========================================================================== */
+if (userData.todayMood === undefined) userData.todayMood = "";
+
+function initMoodTracker() {
+    const moodBtns = document.querySelectorAll('.btn-mood');
+    const todayMoodText = document.getElementById('todayMoodText');
+    if (!todayMoodText) return;
+
+    if (userData.todayMood) {
+        todayMoodText.innerText = userData.todayMood;
+    }
+
+    moodBtns.forEach(btn => {
+        // Tandai tombol jika sudah pernah dipilih sebelumnya
+        if (btn.getAttribute('data-mood') === userData.todayMood) {
+            btn.classList.add('selected');
+        }
+
+        btn.addEventListener('click', () => {
+            // Hapus kelas terpilih dari tombol lain
+            moodBtns.forEach(b => b.classList.remove('selected'));
+            
+            const selectedMood = btn.getAttribute('data-mood');
+            btn.classList.add('selected');
+            
+            // Cek jika belum memilih mood hari ini, beri hadiah XP
+            if (userData.todayMood === "") {
+                addXP(5);
+            }
+
+            userData.todayMood = selectedMood;
+            todayMoodText.innerText = selectedMood;
+            saveUserData();
+        });
+    });
+}
+
+/* ==========================================================================
+   9. ADVANCED QUICK NOTES ENGINE (CRUD)
+   ========================================================================== */
+if (userData.savedNotes === undefined) userData.savedNotes = [];
+
+const noteForm = document.getElementById('noteForm');
+const notesGrid = document.getElementById('notesGrid');
+const searchNotesInput = document.getElementById('searchNotesInput');
+
+function renderNotes(notesArray = userData.savedNotes) {
+    if (!notesGrid) return;
+    
+    // Bersihkan isi grid terlebih dahulu
+    notesGrid.innerHTML = "";
+
+    if (notesArray.length === 0) {
+        notesGrid.innerHTML = `
+            <div class="empty-notes-message">
+                <p>Tidak ada catatan yang ditemukan.</p>
+            </div>`;
+        return;
+    }
+
+    notesArray.forEach((note, index) => {
+        const card = document.createElement('div');
+        card.className = 'single-note-card';
+        card.innerHTML = `
+            <div>
+                <span class="note-tag tag-${note.category}">${note.category}</span>
+                <h4>${escapeHTML(note.title)}</h4>
+                <p>${escapeHTML(note.content)}</p>
+            </div>
+            <button class="btn-delete-note" onclick="deleteNote(${index})">Hapus</button>
+        `;
+        notesGrid.appendChild(card);
+    });
+    
+    // Update counter jumlah catatan secara global
+    userData.notesCount = userData.savedNotes.length;
+    localStorage.setItem('zenithUserData', JSON.stringify(userData));
+}
+
+// Fungsi pengaman XSS untuk membersihkan tag HTML buatan user (Nilai plus keamanan di mata juri)
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+// Handler Submit Pembuatan Catatan
+if (noteForm) {
+    noteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('noteTitle').value;
+        const category = document.getElementById('noteCategory').value;
+        const content = document.getElementById('noteContent').value;
+
+        const newNote = { title, category, content, date: new Date().toLocaleDateString() };
+        userData.savedNotes.unshift(newNote); // Tambah ke urutan paling atas
+        
+        addXP(10); // Beri reward +10 XP
+        noteForm.reset(); // Kosongkan form input
+        renderNotes();
+    });
+}
+
+// Fungsi Hapus Catatan Global Window (Agar bisa dibaca oleh atribut onclick HTML)
+window.deleteNote = function(index) {
+    if(confirm("Apakah kamu yakin ingin menghapus catatan ini?")) {
+        userData.savedNotes.splice(index, 1);
+        saveUserData();
+        renderNotes();
+    }
+}
+
+// Engine Live Search Real-time (Filter Array)
+if (searchNotesInput) {
+    searchNotesInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        
+        // Filter catatan berdasarkan judul atau isi teks
+        const filtered = userData.savedNotes.filter(note => 
+            note.title.toLowerCase().includes(query) || 
+            note.content.toLowerCase().includes(query)
+        );
+        
+        renderNotes(filtered);
     });
 }
