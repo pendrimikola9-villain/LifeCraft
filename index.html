@@ -7,24 +7,34 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal-box">
+            <h2>Selamat Datang di <span>ZenithLife</span></h2>
+            <p>Platform interaktif untuk pengembangan diri, kesehatan, dan pelestarian budaya.</p>
+            <div class="form-group" style="margin: 20px 0; text-align: left;">
+                <label for="inputWelcomeName">Siapa nama kamu?</label>
+                <input type="text" id="inputWelcomeName" placeholder="Masukkan nama kamu..." required>
+            </div>
+            <button class="btn-primary" id="btnSaveName">Mulai Petualangan 🚀</button>
+        </div>
+    </div>
 
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
-            
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link active">Dashboard</a></li>
-                <li><a href="wellness.html" class="nav-link">Wellness</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
                 <li><a href="jurnal.html" class="nav-link">Sanctuary</a></li>
                 <li><a href="edukasi.html" class="nav-link">EduInnova</a></li>
                 <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
                 <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
                 <li><a href="travel.html" class="nav-link">Wanderlust</a></li>
             </ul>
-
             <div class="hamburger" id="hamburgerBtn">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -37,10 +47,10 @@
         
         <section class="dashboard-hero">
             <div class="user-profile-box">
-                <div class="profile-avatar">🎯</div>
+                <div class="profile-avatar" id="profileAvatarBtn" title="Klik untuk ubah nama">👤</div>
                 <div class="profile-info">
                     <h2 id="userName">Halo, Penjelajah!</h2>
-                    <p>Siap menaklukkan tantangan hari ini?</p>
+                    <p id="userStatusBadge">🏆 Pemula Berbakat</p>
                 </div>
             </div>
             <div class="xp-card">
@@ -57,9 +67,9 @@
         <div class="dashboard-grid">
             
             <div class="dash-card culture-widget">
-                <div class="card-badge">Misi Harian Budaya</div>
-                <h3 id="cultureTitle">Memuat misi hari ini...</h3>
-                <p id="cultureDesc">Belajar kosakata baru atau fakta budaya lokal untuk menambah XP kamu.</p>
+                <div class="card-badge" id="missionBadge">Misi Hari Ini</div>
+                <h3 id="cultureTitle">Memuat misi...</h3>
+                <p id="cultureDesc">Memuat detail tantangan harian untukmu...</p>
                 <div class="culture-action">
                     <button class="btn-primary" id="btnCompleteMission">Selesaikan Misi (+50 XP)</button>
                 </div>
@@ -68,16 +78,16 @@
             <div class="dash-card status-widget">
                 <h3>Rangkuman Aktivitas</h3>
                 <div class="status-item">
-                    <span>Saldo WealthLab:</span>
-                    <strong id="summaryWallet">Rp 0</strong>
-                </div>
-                <div class="status-item">
-                    <span>Skor CV Terakhir:</span>
-                    <strong id="summaryATS">0% ATS</strong>
+                    <span>Status Hidrasi:</span>
+                    <strong id="summaryWater">0 ml</strong>
                 </div>
                 <div class="status-item">
                     <span>Catatan Tersimpan:</span>
                     <strong id="summaryNotes">0 Catatan</strong>
+                </div>
+                <div class="status-item">
+                    <span>Skor CV Terakhir:</span>
+                    <strong id="summaryATS">0% ATS</strong>
                 </div>
             </div>
 

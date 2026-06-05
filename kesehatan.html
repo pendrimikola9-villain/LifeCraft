@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - FitLife Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link active">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Sanctuary</a></li>
+                <li><a href="edukasi.html" class="nav-link">EduInnova</a></li>
+                <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
+                <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
+                <li><a href="travel.html" class="nav-link">Wanderlust</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section class="section-header">
+            <h2>FitLife Hub</h2>
+            <p>Jaga hidrasi tubuh dan lakukan olahraga peregangan ringan agar tubuh tetap prima saat produktif.</p>
+        </section>
+
+        <div class="dashboard-grid">
+            
+            <div class="dash-card water-container">
+                <div class="card-badge">Hydration Tracker</div>
+                <h3>Status Hidrasi Harian</h3>
+                
+                <div class="glass-visual">
+                    <div class="water-fill" id="waterFill" style="height: 0%;"></div>
+                    <span class="glass-text" id="glassText">0%</span>
+                </div>
+
+                <div class="water-info">
+                    <span id="waterTargetText">Terpenuhi: 0 / 2000 ml</span>
+                </div>
+                
+                <div class="water-actions">
+                    <button class="btn-primary" id="btnAddWater">+ 250 ml Air</button>
+                    <button class="btn-secondary" id="btnResetWater" style="margin-top: 8px; width: 100%;">Reset Tracker</button>
+                </div>
+            </div>
+
+            <div class="dash-card stretching-container" id="stretchCard">
+                <div class="card-badge" style="color: #10B981; background-color: rgba(16,185,129,0.1);">Desk Stretching</div>
+                <h3>Peregangan 5 Menit</h3>
+                <p id="stretchInstruction" style="font-weight: 500; margin-top: 8px; color: var(--primary);">
+                    Tekan mulai untuk memulai gerakan pemanasan leher dan bahu.
+                </p>
+                
+                <div class="timer-display" id="stretchTimerDisplay">05:00</div>
+                
+                <div class="timer-controls">
+                    <button class="btn-timer" id="btnStartStretch" style="background-color: var(--success); color: white;">Mulai</button>
+                    <button class="btn-timer btn-danger" id="btnResetStretch">Reset</button>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="dash-card" style="margin-top: 32px; min-height: auto;">
+            <div class="card-badge" style="color: #3B82F6; background-color: rgba(59,130,246,0.1);">Health Calculator</div>
+            <h3>Kalkulator Pembakaran Kalori</h3>
+            <p>Hitung estimasi kalori yang terbakar berdasarkan jenis olahraga ringan yang kamu lakukan hari ini.</p>
+            
+            <div class="calculator-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div class="form-group">
+                    <label for="workoutType">Jenis Olahraga</label>
+                    <select id="workoutType">
+                        <option value="4">Peregangan Statis / Yoga Ringan</option>
+                        <option value="6">Jalan Kaki Santai</option>
+                        <option value="8">Push-up & Sit-up Mandiri</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="workoutDuration">Durasi (Menit)</label>
+                    <input type="number" id="workoutDuration" placeholder="Misal: 15" min="1">
+                </div>
+                <div class="form-group" style="display: flex; align-items: flex-end;">
+                    <button class="btn-primary" id="btnCalcCalorie" style="height: 46px;">Hitung Kalori</button>
+                </div>
+            </div>
+
+            <div class="calc-result" id="calorieResultBox" style="margin-top: 20px; padding: 16px; background-color: var(--bg-main); border-radius: var(--radius-md); display: none;">
+                🔥 Estimasi energi yang terbakar: <strong id="caloriesBurnedText" style="color: #EF4444; font-size: 18px;">0</strong> kkal.
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Dibuat murni menggunakan HTML, CSS, & JS.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

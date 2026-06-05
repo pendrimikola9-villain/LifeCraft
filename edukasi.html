@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - EduInnova Space</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Sanctuary</a></li>
+                <li><a href="edukasi.html" class="nav-link active">EduInnova</a></li>
+                <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
+                <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
+                <li><a href="travel.html" class="nav-link">Wanderlust</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section class="section-header">
+            <h2>EduInnova Space</h2>
+            <p>Atur waktu belajarmu, uji kemampuan lewat kuis, dan buat kartu hafalan kustom sendiri.</p>
+        </section>
+
+        <div class="notes-workspace">
+            <div class="left-edu-panel" style="display: flex; flex-direction: column; gap: 32px;">
+                
+                <div class="dash-card pomodoro-container" id="pomoCard" style="min-height: auto; padding: 24px;">
+                    <div class="card-badge" id="pomoStatus">Sesi Belajar</div>
+                    
+                    <div class="pomo-inputs" style="width: 100%; margin-top: 12px; text-align: left;">
+                        <div class="form-group">
+                            <label for="pomoTaskInput">Apa yang ingin kamu pelajari?</label>
+                            <input type="text" id="pomoTaskInput" placeholder="Misal: Tenses Bahasa Inggris / Logika If-Else">
+                        </div>
+                        <div class="form-group">
+                            <label for="pomoMinutesInput">Durasi Waktu (Menit)</label>
+                            <input type="number" id="pomoMinutesInput" value="25" min="1" max="60">
+                        </div>
+                    </div>
+
+                    <h4 id="activeTaskText" style="margin: 8px 0; color: var(--primary); display: none;">Fokus: <span>-</span></h4>
+                    
+                    <div class="timer-display" id="timerDisplay" style="font-size: 54px; margin: 10px 0;">25:00</div>
+                    
+                    <div class="timer-controls">
+                        <button class="btn-timer" id="btnStartPomo" style="background-color: var(--primary); color: white;">Mulai</button>
+                        <button class="btn-timer btn-danger" id="btnResetPomo">Reset</button>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <h3>Buat Flashcard Baru</h3>
+                    <form id="flashcardForm" style="margin-top: 12px; text-align: left;">
+                        <div class="form-group">
+                            <label for="fcFront">Pertanyaan (Sisi Depan)</label>
+                            <input type="text" id="fcFront" placeholder="Misal: Apa arti kata 'Sungsung'?" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fcBack">Jawaban (Sisi Belakang)</label>
+                            <input type="text" id="fcBack" placeholder="Misal: Pagi-pagi sekali" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Tambah Kartu (+5 XP)</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="right-edu-panel" style="display: flex; flex-direction: column; gap: 32px;">
+                
+                <div class="dash-card quiz-card">
+                    <div class="card-badge" style="background-color: rgba(16,185,129,0.1); color: var(--success);">Interactive Quiz</div>
+                    <h3>Asah Otak Multi-Kategori</h3>
+                    
+                    <div id="quizSelectionZone" style="margin-top: 16px;">
+                        <p style="margin-bottom: 12px; color: var(--text-light);">Pilih kategori kuis yang ingin kamu mainkan:</p>
+                        <div class="quiz-category-buttons" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <button class="btn-secondary" onclick="startSelectedQuiz('it')">💻 Logika IT</button>
+                            <button class="btn-secondary" onclick="startSelectedQuiz('banjar')">🌴 Budaya Banjar</button>
+                            <button class="btn-secondary" onclick="startSelectedQuiz('english')">🇬🇧 English Quiz</button>
+                        </div>
+                    </div>
+
+                    <div id="quizPlayZone" style="display: none; margin-top: 16px; text-align: left;">
+                        <h4 id="quizQuestion" style="font-size: 18px; margin-bottom: 16px;">Pertanyaan kuis akan muncul di sini?</h4>
+                        <div class="quiz-options-list" id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;">
+                            </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 16px;">Koleksi Flashcard Kamu (Klik untuk membalik kartu)</h3>
+                    <div class="flashcards-grid" id="flashcardsGrid">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Dibuat murni menggunakan HTML, CSS, & JS.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
