@@ -159,4 +159,136 @@ if (completeMissionBtn) {
 document.addEventListener('DOMContentLoaded', () => {
     updateDashboardUI();
     loadDailyMission();
+    updateTimerDisplay();
+    updateWaterUI();     
 });
+
+/* ==========================================================================
+   6. POMODORO TIMER CORE ENGINE
+   ========================================================================== */
+let pomoInterval = null;
+let timerSeconds = 25 * 60; // 25 Menit awal
+let isWorkMode = true;
+
+const timerDisplay = document.getElementById('timerDisplay');
+const pomoStatus = document.getElementById('pomoStatus');
+const pomoCard = document.getElementById('pomoCard');
+const startPomoBtn = document.getElementById('btnStartPomo');
+const pausePomoBtn = document.getElementById('btnPausePomo');
+const resetPomoBtn = document.getElementById('btnResetPomo');
+
+function updateTimerDisplay() {
+    if (!timerDisplay) return;
+    const minutes = Math.floor(timerSeconds / 60);
+    const seconds = timerSeconds % 60;
+    timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function startPomodoro() {
+    if (pomoInterval !== null) return;
+    
+    startPomoBtn.disabled = true;
+    pausePomoBtn.disabled = false;
+
+    pomoInterval = setInterval(() => {
+        timerSeconds--;
+        updateTimerDisplay();
+
+        if (timerSeconds <= 0) {
+            clearInterval(pomoInterval);
+            pomoInterval = null;
+            
+            if (isWorkMode) {
+                // Berhasil Sesi Kerja -> Beri Hadiah XP!
+                alert("Kerja bagus! Sesi fokus selesai. Ambil istirahat sejenak (+25 XP) 🎉");
+                addXP(25);
+                
+                // Pindah ke Mode Istirahat (5 Menit)
+                isWorkMode = false;
+                timerSeconds = 5 * 60;
+                if(pomoStatus) pomoStatus.innerText = "Break Session";
+                if(pomoCard) pomoCard.classList.add('break-mode');
+                if(pomoCard) pomoCard.classList.remove('work-mode');
+            } else {
+                alert("Waktu istirahat habis! Bersiap fokus kembali.");
+                isWorkMode = true;
+                timerSeconds = 25 * 60;
+                if(pomoStatus) pomoStatus.innerText = "Work Session";
+                if(pomoCard) pomoCard.classList.add('work-mode');
+                if(pomoCard) pomoCard.classList.remove('break-mode');
+            }
+            
+            startPomoBtn.disabled = false;
+            pausePomoBtn.disabled = true;
+            updateTimerDisplay();
+        }
+    }, 1000);
+}
+
+function pausePomodoro() {
+    clearInterval(pomoInterval);
+    pomoInterval = null;
+    startPomoBtn.disabled = false;
+    pausePomoBtn.disabled = true;
+}
+
+function resetPomodoro() {
+    clearInterval(pomoInterval);
+    pomoInterval = null;
+    isWorkMode = true;
+    timerSeconds = 25 * 60;
+    if(pomoStatus) pomoStatus.innerText = "Work Session";
+    if(pomoCard) {
+        pomoCard.classList.remove('work-mode', 'break-mode');
+    }
+    startPomoBtn.disabled = false;
+    pausePomoBtn.disabled = true;
+    updateTimerDisplay();
+}
+
+// Hubungkan Event Listener Pomodoro
+if(startPomoBtn) startPomoBtn.addEventListener('click', startPomodoro);
+if(pausePomoBtn) pausePomoBtn.addEventListener('click', pausePomodoro);
+if(resetPomoBtn) resetPomoBtn.addEventListener('click', resetPomodoro);
+
+
+/* ==========================================================================
+   7. WATER TRACKER ENGINE (State Terikat LocalStorage)
+   ========================================================================== */
+// Definisikan variabel baru di dalam database lokal jika belum ada
+if (userData.waterIntake === undefined) userData.waterIntake = 0;
+
+const waterFill = document.getElementById('waterFill');
+const glassText = document.getElementById('glassText');
+const waterTargetText = document.getElementById('waterTargetText');
+const addWaterBtn = document.getElementById('btnAddWater');
+const resetWaterBtn = document.getElementById('btnResetWater');
+
+function updateWaterUI() {
+    if (!waterFill || !glassText || !waterTargetText) return;
+    
+    const target = 2000; // Target 2 Liter harian
+    const percentage = Math.min((userData.waterIntake / target) * 100, 100);
+    
+    waterFill.style.height = `${percentage}%`;
+    glassText.innerText = `${Math.floor(percentage)}%`;
+    waterTargetText.innerText = `Terpenuhi: ${userData.waterIntake} / ${target} ml`;
+}
+
+if(addWaterBtn) {
+    addWaterBtn.addEventListener('click', () => {
+        userData.waterIntake += 250; // Tambah 1 gelas 250ml
+        // Beri hadiah kecil 5 XP setiap minum biar seru
+        addXP(5);
+        saveUserData();
+        updateWaterUI();
+    });
+}
+
+if(resetWaterBtn) {
+    resetWaterBtn.addEventListener('click', () => {
+        userData.waterIntake = 0;
+        saveUserData();
+        updateWaterUI();
+    });
+}
