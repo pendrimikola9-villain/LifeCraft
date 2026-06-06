@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZenithLife - Mind Sanctuary</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,8 +13,8 @@
             <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">Dashboard</a></li>
-                <li><a href="wellness.html" class="nav-link">Wellness</a></li>
-                <li><a href="jurnal.html" class="nav-link active">Sanctuary</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link active">Jurnal</a></li>
                 <li><a href="edukasi.html" class="nav-link">EduInnova</a></li>
                 <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
                 <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
@@ -32,72 +29,73 @@
     </nav>
 
     <main class="main-container">
-        <section class="section-header">
-            <h2>Mind Sanctuary</h2>
-            <p>Ekspresikan perasaanmu hari ini dan catat seluruh ide kreatifmu dengan rapi.</p>
+        <section style="margin-bottom: 32px;">
+            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Mind Sanctuary</h2>
+            <p style="color: var(--text-light);">Ekspresikan emosimu hari ini dan catat seluruh ide kreatif pengembangan dirimu dengan rapi.</p>
         </section>
 
-        <section class="dashboard-hero mood-section">
-            <div class="mood-intro">
-                <h3>Bagaimana suasana hatimu hari ini?</h3>
-                <p>Pilih satu emosi untuk mencatat riwayat psikologismu.</p>
+        <section class="dashboard-hero" style="flex-direction: column; align-items: flex-start; padding: 28px; gap: 16px;">
+            <div>
+                <h3 style="font-size: 20px; font-weight: 800;">Bagaimana suasana hatimu hari ini?</h3>
+                <p style="color: var(--text-light); font-size: 14px;">Pilih satu emosi untuk mencatat riwayat log psikologis harianmu.</p>
             </div>
-            <div class="mood-options">
-                <button class="btn-mood" data-mood="Senang">😊 <span>Senang</span></button>
-                <button class="btn-mood" data-mood="Biasa">😐 <span>Biasa</span></button>
-                <button class="btn-mood" data-mood="Sedih">😢 <span>Sedih</span></button>
-                <button class="btn-mood" data-mood="Kesal">😡 <span>Kesal</span></button>
-            </div>
-            <div class="current-mood-status">
-                Status Hari Ini: <strong id="todayMoodText">Belum memilih</strong>
-            </div>
-        </section>
-
-        <div class="notes-workspace">
             
-            <div class="dash-card note-form-card">
+            <div style="display: flex; gap: 16px; width: 100%; flex-wrap: wrap;">
+                <button class="btn-primary btn-mood" data-mood="Senang" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😊 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Senang</span></button>
+                <button class="btn-primary btn-mood" data-mood="Biasa" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😐 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Biasa</span></button>
+                <button class="btn-primary btn-mood" data-mood="Sedih" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😢 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Sedih</span></button>
+                <button class="btn-primary btn-mood" data-mood="Kesal" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😡 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Kesal</span></button>
+            </div>
+            
+            <div style="font-size: 15px; font-weight: 600; color: var(--text-light);">
+                Status Terpilih: <strong id="todayMoodText" style="color: var(--primary);">Belum memilih</strong>
+            </div>
+        </section>
+
+        <div class="dashboard-grid" style="grid-template-columns: 360px 1fr; align-items: start;">
+            
+            <div class="dash-card" style="min-height: auto; padding: 28px;">
                 <h3>Buat Catatan Baru</h3>
-                <form id="noteForm" style="margin-top: 16px;">
+                <form id="noteForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px; text-align: left;">
                     <div class="form-group">
                         <label for="noteTitle">Judul Catatan</label>
                         <input type="text" id="noteTitle" placeholder="Misal: Ide Project Laravel" required>
                     </div>
                     <div class="form-group">
                         <label for="noteCategory">Kategori</label>
-                        <select id="noteCategory">
-                            <option value="Umum">💡 Umum</option>
-                            <option value="Kuliah">📚 Kuliah</option>
-                            <option value="Kerja">💻 Kerja / Freelance</option>
-                            <option value="Penting">🔥 Penting</option>
-                        </select>
+                       <select id="noteCategory" style="width: 100%; padding: 12px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: white;">
+    <option value="Umum">💡 Umum / Ide Kreatif</option>
+    <option value="Diary">📖 Cerita Diary Hari Ini</option> <option value="Kuliah">📚 Tugas Kuliah</option>
+    <option value="Kerja">💻 Freelance / IT</option>
+    <option value="Penting">🔥 Sangat Penting</option>
+</select>
                     </div>
                     <div class="form-group">
-                        <label for="noteContent">Isi Catatan</label>
-                        <textarea id="noteContent" rows="5" placeholder="Tuliskan detail catatannmu di sini..." required></textarea>
+                        <label for="noteContent">Isi Detail Catatan</label>
+                        <textarea id="noteContent" rows="5" placeholder="Tulis rincian ide catatannmu di sini..." style="width: 100%; padding: 12px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.6);" required></textarea>
                     </div>
-                    <button type="submit" class="btn-primary">Simpan Catatan (+10 XP)</button>
+                    <button type="submit" class="btn-primary">💾 Simpan Catatan (+10 XP)</button>
                 </form>
             </div>
 
-            <div class="notes-output-zone">
-                <div class="search-bar-container">
-                    <input type="text" id="searchNotesInput" placeholder="🔍 Cari catatan berdasarkan judul atau isi...">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <div class="form-group" style="width: 100%;">
+                    <input type="text" id="searchNotesInput" placeholder="🔍 Cari catatan berdasarkan judul atau isi secara instan..." style="background: var(--bg-card); backdrop-filter: blur(10px); padding: 16px 20px; border-radius: var(--radius-md); font-size: 15px; box-shadow: var(--shadow-sm);">
                 </div>
 
-                <div class="notes-grid" id="notesGrid">
-                    <div class="empty-notes-message" id="emptyNotesMsg">
-                        <p>Belum ada catatan tersimpan. Mulai tulis ide pertamamu!</p>
+                <div class="dashboard-grid" id="notesGrid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;">
                     </div>
-                </div>
             </div>
 
         </div>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 ZenithLife. Dibuat murni menggunakan HTML, CSS, & JS.</p>
+        <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
     </footer>
 
     <script src="js/script.js"></script>
+    <script src="js/jurnal.js"></script>
 </body>
 </html>

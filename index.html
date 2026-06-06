@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenithLife - Dashboard Ecosystem & Culture</title>
+    <title>ZenithLife - Dashboard Ecosystem</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="modal-overlay" id="welcomeModal">
         <div class="modal-box">
             <h2>Selamat Datang di <span>ZenithLife</span></h2>
-            <p>Platform interaktif untuk pengembangan diri, kesehatan, dan pelestarian budaya.</p>
+            <p>Platform interaktif pengembangan diri, kesehatan fisik, dan pelestarian budaya lokal.</p>
             <div class="form-group" style="margin: 20px 0; text-align: left;">
                 <label for="inputWelcomeName">Siapa nama kamu?</label>
                 <input type="text" id="inputWelcomeName" placeholder="Masukkan nama kamu..." required>
@@ -29,7 +26,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link active">Dashboard</a></li>
                 <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
-                <li><a href="jurnal.html" class="nav-link">Sanctuary</a></li>
+                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
                 <li><a href="edukasi.html" class="nav-link">EduInnova</a></li>
                 <li><a href="karir.html" class="nav-link">CareerCraft</a></li>
                 <li><a href="keuangan.html" class="nav-link">WealthLab</a></li>
@@ -43,11 +40,11 @@
         </div>
     </nav>
 
-    <main class="main-container">
+<main class="main-container">
         
         <section class="dashboard-hero">
             <div class="user-profile-box">
-                <div class="profile-avatar" id="profileAvatarBtn" title="Klik untuk ubah nama">👤</div>
+                <div class="profile-avatar" id="profileAvatarBtn">👤</div>
                 <div class="profile-info">
                     <h2 id="userName">Halo, Penjelajah!</h2>
                     <p id="userStatusBadge">🏆 Pemula Berbakat</p>
@@ -65,11 +62,10 @@
         </section>
 
         <div class="dashboard-grid">
-            
             <div class="dash-card culture-widget">
                 <div class="card-badge" id="missionBadge">Misi Hari Ini</div>
-                <h3 id="cultureTitle">Memuat misi...</h3>
-                <p id="cultureDesc">Memuat detail tantangan harian untukmu...</p>
+                <h3 id="cultureTitle">Memuat misi harian...</h3>
+                <p id="cultureDesc">Detail misi harian kamu sedang disiapkan oleh sistem.</p>
                 <div class="culture-action">
                     <button class="btn-primary" id="btnCompleteMission">Selesaikan Misi (+50 XP)</button>
                 </div>
@@ -77,25 +73,15 @@
 
             <div class="dash-card status-widget">
                 <h3>Rangkuman Aktivitas</h3>
-                <div class="status-item">
-                    <span>Status Hidrasi:</span>
-                    <strong id="summaryWater">0 ml</strong>
-                </div>
-                <div class="status-item">
-                    <span>Catatan Tersimpan:</span>
-                    <strong id="summaryNotes">0 Catatan</strong>
-                </div>
-                <div class="status-item">
-                    <span>Skor CV Terakhir:</span>
-                    <strong id="summaryATS">0% ATS</strong>
-                </div>
+                <div class="status-item"><span>Status Hidrasi:</span><strong id="summaryWater">0 ml</strong></div>
+                <div class="status-item"><span>Catatan Jurnal:</span><strong id="summaryNotes">0 Catatan</strong></div>
+                <div class="status-item"><span>Skor ATS CV:</span><strong id="summaryATS">0% ATS</strong></div>
             </div>
-
         </div>
-    </main>
 
+    </main>
     <footer class="footer">
-        <p>&copy; 2026 ZenithLife. Dibuat murni menggunakan HTML, CSS, & JS.</p>
+        <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
     </footer>
 
     <script src="js/script.js"></script>

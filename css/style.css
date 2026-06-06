@@ -1,21 +1,32 @@
 /* ==========================================================================
-   1. GLOBAL RESET & VARIABLES
+   1. GLOBAL RESET & DESIGN SYSTEM (GLASSMORPHISM MODERN VIBES)
    ========================================================================== */
 :root {
-    --primary: #4F46E5;       /* Indigo modern */
-    --primary-light: #EEF2FF;
-    --accent: #F59E0B;        /* Amber emas hangat (cocok untuk aksen Banjar) */
-    --success: #10B981;       /* Hijau sukses */
-    --text-dark: #1F2937;     /* Hitam abu-abu elegan */
-    --text-light: #6B7280;    /* Abu-abu teks sekunder */
-    --bg-main: #F9FAFB;       /* Background utama super clean */
-    --bg-card: #FFFFFF;       /* Background card putih bersih */
-    --border-color: #E5E7EB;  /* Garis batas halus */
-    --radius-lg: 16px;
-    --radius-md: 12px;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Palet Warna Hidup & Menyala (Vibrant Pastel) */
+    --primary: #6366F1;         /* Indigo Neon */
+    --primary-gradient: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    --success-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    
+    --text-dark: #0F172A;       /* Hitam Midnight Slate */
+    --text-light: #334155;      /* Abu-abu teks kontras tinggi */
+    
+    /* Background Hidup: Campuran Mesh Gradient Gradasi Halus */
+    --bg-main: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 40%, #FAE8FF 80%, #F5F3FF 100%);
+    
+    /* Inti Glassmorphism: Putih transparan dengan blur tinggi */
+    --bg-card: rgba(255, 255, 255, 0.45); 
+    --bg-navbar: rgba(255, 255, 255, 0.65);
+    --border-color: rgba(255, 255, 255, 0.6);
+    --border-glow: rgba(99, 102, 241, 0.15);
+    
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    
+    /* Bayangan Lembut Berefek Glowing */
+    --shadow-sm: 0 4px 12px rgba(99, 102, 241, 0.04);
+    --shadow-md: 0 12px 32px -4px rgba(99, 102, 241, 0.12), 0 4px 12px -2px rgba(99, 102, 241, 0.06);
+    --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * {
@@ -25,82 +36,87 @@
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg-main);
+    /* Menggunakan font sistem modern bawaan laptop tanpa perlu internet/CDN */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-main);
+    background-attachment: fixed;
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
 /* ==========================================================================
-   2. NAVIGATION BAR GLOBAL (Responsive Vanilla)
+   2. NAVBAR GLASSMORPHISM PREMIUM
    ========================================================================== */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px); /* Efek kaca transparan modern */
-    -webkit-backdrop-filter: blur(12px);
+    background-color: var(--bg-navbar);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
-    height: 72px;
+    height: 76px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .nav-logo {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: 800;
     color: var(--text-dark);
     text-decoration: none;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 .nav-logo span {
-    color: var(--primary);
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 8px;
+    gap: 6px;
 }
 
 .nav-link {
     text-decoration: none;
     color: var(--text-light);
-    font-weight: 500;
-    font-size: 15px;
-    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 18px;
     border-radius: var(--radius-md);
     transition: var(--transition);
+    border: 1px solid transparent;
 }
 
 .nav-link:hover {
     color: var(--primary);
-    background-color: var(--primary-light);
+    background-color: rgba(99, 102, 241, 0.08);
 }
 
 .nav-link.active {
-    color: var(--primary);
-    background-color: var(--primary-light);
-    font-weight: 600;
+    color: white;
+    background: var(--primary-gradient);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
 }
 
-/* Hamburger Menu Mobile */
+/* Hamburger Icon */
 .hamburger {
     display: none;
     cursor: pointer;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
 .hamburger .bar {
@@ -112,557 +128,233 @@ body {
 }
 
 /* ==========================================================================
-   3. MAIN LAYOUT & CONTAINER
+   3. CONTAINER & HERO COMPONENT
    ========================================================================== */
 .main-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 24px;
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 220px);
 }
 
-/* Dashboard Hero */
+/* Profile Hero Card */
 .dashboard-hero {
-    background-color: var(--bg-card);
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: 32px;
+    padding: 36px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 24px;
-    margin-bottom: 32px;
-    box-shadow: var(--shadow-sm);
+    gap: 28px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow-md);
 }
 
 .user-profile-box {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
 }
 
 .profile-avatar {
-    font-size: 40px;
-    background-color: var(--primary-light);
-    width: 72px;
-    height: 72px;
+    font-size: 36px;
+    background: white;
+    border: 2px solid var(--border-color);
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.1);
 }
 
 .profile-info h2 {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: 800;
     letter-spacing: -0.5px;
-    margin-bottom: 4px;
+    color: var(--text-dark);
 }
 
-.profile-info p {
-    color: var(--text-light);
-    font-size: 15px;
+#userStatusBadge {
+    background: var(--success-gradient);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 30px;
+    width: fit-content;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
 }
 
 /* Gamified XP Card */
 .xp-card {
-    background-color: var(--bg-main);
+    background: rgba(255, 255, 255, 0.6);
     border: 1px solid var(--border-color);
-    padding: 20px;
+    padding: 24px;
     border-radius: var(--radius-md);
-    min-width: 300px;
+    min-width: 320px;
     flex-grow: 1;
-    max-width: 400px;
+    max-width: 420px;
 }
 
 .xp-info {
     display: flex;
     justify-content: space-between;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .xp-info strong {
-    color: var(--primary);
-    font-size: 16px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px;
 }
 
 .progress-bar-bg {
-    background-color: var(--border-color);
-    height: 12px;
+    background-color: rgba(15, 23, 42, 0.08);
+    height: 14px;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 30px;
     overflow: hidden;
 }
 
 .progress-bar-fill {
-    background: linear-gradient(90deg, var(--primary), #818CF8);
+    background: linear-gradient(90deg, #6366F1 0%, #A855F7 100%);
     height: 100%;
-    width: 0%; /* Diatur dinamis lewat JS */
-    border-radius: 6px;
-    transition: width 0.5s ease-out;
+    width: 0%;
+    border-radius: 30px;
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Efek memantul elastis yang unik */
 }
 
 /* ==========================================================================
-   4. DASHBOARD GRID & WIDGET CARDS
+   4. GRID LAYOUT & INTERACTIVE CARDS
    ========================================================================== */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 32px;
+    gap: 36px;
 }
 
 .dash-card {
-    background-color: var(--bg-card);
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: 32px;
-    box-shadow: var(--shadow-sm);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 250px;
+    min-height: 260px;
     transition: var(--transition);
 }
 
+/* Efek Hover Kaca Melayang (Unik & Modern) */
 .dash-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.2);
 }
 
 .card-badge {
-    background-color: rgba(245, 158, 11, 0.1);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 30px;
     width: fit-content;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
 .dash-card h3 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 800;
     margin-bottom: 12px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
 }
 
 .dash-card p {
     color: var(--text-light);
     font-size: 15px;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
     flex-grow: 1;
 }
 
-/* Button Component */
+/* ==========================================================================
+   PERBAIKAN KONTRAS TOMBOL KETIKA NON-AKTIF (DISABLED)
+   ========================================================================== */
+.btn-primary:disabled {
+    background: #10B981 !important; /* Paksa warna hijau sukses yang solid */
+    color: #FFFFFF !important;       /* Teks tetap putih bersih agar kontras */
+    opacity: 1 !important;           /* Hilangkan efek transparan bawaan browser */
+    cursor: not-allowed;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); /* Beri sedikit bayangan hijau */
+    border: none;
+}
+
+/* Premium Button Component */
 .btn-primary {
-    background-color: var(--primary);
+    background: var(--primary-gradient);
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 14px 28px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: var(--transition);
     width: 100%;
     text-align: center;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 .btn-primary:hover {
-    background-color: #4338CA;
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
-/* Status Widget Row */
+/* Rangkuman Aktivitas Status Rows */
 .status-widget h3 {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
-    margin-bottom: 16px;
+    border-bottom: 2px solid rgba(15, 23, 42, 0.06);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 .status-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.02);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.04);
     font-size: 15px;
 }
 
 .status-item span {
     color: var(--text-light);
+    font-weight: 500;
 }
 
 .status-item strong {
     color: var(--text-dark);
-    font-weight: 600;
-}
-
-/* ==========================================================================
-   5. GLOBAL FOOTER
-   ========================================================================== */
-.footer {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-color);
-    padding: 24px;
-    text-align: center;
-    color: var(--text-light);
-    font-size: 14px;
-    margin-top: 40px;
-}
-
-/* ==========================================================================
-   6. RESPONSIVE MEDIA QUERIES (Sesuai Kriteria Poin 4.UX)
-   ========================================================================== */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
-
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 72px;
-        flex-direction: column;
-        background-color: var(--bg-card);
-        width: 100%;
-        height: calc(100vh - 72px);
-        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
-        padding: 24px;
-        gap: 16px;
-        transition: var(--transition);
-    }
-
-    .nav-menu.active {
-        left: 0;
-    }
-
-    .nav-link {
-        display: block;
-        width: 100%;
-        padding: 14px 20px;
-    }
-
-    .dashboard-hero {
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .xp-card {
-        min-width: 100%;
-    }
-    
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ==========================================================================
-   7. WELLNESS COMPONENT STYLES (Pomodoro & Water Tracker)
-   ========================================================================== */
-.section-header {
-    margin-bottom: 32px;
-}
-.section-header h2 {
-    font-size: 28px;
     font-weight: 700;
-    letter-spacing: -0.5px;
-}
-.section-header p {
-    color: var(--text-light);
-}
-
-/* Pomodoro Specific */
-.pomodoro-container {
-    text-align: center;
-    align-items: center;
-    background-color: var(--bg-card);
-    transition: var(--transition);
-}
-/* Mode Kerja (Merah Hangat) */
-.pomodoro-container.work-mode {
-    border-color: #FCA5A5;
-    background-color: #FEF2F2;
-}
-/* Mode Istirahat (Hijau Tenang) */
-.pomodoro-container.break-mode {
-    border-color: #6EE7B7;
-    background-color: #ECFDF5;
-}
-
-.timer-display {
-    font-size: 64px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin: 20px 0;
-    font-variant-numeric: tabular-nums; /* Mencegah teks bergetar saat angka berubah */
-    letter-spacing: -2px;
-}
-
-.timer-controls {
-    display: flex;
-    gap: 12px;
-    width: 100%;
-    margin-bottom: 16px;
-}
-
-.btn-timer {
-    flex: 1;
-    padding: 12px;
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    border: none;
-    cursor: pointer;
-    transition: var(--transition);
-}
-#btnStartPomo { background-color: var(--primary); color: white; }
-#btnPausePomo { background-color: var(--border-color); color: var(--text-dark); }
-#btnResetPomo { background-color: #EF4444; color: white; }
-.btn-timer:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.timer-hint {
-    font-size: 13px !important;
-    color: var(--text-light);
-    margin-bottom: 0 !important;
-}
-
-/* Water Tracker Visual (Gelas Murni CSS) */
-.glass-visual {
-    width: 120px;
-    height: 160px;
-    border: 4px solid var(--text-dark);
-    border-top: none;
-    border-radius: 0 0 20px 20px;
-    margin: 24px auto;
-    position: relative;
-    overflow: hidden;
-    background-color: #F3F4F6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.water-fill {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(180deg, #60A5FA, #2563EB);
-    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
-}
-
-.glass-text {
-    position: relative;
-    z-index: 2;
-    font-weight: 700;
-    font-size: 20px;
-    color: var(--text-dark);
-    mix-blend-mode: difference; /* Teks otomatis berubah warna kontras saat terkena air */
-    color: #FFF; 
-}
-
-.water-info {
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 16px;
-}
-.btn-secondary {
-    background-color: var(--primary-light);
-    color: var(--primary);
-    border: none;
-    padding: 12px;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-}
-.btn-secondary:hover { background-color: #E0E7FF; }
-
-/* ==========================================================================
-   8. SANCTUARY COMPONENT STYLES (Mood & Notes)
-   ========================================================================== */
-.mood-section {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 24px;
-}
-
-.mood-options {
-    display: flex;
-    gap: 16px;
-    width: 100%;
-    margin: 16px 0;
-    flex-wrap: wrap;
-}
-
-.btn-mood {
-    flex: 1;
-    min-width: 100px;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    padding: 16px;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transition: var(--transition);
-}
-
-.btn-mood span {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-dark);
-}
-
-.btn-mood:hover, .btn-mood.selected {
-    border-color: var(--primary);
-    background-color: var(--primary-light);
-    transform: translateY(-2px);
-}
-
-.current-mood-status {
-    font-size: 15px;
-    color: var(--text-light);
-}
-.current-mood-status strong {
-    color: var(--primary);
-}
-
-/* Notes Workspace Layout (Flex/Grid Campuran) */
-.notes-workspace {
-    display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 32px;
-    align-items: start;
-}
-
-@media (max-width: 900px) {
-    .notes-workspace {
-        grid-template-columns: 1fr;
-    }
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--text-dark);
-}
-
-.form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--text-dark);
-    background-color: var(--bg-main);
-    transition: var(--transition);
-}
-
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    background-color: #FFFFFF;
-    box-shadow: 0 0 0 4px var(--primary-light);
-}
-
-/* Output Zone */
-.search-bar-container input {
-    width: 100%;
-    padding: 14px 20px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    font-size: 15px;
-    background-color: var(--bg-card);
-    margin-bottom: 24px;
-    box-shadow: var(--shadow-sm);
-}
-
-.notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.single-note-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-}
-
-.note-tag {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 4px;
-    width: fit-content;
-    margin-bottom: 12px;
-}
-.tag-Umum { background-color: #E0F2FE; color: #0369A1; }
-.tag-Kuliah { background-color: #E0E7FF; color: #4338CA; }
-.tag-Kerja { background-color: #FEE2E2; color: #B91C1C; }
-.tag-Penting { background-color: #FEF3C7; color: #B45309; }
-
-.single-note-card h4 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.single-note-card p {
-    font-size: 14px;
-    color: var(--text-light);
-    white-space: pre-line; /* Menjaga struktur baris baru */
-    margin-bottom: 16px;
-    flex-grow: 1;
-}
-
-.btn-delete-note {
-    background: none;
-    border: none;
-    color: #EF4444;
-    font-weight: 600;
-    font-size: 13px;
-    cursor: pointer;
-    text-align: right;
-    align-self: flex-end;
-}
-.btn-delete-note:hover { text-decoration: underline; }
-
-.empty-notes-message {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: var(--text-light);
-    padding: 40px;
-    border: 2px dashed var(--border-color);
-    border-radius: var(--radius-lg);
 }
 
 /* ==========================================================================
-   9. POP-UP MODAL STYLE (Login & Profile System)
+   5. WELCOME POP-UP MODAL OVERLAY GLASS
    ========================================================================== */
 .modal-overlay {
     position: fixed;
@@ -670,152 +362,175 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(24px); /* Blur super tebal untuk fokus */
+    -webkit-backdrop-filter: blur(24px);
     z-index: 2000;
-    display: none; /* Diatur lewat JS */
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
 
 .modal-box {
-    background-color: var(--bg-card);
-    padding: 40px;
-    border-radius: var(--radius-lg);
-    max-width: 450px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: 44px;
+    border-radius: 32px;
+    max-width: 480px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-    animation: modalFadeIn 0.3s ease-out;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+    animation: modalBounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-@keyframes modalFadeIn {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+@keyframes modalBounceIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
-.modal-box h2 span {
-    color: var(--primary);
+.modal-box h2 {
+    font-size: 28px;
+    font-weight: 800;
 }
 
-.modal-box p {
-    color: var(--text-light);
-    font-size: 14px;
-    margin-top: 8px;
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-#profileAvatarBtn {
-    cursor: pointer;
+.form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: var(--text-dark);
     transition: var(--transition);
 }
-#profileAvatarBtn:hover {
-    transform: scale(1.1);
-    background-color: #E0E7FF;
-}
 
-#userStatusBadge {
-    background-color: rgba(16, 185, 129, 0.1);
-    color: var(--success);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 12px;
-    width: fit-content;
-    margin-top: 4px;
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }
 
 /* ==========================================================================
-   10. EDUINNOVA STYLES (Kuis & Animasi 3D Flashcard)
+   6. GLOBAL FOOTER
    ========================================================================== */
-.quiz-options-list button {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    text-align: left;
+.footer {
+    background: rgba(255, 255, 255, 0.3);
+    border-top: 1px solid var(--border-color);
+    padding: 26px;
+    text-align: center;
+    color: var(--text-light);
     font-size: 14px;
     font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-}
-.quiz-options-list button:hover {
-    border-color: var(--primary);
-    background-color: var(--primary-light);
+    margin-top: 40px;
 }
 
-/* Flashcard 3D Core Layout */
-.flashcards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+/* ==========================================================================
+   7. RESPONSIVE MOBILE TWEAKS
+   ========================================================================== */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 76px;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        width: 100%;
+        height: calc(100vh - 76px);
+        padding: 32px 24px;
+        gap: 16px;
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+    }
+    
+    .dashboard-hero {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .xp-card {
+        min-width: 100%;
+    }
 }
 
-.fc-box {
-    background-color: transparent;
-    width: 100%;
-    height: 140px;
-    perspective: 1000px; /* Memberikan efek kedalaman 3D */
-    cursor: pointer;
-}
-
-.fc-inner {
+/* ==========================================================================
+   STYLING VISUAL GELAS AIR MURNI CSS (GLASSMORPHISM STYLE)
+   ========================================================================== */
+.glass-visual {
+    width: 110px;
+    height: 150px;
+    border: 4px solid var(--text-dark);
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    margin: 24px auto;
     position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    box-shadow: var(--shadow-sm);
-    border-radius: var(--radius-md);
-}
-
-/* Trigger Class berputar via JavaScript */
-.fc-box.flipped .fc-inner {
-    transform: rotateY(180deg);
-}
-
-.fc-front, .fc-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden; /* Menyembunyikan sisi belakang saat dibalik */
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
-.fc-front {
-    background-color: var(--bg-card);
-    color: var(--text-dark);
-    font-weight: 600;
-}
-
-.fc-back {
-    background-color: var(--primary);
-    color: white;
-    transform: rotateY(180deg);
-    font-weight: 500;
-}
-
-.btn-delete-fc {
+.water-fill {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(239, 68, 68, 0.1);
-    color: #EF4444;
-    border: none;
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-size: 11px;
-    font-weight: 600;
-    z-index: 10; /* Berada di atas area klik kartu */
-    cursor: pointer;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, #60A5FA 0%, #2563EB 100%);
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
-.btn-delete-fc:hover { background-color: #EF4444; color: white; }
+
+.glass-text {
+    position: relative;
+    z-index: 2;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text-dark);
+}
+
+/* ==========================================================================
+   STYLING LABEL KATEGORI CATATAN JURNAL
+   ========================================================================== */
+.note-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-bottom: 12px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tag-Umum { background-color: #E0F2FE; color: #0369A1; }
+.tag-Kuliah { background-color: #E0E7FF; color: #4338CA; }
+.tag-Kerja { background-color: #FEE2E2; color: #B91C1C; }
+.tag-Penting { background-color: #FEF3C7; color: #B45309; }
+
+/* Tombol mood saat dipilih aktif */
+.btn-mood.selected {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+/* Warna khusus untuk kategori cerita diary */
+.tag-Diary { 
+    background-color: #F3E8FF; /* Ungu muda lembut */
+    color: #6B21A8;            /* Ungu tua kontras */
+}
