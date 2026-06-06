@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - WealthLab Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
+                <li><a href="edukasi.html" class="nav-link">Edukasi</a></li>
+                <li><a href="karir.html" class="nav-link">Karir</a></li>
+                <li><a href="keuangan.html" class="nav-link active">Keuangan</a></li>
+                <li><a href="travel.html" class="nav-link">Wanderlust</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section style="margin-bottom: 32px;">
+            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">WealthLab Dashboard</h2>
+            <p style="color: var(--text-light);">Simulasikan alokasi anggaran bulananmu dan catat pengeluaran harian secara disiplin.</p>
+        </section>
+
+        <div class="dashboard-grid" style="grid-template-columns: 380px 1fr; align-items: start;">
+            
+            <div class="dash-card" style="min-height: auto; padding: 28px;">
+                <h3>Simulator Alokasi (50/30/20)</h3>
+                <p style="font-size: 13px; margin-bottom: 16px;">Ketik total pendapatan atau uang sakumu untuk membaginya ke pos ideal otomatis.</p>
+                
+                <div class="form-group">
+                    <label for="inputIncome">Total Pendapatan Sesi Ini (Rp)</label>
+                    <input type="number" id="inputIncome" value="2000000" min="0" step="50000">
+                </div>
+
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 12px; text-align: left;">
+                    <div style="background: rgba(15,23,42,0.03); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
+                        <span style="font-size: 12px; font-weight: 700; color: var(--text-light);">🏠 Kebutuhan Pokok (50%)</span>
+                        <h4 id="allocNeeds" style="font-size: 18px; color: var(--text-dark); margin-top: 2px; font-weight: 800;">Rp 1.000.000</h4>
+                    </div>
+                    <div style="background: rgba(15,23,42,0.03); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
+                        <span style="font-size: 12px; font-weight: 700; color: var(--text-light);">☕ Keinginan / Gaya Hidup (30%)</span>
+                        <h4 id="allocWants" style="font-size: 18px; color: var(--accent); margin-top: 2px; font-weight: 800;">Rp 600.000</h4>
+                    </div>
+                    <div style="background: rgba(16,185,129,0.04); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid #10B981;">
+                        <span style="font-size: 12px; font-weight: 700; color: #10B981;">💰 Tabungan & Investasi (20%)</span>
+                        <h4 id="allocSavings" style="font-size: 18px; color: #10B981; margin-top: 2px; font-weight: 800;">Rp 400.000</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 28px;">
+                
+                <div class="dash-card" style="min-height: auto; padding: 24px;">
+                    <h3>Catat Pengeluaran Baru</h3>
+                    <form id="expenseForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 14px; align-items: flex-end;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="expName">Nama Pengeluaran</label>
+                            <input type="text" id="expName" placeholder="Misal: Beli Kuota Internet" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="expCategory">Kategori Pos</label>
+                            <select id="expCategory" style="width: 100%; padding: 14px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; background: white;">
+                                <option value="Kebutuhan">🏠 Kebutuhan Pokok</option>
+                                <option value="Keinginan">☕ Keinginan</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="expAmount">Nominal (Rp)</label>
+                            <input type="number" id="expAmount" placeholder="Contoh: 50000" required>
+                        </div>
+                        <button type="submit" class="btn-primary" style="height: 50px;">💾 Simpan (+10 XP)</button>
+                    </form>
+                </div>
+
+                <div class="dash-card" style="min-height: auto; padding: 28px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+                        <h3>Riwayat Pengeluaran</h3>
+                        <select id="filterCategorySelect" style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid rgba(99,102,241,0.2); font-family: inherit; font-weight: 600; font-size: 14px; color: var(--text-dark); background: white;">
+                            <option value="Semua">🔍 Tampilkan Semua</option>
+                            <option value="Kebutuhan">🏠 Kebutuhan Pokok</option>
+                            <option value="Keinginan">☕ Keinginan / Gaya Hidup</option>
+                        </select>
+                    </div>
+
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+                            <thead>
+                                <tr style="background-color: rgba(15,23,42,0.04); border-bottom: 2px solid rgba(15,23,42,0.08);">
+                                    <th style="padding: 14px; font-weight: 700;">Nama Item Pengeluaran</th>
+                                    <th style="padding: 14px; font-weight: 700;">Kategori</th>
+                                    <th style="padding: 14px; font-weight: 700;">Nominal Transaksi</th>
+                                    <th style="padding: 14px; font-weight: 700; text-align: right;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/keuangan.js"></script>
+</body>
+</html>
