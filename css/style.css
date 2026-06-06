@@ -164,7 +164,7 @@ body {
 }
 
 .profile-avatar {
-    font-size: 36px;
+    font-size: 42px; /* Diperbesar dari 36px agar emoji telur mengisi ruang kotak */
     background: white;
     border: 2px solid var(--border-color);
     width: 80px;
@@ -175,6 +175,14 @@ body {
     border-radius: 24px;
     box-shadow: var(--shadow-sm);
     box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.1);
+    cursor: pointer; /* Mengubah kursor menjadi tangan penunjuk saat didekati */
+    transition: var(--transition);
+}
+
+.profile-avatar:hover {
+    transform: scale(1.08);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
 }
 
 .profile-info h2 {
@@ -615,5 +623,67 @@ body {
     .dashboard-grid, form[style*="grid-template-columns"] {
         grid-template-columns: 1fr !important;
         gap: 24px;
+    }
+}
+
+/* ==========================================================================
+   5 ANIMASI GERAK EMOJI EVOLUSI (MURNI CSS LOKAL)
+   ========================================================================== */
+
+/* Level 1-2: Telur Bergetar */
+.emoji-level-1 {
+    display: inline-block;
+    animation: wobbleEffect 1.5s ease-in-out infinite;
+}
+@keyframes wobbleEffect {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+}
+
+/* Level 3-5: Anak Ayam Melompat */
+.emoji-level-2 {
+    display: inline-block;
+    animation: bounceEffect 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) infinite alternate;
+}
+@keyframes bounceEffect {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-15px); }
+}
+
+/* Level 6-7: Ayam Senior Goyang Kiri-Kanan (Giggle) */
+.emoji-level-3 {
+    display: inline-block;
+    animation: giggleEffect 0.5s ease-in-out infinite;
+}
+@keyframes giggleEffect {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* Level 8-9: Elang Berdenyut (Pulse) */
+.emoji-level-4 {
+    display: inline-block;
+    animation: pulseEffect 2s infinite ease-in-out;
+}
+@keyframes pulseEffect {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Level 10+: Raja Elang Melayang & Bersinar (Float Glow) */
+.emoji-level-5 {
+    display: inline-block;
+    animation: floatGlowEffect 3s ease-in-out infinite;
+}
+@keyframes floatGlowEffect {
+    0%, 100% { 
+        transform: translateY(0); 
+        filter: drop-shadow(0 0 4px rgba(99,102,241,0.2));
+    }
+    50% { 
+        transform: translateY(-10px); 
+        filter: drop-shadow(0 0 16px rgba(99,102,241,0.7));
     }
 }

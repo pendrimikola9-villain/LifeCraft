@@ -95,9 +95,10 @@ if (completeMissionBtn) {
 }
 
 /* ==========================================================================
-   4. ENGINE LEVEL & REWARD XP
+   4. ENGINE LEVEL & REWARD XP (INTEGRASI REAL-TIME AVATAR)
    ========================================================================== */
 function updateDashboardUI() {
+    // A. Update Teks Nama dan Level Atas
     if (document.getElementById('userName')) {
         document.getElementById('userName').innerText = userData.username ? `Halo, ${userData.username}!` : "Halo, Penjelajah!";
     }
@@ -105,10 +106,40 @@ function updateDashboardUI() {
     if (document.getElementById('xpText')) document.getElementById('xpText').innerText = `${userData.xp} / 100 XP`;
     if (document.getElementById('xpProgress')) document.getElementById('xpProgress').style.width = `${userData.xp}%`;
 
-    // Update data ringkasan di widget kanan dashboard
+    // B. Update Data Ringkasan di Widget Kanan Dashboard
     if (document.getElementById('summaryWater')) document.getElementById('summaryWater').innerText = `${userData.waterIntake || 0} ml`;
     if (document.getElementById('summaryNotes')) document.getElementById('summaryNotes').innerText = `${userData.notesCount || 0} Catatan`;
     if (document.getElementById('summaryATS')) document.getElementById('summaryATS').innerText = `${userData.atsScore || 0}% ATS`;
+
+    // C. FIX LOGIKA: EVOLUSI AVATAR REAL-TIME DI DASHBOARD
+    const dashboardAvatarBtn = document.getElementById('profileAvatarBtn');
+    if (dashboardAvatarBtn) {
+        const currentLevel = userData.level || 1; // FIX: Menggunakan userData, bukan dashboardData
+        let currentEmoji = "🥚";
+        let currentAnimClass = "emoji-level-1";
+
+        // Percabangan 5 tingkat sesuai aturan file profil.js
+        if (currentLevel >= 1 && currentLevel <= 2) {
+            currentEmoji = "🥚";
+            currentAnimClass = "emoji-level-1";
+        } else if (currentLevel >= 3 && currentLevel <= 5) {
+            currentEmoji = "🐣";
+            currentAnimClass = "emoji-level-2";
+        } else if (currentLevel >= 6 && currentLevel <= 7) {
+            currentEmoji = "🐥";
+            currentAnimClass = "emoji-level-3";
+        } else if (currentLevel >= 8 && currentLevel <= 9) {
+            currentEmoji = "🦅";
+            currentAnimClass = "emoji-level-4";
+        } else if (currentLevel >= 10) {
+            currentEmoji = "👑🦅";
+            currentAnimClass = "emoji-level-5";
+        }
+
+        // Terapkan perubahan kelas animasi dan icon emoji secara dinamis
+        dashboardAvatarBtn.className = "profile-avatar " + currentAnimClass;
+        dashboardAvatarBtn.innerText = currentEmoji;
+    }
 }
 
 function addXP(amount) {
@@ -149,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Jalankan pembaruan data dan misi harian saat halaman dimuat
     updateDashboardUI();
     loadDailyMission();
 });

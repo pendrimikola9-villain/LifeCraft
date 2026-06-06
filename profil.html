@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - Karakter Profil & Pencapaian</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+               <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
+                <li><a href="edukasi.html" class="nav-link">Edukasi</a></li>
+                <li><a href="karir.html" class="nav-link">Karir</a></li>
+                <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
+                <li><a href="travel.html" class="nav-link active">Travel</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section style="margin-bottom: 32px;">
+            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Ruang Evolusi Karakter</h2>
+            <p style="color: var(--text-light);">Selesaikan lebih banyak aktivitas produktif di ZenithLife untuk menaikkan level dan mengubah wujud karaktermu.</p>
+        </section>
+
+        <div class="dashboard-grid" style="grid-template-columns: 400px 1fr; align-items: start;">
+            
+            <div class="dash-card" style="min-height: auto; padding: 36px; text-align: center; align-items: center;">
+                <div class="card-badge" style="background: rgba(99,102,241,0.1); color: var(--primary);">Karakter Kamu</div>
+                
+                <div id="charAvatarContainer" style="width: 140px; height: 140px; background: white; border: 4px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 64px; box-shadow: var(--shadow-md); margin: 10px 0 20px 0; background-color: rgba(255,255,255,0.6);">
+                    🥚
+                </div>
+
+                <h3 id="charTitleText" style="font-size: 24px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px;">Beginner Explorer</h3>
+                <span id="charLevelBadge" style="background: var(--primary-gradient); color: white; padding: 4px 14px; border-radius: 30px; font-size: 13px; font-weight: 700;">LEVEL 1</span>
+                
+                <div style="width: 100%; margin-top: 24px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 6px;">
+                        <span>Progres Level Up</span>
+                        <span id="charXpText">0 / 100 XP</span>
+                    </div>
+                    <div class="progress-bar-bg" style="height: 10px;">
+                        <div class="progress-bar-fill" id="charXpFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-card status-widget" style="min-height: auto; padding: 36px;">
+                <h3 style="font-size: 22px; font-weight: 800; color: var(--text-dark);">Statistik Prestasi Diri</h3>
+                <p style="color: var(--text-light); font-size: 14px; margin-bottom: 20px;">Berikut akumulasi rekam jejak kedisiplinan yang berhasil kamu kumpulkan di seluruh ekosistem ZenithLife:</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div class="status-item">
+                        <span>💧 Total Minum Air Terdata</span>
+                        <strong id="statsWater">0 Gelas</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>📝 Catatan & Ide di Jurnal Sanctuary</span>
+                        <strong id="statsNotes">0 Catatan</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>💻 Skor Kelayakan ATS Resume</span>
+                        <strong id="statsAts" style="color: #EF4444;">0%</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>💡 Total Koleksi Flashcard Hafalan</span>
+                        <strong id="statsFlashcards">0 Kartu</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>🌴 Rencana Rute Wisata Terencana</span>
+                        <strong id="statsTrips">0 Destinasi</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 28px; padding: 16px; background: rgba(15,23,42,0.03); border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 12px; text-align: left; line-height: 1.5;">
+                    <span style="font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 6px;">🧬 Panduan Tingkatan Evolusi Karakter:</span>
+                    • Level 1-2: 🥚 <strong>Beginner Explorer</strong> (Telur Bergetar)<br>
+                    • Level 3-5: 🐣 <strong>Productivity Knight</strong> (Ayam Melompat)<br>
+                    • Level 6-7: 🐥 <strong>Code Warrior</strong> (Giggle Goyang)<br>
+                    • Level 8-9: 🦅 <strong>Zenith Elite</strong> (Pulse Berdenyut)<br>
+                    • Level 10+: 👑🦅 <strong>Zenith Mythic Master</strong> (Glow Melayang Magis)
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/profil.js"></script>
+</body>
+</html>
