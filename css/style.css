@@ -106,9 +106,12 @@ body {
 }
 
 .nav-link.active {
-    color: white;
+    color: white !important;
     background: var(--primary-gradient);
     box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+}
+.nav-link.active:hover {
+    transform: none;
 }
 
 /* Hamburger Icon */
@@ -234,7 +237,7 @@ body {
     height: 100%;
     width: 0%;
     border-radius: 30px;
-    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Efek memantul elastis yang unik */
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ==========================================================================
@@ -261,7 +264,6 @@ body {
     transition: var(--transition);
 }
 
-/* Efek Hover Kaca Melayang (Unik & Modern) */
 .dash-card:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.65);
@@ -294,18 +296,6 @@ body {
     flex-grow: 1;
 }
 
-/* ==========================================================================
-   PERBAIKAN KONTRAS TOMBOL KETIKA NON-AKTIF (DISABLED)
-   ========================================================================== */
-.btn-primary:disabled {
-    background: #10B981 !important; /* Paksa warna hijau sukses yang solid */
-    color: #FFFFFF !important;       /* Teks tetap putih bersih agar kontras */
-    opacity: 1 !important;           /* Hilangkan efek transparan bawaan browser */
-    cursor: not-allowed;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); /* Beri sedikit bayangan hijau */
-    border: none;
-}
-
 /* Premium Button Component */
 .btn-primary {
     background: var(--primary-gradient);
@@ -325,6 +315,16 @@ body {
 .btn-primary:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* PERBAIKAN KONTRAS TOMBOL KETIKA NON-AKTIF (DISABLED) */
+.btn-primary:disabled {
+    background: #10B981 !important;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+    cursor: not-allowed;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    border: none;
 }
 
 /* Rangkuman Aktivitas Status Rows */
@@ -363,7 +363,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(24px); /* Blur super tebal untuk fokus */
+    backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     z-index: 2000;
     display: none;
@@ -437,36 +437,7 @@ body {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE MOBILE TWEAKS
-   ========================================================================== */
-@media (max-width: 768px) {
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 76px;
-        flex-direction: column;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        width: 100%;
-        height: calc(100vh - 76px);
-        padding: 32px 24px;
-        gap: 16px;
-        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
-    }
-    
-    .dashboard-hero {
-        padding: 24px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .xp-card {
-        min-width: 100%;
-    }
-}
-
-/* ==========================================================================
-   STYLING VISUAL GELAS AIR MURNI CSS (GLASSMORPHISM STYLE)
+   7. STYLING VISUAL GELAS AIR MURNI CSS (GLASSMORPHISM STYLE)
    ========================================================================== */
 .glass-visual {
     width: 110px;
@@ -503,7 +474,7 @@ body {
 }
 
 /* ==========================================================================
-   STYLING LABEL KATEGORI CATATAN JURNAL
+   8. STYLING LABEL KATEGORI CATATAN JURNAL & DIARY
    ========================================================================== */
 .note-tag {
     font-size: 11px;
@@ -520,6 +491,7 @@ body {
 .tag-Kuliah { background-color: #E0E7FF; color: #4338CA; }
 .tag-Kerja { background-color: #FEE2E2; color: #B91C1C; }
 .tag-Penting { background-color: #FEF3C7; color: #B45309; }
+.tag-Diary { background-color: #F3E8FF; color: #6B21A8; }
 
 /* Tombol mood saat dipilih aktif */
 .btn-mood.selected {
@@ -529,15 +501,8 @@ body {
     transform: translateY(-2px);
 }
 
-/* Warna khusus untuk kategori cerita diary */
-.tag-Diary { 
-    background-color: #F3E8FF; /* Ungu muda lembut */
-    color: #6B21A8;            /* Ungu tua kontras */
-}
-
 /* ==========================================================================
-   ANIMASI INTERAKTIF 3D FLASHCARD (MURNI LOKAL CSS)
-   style edukasi
+   9. ANIMASI INTERAKTIF 3D FLASHCARD (MURNI LOKAL CSS)
    ========================================================================== */
 .flashcards-grid {
     display: grid;
@@ -549,7 +514,7 @@ body {
     background-color: transparent;
     width: 100%;
     height: 140px;
-    perspective: 1000px; /* Membuat kedalaman ilusi 3D ruang */
+    perspective: 1000px;
     cursor: pointer;
 }
 
@@ -559,12 +524,11 @@ body {
     height: 100%;
     text-align: center;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d; /* Mengunci elemen anak dalam ruang 3D */
+    transform-style: preserve-3d;
     box-shadow: var(--shadow-sm);
     border-radius: var(--radius-md);
 }
 
-/* Memicu rotasi berputar saat class .flipped aktif via JS */
 .fc-box.flipped .fc-inner {
     transform: rotateY(180deg);
 }
@@ -574,7 +538,7 @@ body {
     width: 100%;
     height: 100%;
     -webkit-backface-visibility: hidden;
-    backface-visibility: hidden; /* Menyembunyikan sisi belakang saat diputar */
+    backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -595,12 +559,11 @@ body {
 .fc-back {
     background: var(--primary-gradient);
     color: white;
-    transform: rotateY(180deg); /* Membalikkan posisi awal tulisan jawaban */
+    transform: rotateY(180deg);
     font-weight: 500;
     font-size: 14px;
 }
 
-/* Desain opsi pilihan kuis agar estetik saat di-hover */
 .quiz-opt-btn {
     width: 100%;
     padding: 14px 18px;
@@ -617,5 +580,40 @@ body {
 .quiz-opt-btn:hover {
     border-color: var(--primary);
     background: rgba(99, 102, 241, 0.08);
-    transform: translateX(4px); /* Efek bergeser sedikit ke kanan yang interaktif */
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   10. RESPONSIVE MOBILE TWEAKS & IN-LINE REPAIR
+   ========================================================================== */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 76px;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        width: 100%;
+        height: calc(100vh - 76px);
+        padding: 32px 24px;
+        gap: 16px;
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+    }
+    
+    .dashboard-hero {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .xp-card {
+        min-width: 100%;
+    }
+
+    /* Perbaikan Baris Form Sejajar Agar Turun Kebawah Otomatis di HP */
+    .dashboard-grid, form[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 24px;
+    }
 }

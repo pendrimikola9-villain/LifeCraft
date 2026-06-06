@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenithLife - Wanderlust Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
+                <li><a href="edukasi.html" class="nav-link">Edukasi</a></li>
+                <li><a href="karir.html" class="nav-link">Karir</a></li>
+                <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
+                <li><a href="travel.html" class="nav-link active">Travel</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section style="margin-bottom: 32px;">
+            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Wanderlust Planner</h2>
+            <p style="color: var(--text-light);">Rencanakan target destinasi liburan impianmu berdasarkan sisa alokasi tabungan finansialmu.</p>
+        </section>
+
+        <section class="dashboard-hero" style="background: rgba(255,255,255,0.5); padding: 28px; margin-bottom: 32px; gap: 20px;">
+            <div style="text-align: left; flex: 1;">
+                <span class="note-tag tag-Umum" style="margin-bottom: 8px;">📊 Financial Sync Connected</span>
+                <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 4px;">Dana Tabungan Tersedia (20%): <span id="travelWalletText" style="color: #10B981;">Rp 0</span></h3>
+                <p style="margin-bottom: 0; font-size: 14px; color: var(--text-light);">Data tabungan di atas diambil otomatis dari hasil kalkulasi pendapatan yang kamu input di halaman <strong>WealthLab</strong> tadi.</p>
+            </div>
+            <div id="budgetStatusAlert" class="dash-card" style="min-height: auto; padding: 16px 24px; background: rgba(239, 68, 68, 0.08); border: 1px dashed #EF4444; width: 300px; justify-content: center; align-items: center; text-align: center; font-weight: 700; color: #EF4444; box-shadow: none; margin: 0;">
+                ⚠️ Belum ada rencana destinasi dibuat.
+            </div>
+        </section>
+
+        <div class="dashboard-grid" style="grid-template-columns: 360px 1fr; align-items: start;">
+            
+            <div class="dash-card" style="min-height: auto; padding: 24px;">
+                <h3>Tambah Destinasi</h3>
+                <form id="travelForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px; text-align: left;">
+    <div class="form-group">
+        <label for="travelDestination">Nama Tempat Wisata</label>
+        <input type="text" id="travelDestination" placeholder="Misal: Pantai Batakan Baru / Lok Baintan" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="travelDateStart">Tanggal Berangkat</label>
+        <input type="date" id="travelDateStart" required style="width: 100%; padding: 14px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; background: rgba(255,255,255,0.6);">
+    </div>
+
+    <div class="form-group">
+        <label for="travelDurationDays">Durasi Liburan (Hari)</label>
+        <input type="number" id="travelDurationDays" placeholder="Contoh: 3" min="1" required>
+    </div>
+
+    <div class="form-group">
+        <label for="travelCost">Estimasi Biaya Tiket & Transport (Rp)</label>
+        <input type="number" id="travelCost" placeholder="Contoh: 150000" required>
+    </div>
+    <div class="form-group">
+        <label for="travelActivity">Rencana Aktivitas Utama</label>
+        <input type="text" id="travelActivity" placeholder="Misal: Susur sungai / Camping ceria" required>
+    </div>
+    <button type="submit" class="btn-primary">➕ Tambah Rencana Rute (+10 XP)</button>
+</form>
+            </div>
+
+            <div>
+                <h3 style="margin-bottom: 16px; text-align: left; font-size: 20px; font-weight: 800;">Daftar Rencana Perjalanan Kamu</h3>
+                <div class="dashboard-grid" id="travelGrid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                    </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/travel.js"></script>
+</body>
+</html>
