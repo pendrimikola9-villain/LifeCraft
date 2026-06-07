@@ -11,24 +11,24 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="profil.html" class="nav-logo" title="Lihat Karakter Profil">Zenith<span>Life</span></a>
-           <ul class="nav-menu" id="navMenu">
-    <li><a href="index.html" class="nav-link">Dashboard</a></li>
-    <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
-    <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
-    <li><a href="edukasi.html" class="nav-link active">Edukasi</a></li>
-    <li><a href="karir.html" class="nav-link">Karir</a></li>
-    <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
-    <li><a href="travel.html" class="nav-link">Travel</a></li>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
+                <li><a href="edukasi.html" class="nav-link active">Edukasi</a></li>
+                <li><a href="karir.html" class="nav-link">Karir</a></li>
+                <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
+                <li><a href="travel.html" class="nav-link">Travel</a></li>
+                <li><a href="todo.html" class="nav-link"><span class="nav-text">Tracker</span></a></li>
 
-    <li class="theme-toggle-li">
-        <button id="themeToggleBtn" title="Ganti Mode">☀️</button>
-
-        <select id="langSelect" title="Pilih Bahasa" style="background: transparent; border: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-light); cursor: pointer; padding: 4px 8px; margin-left: 8px; outline: none;">
-            <option value="id" style="color: #0F172A;">🇮🇩 ID</option>
-            <option value="en" style="color: #0F172A;">🇬🇧 EN</option>
-        </select>
-    </li>
-</ul>
+                <li class="theme-toggle-li">
+                    <button id="themeToggleBtn" title="Ganti Mode">☀️</button>
+                    <select id="langSelect" title="Pilih Bahasa" style="background: transparent; border: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-light); cursor: pointer; padding: 4px 8px; margin-left: 8px; outline: none;">
+                        <option value="id" style="color: #0F172A;">🇮🇩 ID</option>
+                        <option value="en" style="color: #0F172A;">🇬🇧 EN</option>
+                    </select>
+                </li>
+            </ul>
             <div class="hamburger" id="hamburgerBtn">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -38,93 +38,100 @@
     </nav>
 
     <main class="main-container">
-        <section style="margin-bottom: 32px;">
-            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">EduInnova Space</h2>
-            <p style="color: var(--text-light);">Atur waktu fokus belajarmu, uji kemampuan lewat kuis, dan buat kartu hafalan kustom sendiri.</p>
-        </section>
+       <section class="dashboard-hero" style="margin-bottom: 32px;">
+    <div class="profile-info">
+        <h2>EduInnova Space 📚 ⚡</h2>
+        <p>Atur waktu fokus belajarmu, uji kemampuan lewat kuis, dan buat kartu hafalan kustom sendiri.</p>
+    </div>
+</section>
 
-        <div class="dashboard-grid" style="grid-template-columns: 380px 1fr; align-items: start;">
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start;">
             
-            <div style="display: flex; flex-direction: column; gap: 32px;">
+            <div style="display: flex; flex-direction: column; gap: 24px;">
                 
                 <div class="dash-card" style="min-height: auto; padding: 24px;">
-                    <div class="card-badge" style="background: rgba(99,102,241,0.1); color: var(--primary);">Focus Session</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="card-badge" style="background: rgba(99,102,241,0.1); color: var(--primary);">Focus Session</div>
+                        <span id="pomoSessionStatus" style="font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: rgba(16,185,129,0.1); color: #10b981;">💻 MODE FOKUS</span>
+                    </div>
                     
-                    <div style="width: 100%; margin-top: 8px; text-align: left; display: flex; flex-direction: column; gap: 12px;">
+                    <div style="width: 100%; margin-top: 12px; text-align: left; display: flex; flex-direction: column; gap: 12px;">
                         <div class="form-group">
                             <label for="pomoTaskInput">Apa yang ingin kamu pelajari?</label>
-                            <input type="text" id="pomoTaskInput" placeholder="Misal: Belajar Logika If-Else Laravel">
+                            <input type="text" id="pomoTaskInput" placeholder="Misal: Belajar Logika If-Else Laravel" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
                         </div>
                         <div class="form-group">
-                            <label for="pomoMinutesInput">Durasi Waktu (Menit)</label>
-                            <input type="number" id="pomoMinutesInput" value="25" min="1" max="60">
+                            <label for="pomoMinutesInput">Durasi Waktu Fokus (Menit)</label>
+                            <input type="number" id="pomoMinutesInput" value="25" min="1" max="60" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
                         </div>
                     </div>
 
-                    <h4 id="activeTaskText" style="margin: 14px 0 6px 0; color: var(--primary); text-align: center; display: none; font-size: 15px;">Fokus: <span style="color: var(--text-dark);">-</span></h4>
+                    <h4 id="activeTaskText" style="margin: 14px 0 6px 0; color: var(--primary); text-align: center; display: none; font-size: 14px;">Fokus: <span style="color: var(--text-dark); font-weight: 700;">-</span></h4>
                     
-                    <div class="timer-display" id="timerDisplay" style="font-size: 54px; margin: 10px 0; text-align: center; font-weight: 800;">25:00</div>
+                    <div class="timer-display" id="timerDisplay" style="font-size: 54px; margin: 8px 0; text-align: center; font-weight: 800; color: var(--text-dark);">25:00</div>
                     
                     <div style="display: flex; gap: 10px;">
-                        <button class="btn-primary" id="btnStartPomo">Mulai</button>
-                        <button class="btn-primary" id="btnResetPomo" style="background: #EF4444; box-shadow: 0 4px 12px rgba(239,68,68,0.2);">Reset</button>
+                        <button class="btn-primary" id="btnStartPomo" style="flex: 1;">Mulai</button>
+                        <button class="btn-primary" id="btnResetPomo" style="background: #EF4444; box-shadow: 0 4px 12px rgba(239,68,68,0.2); flex: 1;">Reset</button>
                     </div>
                 </div>
 
                 <div class="dash-card" style="min-height: auto; padding: 24px;">
-    <h3>Buat Kuis Kustom Baru</h3>
-    <p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;">Tambahkan bank soal belajarmu sendiri ke dalam sistem kuis interaktif.</p>
-    
-    <form id="customQuizForm" style="text-align: left; display: flex; flex-direction: column; gap: 12px;">
-        <div class="form-group">
-            <label for="cqQuestion">Pertanyaan Kuis</label>
-            <input type="text" id="cqQuestion" placeholder="Misal: Apa kepanjangan dari PHP?" required>
-        </div>
-        <div class="form-group">
-            <label for="cqOpt0">Pilihan A</label>
-            <input type="text" id="cqOpt0" placeholder="Pilihan jawaban pertama" required>
-        </div>
-        <div class="form-group">
-            <label for="cqOpt1">Pilihan B</label>
-            <input type="text" id="cqOpt1" placeholder="Pilihan jawaban kedua" required>
-        </div>
-        <div class="form-group">
-            <label for="cqOpt2">Pilihan C</label>
-            <input type="text" id="cqOpt2" placeholder="Pilihan jawaban ketiga" required>
-        </div>
-        <div class="form-group">
-            <label for="cqAnswer">Kunci Jawaban Benar</label>
-            <select id="cqAnswer" style="width: 100%; padding: 14px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; background: white;">
-                <option value="0">Pilihan A</option>
-                <option value="1">Pilihan B</option>
-                <option value="2">Pilihan C</option>
-            </select>
-        </div>
-        <button type="submit" class="btn-primary">➕ Tambah ke Daftar Kuis (+20 XP)</button>
-    </form>
-</div>
+                    <h3>Buat Kuis Kustom Baru</h3>
+                    <p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;">Tambahkan bank soal belajarmu sendiri ke dalam sistem kuis interaktif.</p>
+                    
+                    <form id="customQuizForm" style="text-align: left; display: flex; flex-direction: column; gap: 12px;">
+                        <div class="form-group">
+                            <label for="cqQuestion">Pertanyaan Kuis</label>
+                            <input type="text" id="cqQuestion" placeholder="Misal: Apa kepanjangan dari PHP?" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cqOpt0">Pilihan A</label>
+                            <input type="text" id="cqOpt0" placeholder="Pilihan jawaban pertama" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cqOpt1">Pilihan B</label>
+                            <input type="text" id="cqOpt1" placeholder="Pilihan jawaban kedua" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cqOpt2">Pilihan C</label>
+                            <input type="text" id="cqOpt2" placeholder="Pilihan jawaban ketiga" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cqAnswer">Kunci Jawaban Benar</label>
+                            <select id="cqAnswer" class="edu-select">
+                                <option value="0">Pilihan A</option>
+                                <option value="1">Pilihan B</option>
+                                <option value="2">Pilihan C</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">➕ Tambah ke Daftar Kuis (+20 XP)</button>
+                    </form>
+                </div>
 
                 <div class="dash-card" style="min-height: auto; padding: 24px;">
                     <h3>Buat Flashcard Baru</h3>
                     <form id="flashcardForm" style="margin-top: 14px; text-align: left; display: flex; flex-direction: column; gap: 12px;">
                         <div class="form-group">
                             <label for="fcFront">Pertanyaan (Sisi Depan)</label>
-                            <input type="text" id="fcFront" placeholder="Misal: Apa arti kata 'Sungsung'?" required>
+                            <input type="text" id="fcFront" placeholder="Misal: Apa arti kata 'Sungsung'?" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
                         </div>
                         <div class="form-group">
                             <label for="fcBack">Jawaban (Sisi Belakang)</label>
-                            <input type="text" id="fcBack" placeholder="Misal: Pagi-pagi sekali / Subuh" required>
+                            <input type="text" id="fcBack" placeholder="Misal: Pagi-pagi sekali / Subuh" required style="background: var(--bg-main); color: var(--text-dark); border: 1px solid var(--border-color);">
                         </div>
-                        <button type="submit" class="btn-primary">➕ Tambah Kartu (+5 XP)</button>
+                        <button type="submit" class="btn-primary" style="width: 100%;">➕ Tambah Kartu (+5 XP)</button>
                     </form>
                 </div>
-            </div> <div style="display: flex; flex-direction: column; gap: 32px;">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
                 
                 <div class="dash-card" style="min-height: auto; padding: 28px;">
                     <div class="card-badge" style="background: rgba(16,185,129,0.1); color: var(--success);">Interactive Trivia</div>
-                    <h3 style="margin-bottom: 6px;">Asah Otak Multi-Kategori</h3>
+                    <h3 style="margin-bottom: 6px; color: var(--text-dark);">Asah Otak Multi-Kategori</h3>
                     
-                    <div id="quizSelectionZone" style="margin-top: 10px;">
+                    <div id="quizSelectionZone" style="margin-top: 10px; text-align: left;">
                         <p style="margin-bottom: 16px; color: var(--text-light); font-size: 14px;">Pilih salah satu kategori kuis di bawah untuk menguji wawasanmu:</p>
                         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                             <button class="btn-primary" onclick="startSelectedQuiz('it')" style="flex: 1; min-width: 120px; background: rgba(99,102,241,0.08); color: var(--primary); box-shadow: none;">💻 Logika IT</button>
@@ -141,8 +148,9 @@
                 </div>
 
                 <div>
-                    <h3 style="margin-bottom: 16px; font-size: 20px; font-weight: 800;">Koleksi Flashcard Kamu (Klik kartu untuk membalik)</h3>
-                    <div class="flashcards-grid" id="flashcardsGrid"></div>
+                    <h3 style="margin-bottom: 16px; font-size: 20px; font-weight: 800; text-align: left; color: var(--text-dark);">Koleksi Flashcard Kamu (Klik kartu untuk membalik)</h3>
+                    <div class="flashcards-grid" id="flashcardsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;">
+                        </div>
                 </div>
             </div>
 

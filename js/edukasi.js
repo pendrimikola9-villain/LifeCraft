@@ -1,303 +1,322 @@
-/* ==========================================================================
-   1. DATABASE LINK SINKRONISASI SESSIONSTORAGE
-   ========================================================================== */
-let eduData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || {
-    username: "", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, savedFlashcards: [], customQuizArray: [], lastMissionDate: ""
-};
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================================================
+    // 1. ENGINE UPGRADE POMODORO (AUTO-BREAK + SYNTH AUDIO ALARM & INSTRUMEN)
+    // ==========================================================================
+    let timerInterval = null;
+    let totalSeconds = 25 * 60;
+    let isRunning = false;
+    let currentMode = "fokus"; // Kategori mode: fokus atau istirahat
 
-// Pastikan array kuis kustom sudah terdefinisi di memori browser
-if (eduData.customQuizArray === undefined) {
-    eduData.customQuizArray = [];
-}
+    const timerDisplay = document.getElementById('timerDisplay');
+    const btnStartPomo = document.getElementById('btnStartPomo');
+    const btnResetPomo = document.getElementById('btnResetPomo');
+    const pomoMinutesInput = document.getElementById('pomoMinutesInput');
+    const pomoTaskInput = document.getElementById('pomoTaskInput');
+    const activeTaskText = document.getElementById('activeTaskText');
+    const pomoSessionStatus = document.getElementById('pomoSessionStatus');
 
-// Ambil data flashcards bawaan awal (default) jika belum ada isi di memori
-if (eduData.savedFlashcards === undefined || eduData.savedFlashcards.length === 0) {
-    eduData.savedFlashcards = [
-        { front: "Apa fungsi localStorage di JavaScript?", back: "Menyimpan data di browser secara permanen tanpa batas kedaluwarsa." },
-        { front: "Apa motif Sasirangan yang melambangkan kepemimpinan?", back: "Motif Bayam Raja (Filosofi derajat tinggi dan dihormati)." }
-    ];
-}
+    // Sistem Sintesis Audio Lokal Bawaan Browser (Bebas Eror Jalur File Mp3)
+    let audioCtx = null;
+    let instrumentInterval = null;
 
-function saveEduData() {
-    sessionStorage.setItem('zenithSessionData', JSON.stringify(eduData));
-    if (typeof updateDashboardUI === 'function') updateDashboardUI();
-}
-
-function addEduXP(amount) {
-    eduData.xp += amount;
-    if (eduData.xp >= 100) {
-        eduData.level += 1;
-        eduData.xp = eduData.xp - 100;
-        alert(`Selamat! Kamu naik ke Level ${eduData.level}! 🚀`);
+    function playLocalBellSound() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Buat getaran nada bel kustom (Dering Sukses)
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Nada D5 Premium
+        gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1);
     }
-    saveEduData();
-}
 
-/* ==========================================================================
-   2. CUSTOM POMODORO TIMER ENGINE
-   ========================================================================== */
-let pomoInterval = null;
-let pomoTimeLeft = 25 * 60;
+    function startSynthInstruments() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Nyanyikan ketukan melodi piano rileks pelan tiap 2 detik selama masa istirahat
+        instrumentInterval = setInterval(() => {
+            if (currentMode !== "istirahat") return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const notes = [261.63, 329.63, 392.00, 523.25]; // Akor C Mayor Rileks
+            const randomNote = notes[Math.floor(Math.random() * notes.length)];
+            
+            osc.frequency.setValueAtTime(randomNote, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.5);
+        }, 2000);
+    }
 
-const pomoTaskInput = document.getElementById('pomoTaskInput');
-const pomoMinutesInput = document.getElementById('pomoMinutesInput');
-const activeTaskText = document.getElementById('activeTaskText');
-const timerDisplay = document.getElementById('timerDisplay');
-const startPomoBtn = document.getElementById('btnStartPomo');
-const resetPomoBtn = document.getElementById('btnResetPomo');
+    function stopSynthInstruments() {
+        if (instrumentInterval) {
+            clearInterval(instrumentInterval);
+            instrumentInterval = null;
+        }
+    }
 
-function updatePomoTimerText() {
-    if (!timerDisplay) return;
-    const mins = Math.floor(pomoTimeLeft / 60);
-    const secs = pomoTimeLeft % 60;
-    timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
+    function updateTimerUI() {
+        const mins = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+        const secs = (totalSeconds % 60).toString().padStart(2, '0');
+        if (timerDisplay) timerDisplay.innerText = `${mins}:${secs}`;
+    }
 
-if (startPomoBtn) {
-    startPomoBtn.addEventListener('click', () => {
-        if (pomoInterval !== null) return;
+    function switchPomodoroMode() {
+        if (currentMode === "fokus") {
+            // BERPINDAH KE SINOPSIS MODE ISTIRAHAT OTOMATIS
+            currentMode = "istirahat";
+            totalSeconds = 5 * 60; // 5 Menit Rehat
+            pomoSessionStatus.innerText = "☕ MODE ISTIRAHAT";
+            pomoSessionStatus.style.cssText = "font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(59,130,246,0.1); color:#3b82f6;";
+            
+            playLocalBellSound();
+            startSynthInstruments(); // Nyalakan alunan musik rileks
+            alert("Sesi Fokus Selesai! Kerja bagus, Pendri. Waktunya istirahat 5 menit (Musik instrumen menyala) ☕");
+        } else {
+            // KEMBALI KE SESI BELAJAR FOKUS
+            currentMode = "fokus";
+            totalSeconds = (parseInt(pomoMinutesInput.value) || 25) * 60;
+            pomoSessionStatus.innerText = "💻 MODE FOKUS";
+            pomoSessionStatus.style.cssText = "font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(16,185,129,0.1); color:#10b981;";
+            
+            playLocalBellSound();
+            stopSynthInstruments(); // Matikan melodi rehat
+            alert("Waktu istirahat habis! Yuk, fokus kembali koding dan belajar 🚀");
+        }
+        updateTimerUI();
+    }
 
-        const customMins = parseInt(pomoMinutesInput.value);
-        const taskName = pomoTaskInput.value.trim();
+    if (btnStartPomo) {
+        btnStartPomo.addEventListener('click', () => {
+            if (isRunning) {
+                // Sesi Pause
+                clearInterval(timerInterval);
+                btnStartPomo.innerText = "Lanjut";
+                isRunning = false;
+                stopSynthInstruments();
+            } else {
+                // Sesi Run
+                isRunning = true;
+                btnStartPomo.innerText = "Pause";
+                
+                if (pomoTaskInput && pomoTaskInput.value.trim() !== "" && currentMode === "fokus") {
+                    activeTaskText.style.display = "block";
+                    activeTaskText.querySelector('span').innerText = pomoTaskInput.value.trim();
+                }
 
-        if (isNaN(customMins) || customMins <= 0 || customMins > 60) {
-            alert("Silakan masukkan durasi menit belajar yang valid (1-60 Menit)!");
+                if (currentMode === "istirahat") startSynthInstruments();
+
+                timerInterval = setInterval(() => {
+                    if (totalSeconds > 0) {
+                        totalSeconds--;
+                        updateTimerUI();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        btnStartPomo.innerText = "Mulai";
+                        switchPomodoroMode();
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    if (btnResetPomo) {
+        btnResetPomo.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentMode = "fokus";
+            totalSeconds = (parseInt(pomoMinutesInput.value) || 25) * 60;
+            btnStartPomo.innerText = "Mulai";
+            if (activeTaskText) activeTaskText.style.display = "none";
+            pomoSessionStatus.innerText = "💻 MODE FOKUS";
+            pomoSessionStatus.style.cssText = "font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(16,185,129,0.1); color:#10b981;";
+            stopSynthInstruments();
+            updateTimerUI();
+        });
+    }
+
+    // ==========================================================================
+    // 2. ENGINE INTERACTIVE TRIVIA KUIS (BAWAAN SINKRONISASI XP)
+    // ==========================================================================
+    const staticQuizzes = {
+        it: [
+            { q: "Manakah yang merupakan framework PHP untuk backend?", o: ["Laravel", "Flutter", "Bootstrap"], a: 0 },
+            { q: "Apa kepanjangan dari singkatan bahasa tag HTML?", o: ["Hyper Link Text Markup", "Hypertext Markup Language", "Home Tool Markup"], a: 1 }
+        ],
+        banjar: [
+            { q: "Rumah adat tradisional khas suku Banjar adalah?", o: ["Bubungan Tinggi", "Joglo", "Gadang"], a: 0 },
+            { q: "Pasar terapung yang terkenal di kota Banjarmasin terletak di?", o: ["Pantai Batakan", "Lok Baintan", "Kandangan"], a: 1 }
+        ],
+        english: [
+            { q: "What is the past tense form of the verb 'Write'?", o: ["Written", "Wrote", "Writing"], a: 1 }
+        ]
+    };
+
+    let activeQuizData = [];
+    let currentQuizIdx = 0;
+
+    window.startSelectedQuiz = function(category) {
+        const playZone = document.getElementById('quizPlayZone');
+        if (!playZone) return;
+
+        if (category === 'custom') {
+            activeQuizData = JSON.parse(sessionStorage.getItem('zenithCustomQuizzes')) || [];
+        } else {
+            activeQuizData = staticQuizzes[category] || [];
+        }
+
+        if (activeQuizData.length === 0) {
+            alert('Belum ada bank kuis yang tersedia untuk kelompok ini!');
             return;
         }
 
-        if (pomoTimeLeft === 25 * 60) {
-            pomoTimeLeft = customMins * 60;
-        }
-
-        if (taskName && activeTaskText) {
-            activeTaskText.style.display = "block";
-            activeTaskText.querySelector('span').innerText = taskName;
-        }
-
-        pomoTaskInput.disabled = true;
-        pomoMinutesInput.disabled = true;
-        startPomoBtn.disabled = true;
-        startPomoBtn.style.opacity = "0.5";
-
-        pomoInterval = setInterval(() => {
-            pomoTimeLeft--;
-            updatePomoTimerText();
-
-            if (pomoTimeLeft <= 0) {
-                clearInterval(pomoInterval);
-                pomoInterval = null;
-                alert(`Sesi fokus selesai! Hebat kamu telah menyelesaikan target belajarmu. (+25 XP) 🎯`);
-                addEduXP(25);
-                resetPomoEngine();
-            }
-        }, 1000);
-    });
-}
-
-function resetPomoEngine() {
-    clearInterval(pomoInterval);
-    pomoInterval = null;
-    pomoTimeLeft = 25 * 60;
-    
-    if (pomoTaskInput) pomoTaskInput.disabled = false;
-    if (pomoMinutesInput) pomoMinutesInput.disabled = false;
-    if (startPomoBtn) {
-        startPomoBtn.disabled = false;
-        startPomoBtn.style.opacity = "1";
-    }
-    if (activeTaskText) activeTaskText.style.display = "none";
-    
-    updatePomoTimerText();
-}
-
-if (resetPomoBtn) resetPomoBtn.addEventListener('click', resetPomoEngine);
-
-/* ==========================================================================
-   3. INTERACTIVE TRIVIA QUIZ ENGINE (DENGAN REVISI KUIS KUSTOM DINAMIS)
-   ========================================================================== */
-const quizQuestions = {
-    it: [
-        { q: "Manakah yang merupakan bahasa pemrograman utama untuk membuat aplikasi mobile lintas platform dengan Flutter?", o: ["Java", "Kotlin", "Dart"], a: 2 },
-        { q: "Manakah komponen dasar web yang bertugas mengatur struktur pondasi konten halaman?", o: ["HTML", "CSS", "JavaScript"], a: 0 }
-    ],
-    banjar: [
-        { q: "Apakah arti dari kata 'Sungsung' dalam kosakata harian Bahasa Banjar?", o: ["Pagi-pagi sekali / Subuh", "Malam hari", "Lambat / Santai"], a: 0 },
-        { q: "Motif kain Sasirangan yang terinspirasi dari bentuk jamur kecil adalah...", o: ["Bayam Raja", "Kulat Karikit", "Gigi Haruan"], a: 1 }
-    ],
-    english: [
-        { q: "What is the true meaning of the English idiom 'Break a leg'?", o: ["Good luck / Wish you success", "To feel sick", "To break your bone"], a: 0 },
-        { q: "Complete the sentence: 'Pendri ... developing a professional web design today.'", o: ["am", "are", "is"], a: 2 }
-    ],
-    custom: [] // Akan diisi dinamis dari eduData.customQuizArray
-};
-
-let currentQuizType = "";
-let currentQuestionIndex = 0;
-
-function checkCustomQuizButtonVisibility() {
-    const customBtn = document.getElementById('btnCustomQuizSelect');
-    if (!customBtn) return;
-    
-    // Jika user sudah pernah membuat kuis kustom, munculkan tombol pilihannya
-    if (eduData.customQuizArray && eduData.customQuizArray.length > 0) {
-        customBtn.style.display = "block";
-    } else {
-        customBtn.style.display = "none";
-    }
-}
-
-window.startSelectedQuiz = function(type) {
-    // Jika memilih kuis kustom, isi pertanyaannya dari data sessionStorage
-    if (type === 'custom') {
-        quizQuestions.custom = eduData.customQuizArray;
-    }
-
-    currentQuizType = type;
-    currentQuestionIndex = 0;
-    
-    document.getElementById('quizSelectionZone').style.display = 'none';
-    document.getElementById('quizPlayZone').style.display = 'block';
-    
-    showQuizQuestion();
-}
-
-function showQuizQuestion() {
-    const qData = quizQuestions[currentQuizType][currentQuestionIndex];
-    document.getElementById('quizQuestion').innerText = `${currentQuestionIndex + 1}. ${qData.q}`;
-    
-    const optionsWadah = document.getElementById('quizOptions');
-    optionsWadah.innerHTML = "";
-    
-    qData.o.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'quiz-opt-btn';
-        btn.innerText = opt;
-        btn.onclick = () => checkQuizAnswer(idx);
-        optionsWadah.appendChild(btn);
-    });
-}
-
-function checkQuizAnswer(selectedIdx) {
-    const qData = quizQuestions[currentQuizType][currentQuestionIndex];
-    
-    if (selectedIdx === qData.a) {
-        alert("Jawabanmu BENAR! Semangat (+15 XP) 🎉");
-        addEduXP(15);
-    } else {
-        alert("Jawabanmu belum tepat. Tetap semangat mencoba lagi! 💪");
-    }
-    
-    currentQuestionIndex++;
-    if (currentQuestionIndex < quizQuestions[currentQuizType].length) {
+        currentQuizIdx = 0;
+        playZone.style.display = 'block';
         showQuizQuestion();
-    } else {
-        alert("Kuis Selesai! Kamu telah menyelesaikan semua tantangan di kategori ini.");
-        document.getElementById('quizSelectionZone').style.display = 'block';
-        document.getElementById('quizPlayZone').style.display = 'none';
+    };
+
+    function showQuizQuestion() {
+        const qText = document.getElementById('quizQuestion');
+        const qOptions = document.getElementById('quizOptions');
         
-        // Sediakan fitur reset kuis kustom jika sudah selesai biar bisa buat baru lagi
-        if (currentQuizType === 'custom' && confirm("Apakah kamu ingin mengosongkan bank soal kuis kustom ini untuk membuat soal baru?")) {
-            eduData.customQuizArray = [];
-            saveEduData();
-            checkCustomQuizButtonVisibility();
+        if (currentQuizIdx >= activeQuizData.length) {
+            alert('Luar biasa! Kamu berhasil menuntaskan seluruh tantangan trivia kuis ini! 🎉');
+            document.getElementById('quizPlayZone').style.display = 'none';
+            return;
         }
-    }
-}
 
-// --- LOGIKA BARU: INPUT FORM KUIS KUSTOM DINAMIS ---
-const customQuizForm = document.getElementById('customQuizForm');
-if (customQuizForm) {
-    customQuizForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const qText = document.getElementById('cqQuestion').value.trim();
-        const opt0 = document.getElementById('cqOpt0').value.trim();
-        const opt1 = document.getElementById('cqOpt1').value.trim();
-        const opt2 = document.getElementById('cqOpt2').value.trim();
-        const answerIdx = parseInt(document.getElementById('cqAnswer').value);
+        const data = activeQuizData[currentQuizIdx];
+        qText.innerText = `${currentQuizIdx + 1}. ${data.q}`;
+        qOptions.innerHTML = '';
 
-        // Masukkan objek soal baru ke dalam database lokal
-        eduData.customQuizArray.push({
-            q: qText,
-            o: [opt0, opt1, opt2],
-            a: answerIdx
+        data.o.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = "btn-primary";
+            btn.style.cssText = "background:var(--bg-main); color:var(--text-dark); border:1px solid var(--border-color); text-align:left; box-shadow:none; padding:12px;";
+            btn.innerText = opt;
+            
+            btn.addEventListener('click', () => {
+                if (idx === data.a) {
+                    alert('Jawabanmu BENAR! (+5 XP) 🧠');
+                    addEduGlobalXP(5);
+                } else {
+                    alert('Jawaban kurang tepat. Coba baca modul lagi! ❌');
+                }
+                currentQuizIdx++;
+                showQuizQuestion();
+            });
+            qOptions.appendChild(btn);
         });
-
-        addEduXP(20); // Hadiah +20 XP karena berkontribusi membuat soal kuis kustom
-        customQuizForm.reset();
-        alert("Soal berhasil disuntikkan ke daftar kuis! Tombol '🧠 Kuis Kustom Kamu' sekarang aktif.");
-        
-        checkCustomQuizButtonVisibility();
-    });
-}
-
-/* ==========================================================================
-   4. CUSTOM FLASHCARD ENGINE
-   ========================================================================== */
-const flashcardForm = document.getElementById('flashcardForm');
-const flashcardsGrid = document.getElementById('flashcardsGrid');
-
-function renderFlashcards() {
-    if (!flashcardsGrid) return;
-    flashcardsGrid.innerHTML = "";
-
-    eduData.savedFlashcards.forEach((fc, idx) => {
-        const cardBox = document.createElement('div');
-        cardBox.className = 'fc-box';
-        
-        cardBox.innerHTML = `
-            <div class="fc-inner">
-                <div class="fc-front">
-                    <button onclick="deleteFlashcard(event, ${idx})" style="position: absolute; top: 8px; right: 8px; background: rgba(239,68,68,0.1); color: #EF4444; border: none; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 700; z-index: 10;">❌ Hapus</button>
-                    <p>${escapeHTML(fc.front)}</p>
-                </div>
-                <div class="fc-back">
-                    <p>${escapeHTML(fc.back)}</p>
-                </div>
-            </div>
-        `;
-        
-        cardBox.addEventListener('click', () => {
-            cardBox.classList.toggle('flipped');
-        });
-        
-        flashcardsGrid.appendChild(cardBox);
-    });
-}
-
-if (flashcardForm) {
-    flashcardForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const front = document.getElementById('fcFront').value.trim();
-        const back = document.getElementById('fcBack').value.trim();
-
-        eduData.savedFlashcards.unshift({ front, back });
-        addEduXP(5);
-        flashcardForm.reset();
-        renderFlashcards();
-    });
-}
-
-window.deleteFlashcard = function(event, index) {
-    event.stopPropagation();
-    if (confirm("Hapus kartu hafalan ini?")) {
-        eduData.savedFlashcards.splice(index, 1);
-        saveEduData();
-        renderFlashcards();
     }
-}
 
-function escapeHTML(str) {
-    return str.replace(/[&<>'"]/g, 
-        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-    );
-}
+    const customQuizForm = document.getElementById('customQuizForm');
+    if (customQuizForm) {
+        customQuizForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const q = document.getElementById('cqQuestion').value.trim();
+            const o0 = document.getElementById('cqOpt0').value.trim();
+            const o1 = document.getElementById('cqOpt1').value.trim();
+            const o2 = document.getElementById('cqOpt2').value.trim();
+            const a = parseInt(document.getElementById('cqAnswer').value);
 
-/* ==========================================================================
-   5. AUTO INITIALIZER ON LOAD
-   ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    updatePomoTimerText();
+            let customList = JSON.parse(sessionStorage.getItem('zenithCustomQuizzes')) || [];
+            customList.push({ q, o: [o0, o1, o2], a });
+            sessionStorage.setItem('zenithCustomQuizzes', JSON.stringify(customList));
+
+            document.getElementById('btnCustomQuizSelect').style.display = 'inline-block';
+            customQuizForm.reset();
+            
+            alert('Soal kuis baru berhasil ditambahkan! (+20 XP) 🧠');
+            addEduGlobalXP(20);
+        });
+    }
+
+    // Tampilkan tombol kuis kustom jika memori deteksi ada data
+    if (JSON.parse(sessionStorage.getItem('zenithCustomQuizzes'))) {
+        const btnCust = document.getElementById('btnCustomQuizSelect');
+        if (btnCust) btnCust.style.display = 'inline-block';
+    }
+
+    // ==========================================================================
+    // 3. ENGINE FLASHCARD MEMORIZATION (INTERAKTIF FLIP CATATAN)
+    // ==========================================================================
+    const flashcardForm = document.getElementById('flashcardForm');
+    const flashcardsGrid = document.getElementById('flashcardsGrid');
+
+    function renderFlashcards() {
+        if (!flashcardsGrid) return;
+        let fcList = JSON.parse(sessionStorage.getItem('zenithFlashcards')) || [
+            { f: "Apa kepanjangan dari singkatan ATS?", b: "Applicant Tracking System (Sistem Penyaring Karyawan Otomatis)" }
+        ];
+
+        flashcardsGrid.innerHTML = '';
+        fcList.forEach((fc) => {
+            const card = document.createElement('div');
+            card.style.cssText = "background:var(--bg-navbar); border:1px solid var(--border-color); border-radius:var(--radius-md); height:120px; display:flex; justify-content:center; align-items:center; padding:16px; cursor:pointer; text-align:center; font-weight:700; color:var(--text-dark); transition:transform 0.3s ease; box-shadow:var(--shadow-sm); font-size:13px; user-select:none;";
+            card.innerText = fc.f;
+            
+            let isFront = true;
+            card.addEventListener('click', () => {
+                card.style.transform = "rotateY(180deg)";
+                setTimeout(() => {
+                    if (isFront) {
+                        card.innerText = fc.b;
+                        card.style.color = "var(--primary)";
+                        isFront = false;
+                    } else {
+                        card.innerText = fc.f;
+                        card.style.color = "var(--text-dark)";
+                        isFront = true;
+                    }
+                    card.style.transform = "rotateY(0deg)";
+                }, 150);
+            });
+            flashcardsGrid.appendChild(card);
+        });
+    }
+
+    if (flashcardForm) {
+        flashcardForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const f = document.getElementById('fcFront').value.trim();
+            const b = document.getElementById('fcBack').value.trim();
+
+            let fcList = JSON.parse(sessionStorage.getItem('zenithFlashcards')) || [
+                { f: "Apa kepanjangan dari singkatan ATS?", b: "Applicant Tracking System (Sistem Penyaring Karyawan Otomatis)" }
+            ];
+            fcList.push({ f, b });
+            sessionStorage.setItem('zenithFlashcards', JSON.stringify(fcList));
+
+            flashcardForm.reset();
+            alert('Kartu hafalan flashcard berhasil dibuat! (+5 XP) 📑');
+            addEduGlobalXP(5);
+            renderFlashcards();
+        });
+    }
+
+    function addEduGlobalXP(amount) {
+        let currentXP = parseInt(sessionStorage.getItem('userXP')) || 0;
+        currentXP += amount;
+        sessionStorage.setItem('userXP', currentXP);
+        if (typeof updateUserStats === 'function') updateUserStats();
+    }
+
+    // Inisialisasi visual awal komponen
+    updateTimerUI();
     renderFlashcards();
-    checkCustomQuizButtonVisibility(); // Pastikan tombol kuis kustom diperiksa saat halaman dibuka
 });

@@ -17,20 +17,7 @@ function saveUserData() {
 }
 
 /* ==========================================================================
-   2. MOBILE NAV RESPONSIVE (Hamburger Menu)
-   ========================================================================== */
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const navMenu = document.getElementById('navMenu');
-
-if (hamburgerBtn && navMenu) {
-    hamburgerBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        hamburgerBtn.classList.toggle('open');
-    });
-}
-
-/* ==========================================================================
-   3. SYSTEM MISI HARIAN (Budaya Banjar & Umum)
+   2. SYSTEM MISI HARIAN (Budaya Banjar & Umum)
    ========================================================================== */
 const mixedMissions = [
     {
@@ -55,7 +42,6 @@ function loadDailyMission() {
     
     if (!titleEl || !descEl || !missionBtn) return;
 
-    // Ambil misi berdasarkan hari ini
     const dateNum = new Date().getDate();
     const missionIndex = dateNum % mixedMissions.length;
     
@@ -69,7 +55,6 @@ function loadDailyMission() {
         badgeEl.style.backgroundColor = `${todaysMission.badgeColor}1A`;
     }
 
-    // Cek apakah misi sudah diklik di sesi ini
     if (userData.lastMissionDate === "done") {
         missionBtn.innerText = "Misi Hari Ini Selesai! 🎉";
         missionBtn.disabled = true;
@@ -83,22 +68,10 @@ function loadDailyMission() {
     }
 }
 
-const completeMissionBtn = document.getElementById('btnCompleteMission');
-if (completeMissionBtn) {
-    completeMissionBtn.addEventListener('click', () => {
-        if (userData.lastMissionDate !== "done") {
-            userData.lastMissionDate = "done";
-            addXP(50);
-            loadDailyMission();
-        }
-    });
-}
-
 /* ==========================================================================
-   4. ENGINE LEVEL & REWARD XP (INTEGRASI REAL-TIME AVATAR)
+   3. ENGINE LEVEL & REWARD XP (INTEGRASI REAL-TIME AVATAR)
    ========================================================================== */
 function updateDashboardUI() {
-    // A. Update Teks Nama dan Level Atas
     if (document.getElementById('userName')) {
         document.getElementById('userName').innerText = userData.username ? `Halo, ${userData.username}!` : "Halo, Penjelajah!";
     }
@@ -106,19 +79,16 @@ function updateDashboardUI() {
     if (document.getElementById('xpText')) document.getElementById('xpText').innerText = `${userData.xp} / 100 XP`;
     if (document.getElementById('xpProgress')) document.getElementById('xpProgress').style.width = `${userData.xp}%`;
 
-    // B. Update Data Ringkasan di Widget Kanan Dashboard
     if (document.getElementById('summaryWater')) document.getElementById('summaryWater').innerText = `${userData.waterIntake || 0} ml`;
     if (document.getElementById('summaryNotes')) document.getElementById('summaryNotes').innerText = `${userData.notesCount || 0} Catatan`;
     if (document.getElementById('summaryATS')) document.getElementById('summaryATS').innerText = `${userData.atsScore || 0}% ATS`;
 
-    // C. FIX LOGIKA: EVOLUSI AVATAR REAL-TIME DI DASHBOARD
     const dashboardAvatarBtn = document.getElementById('profileAvatarBtn');
     if (dashboardAvatarBtn) {
-        const currentLevel = userData.level || 1; // FIX: Menggunakan userData, bukan dashboardData
+        const currentLevel = userData.level || 1;
         let currentEmoji = "🥚";
         let currentAnimClass = "emoji-level-1";
 
-        // Percabangan 5 tingkat sesuai aturan file profil.js
         if (currentLevel >= 1 && currentLevel <= 2) {
             currentEmoji = "🥚";
             currentAnimClass = "emoji-level-1";
@@ -136,7 +106,6 @@ function updateDashboardUI() {
             currentAnimClass = "emoji-level-5";
         }
 
-        // Terapkan perubahan kelas animasi dan icon emoji secara dinamis
         dashboardAvatarBtn.className = "profile-avatar " + currentAnimClass;
         dashboardAvatarBtn.innerText = currentEmoji;
     }
@@ -153,14 +122,52 @@ function addXP(amount) {
 }
 
 /* ==========================================================================
-   5. PUSAT INITIALIZER DOM
+   4. LOGIKA GLOBAL MULTI-LANGUAGE SYSTEM
+   ========================================================================== */
+const translations = {
+    id: {
+        navDashboard: "Dashboard",
+        navKesehatan: "Kesehatan",
+        navJurnal: "Jurnal",
+        navEdukasi: "Edukasi",
+        navKarir: "Karir",
+        navKeuangan: "Keuangan",
+        navTravel: "Travel"
+    },
+    en: {
+        navDashboard: "Dashboard",
+        navKesehatan: "Health",
+        navJurnal: "Sanctuary",
+        navEdukasi: "EduInnova",
+        navKarir: "CareerCraft",
+        navKeuangan: "WealthLab",
+        navTravel: "Wanderlust"
+    }
+};
+
+function applyLanguage(lang) {
+    const navTexts = document.querySelectorAll('.nav-menu .nav-text');
+    if (navTexts.length >= 7) {
+        navTexts[0].innerText = translations[lang].navDashboard;
+        navTexts[1].innerText = translations[lang].navKesehatan;
+        navTexts[2].innerText = translations[lang].navJurnal;
+        navTexts[3].innerText = translations[lang].navEdukasi;
+        navTexts[4].innerText = translations[lang].navKarir;
+        navTexts[5].innerText = translations[lang].navKeuangan;
+        navTexts[6].innerText = translations[lang].navTravel;
+    }
+}
+
+/* ==========================================================================
+   5. PUSAT INITIALIZER SATU DOM (TERPADU & AMAN)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- PILOT POP-UP NAMA ---
     const welcomeModal = document.getElementById('welcomeModal');
     const btnSaveName = document.getElementById('btnSaveName');
     const inputWelcomeName = document.getElementById('inputWelcomeName');
 
-    // Cek pop-up nama berdasarkan session browser
     if (!userData.username) {
         if (welcomeModal) welcomeModal.style.display = 'flex';
     } else {
@@ -180,16 +187,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Jalankan pembaruan data dan misi harian saat halaman dimuat
-    updateDashboardUI();
-    loadDailyMission();
-});
+    // --- PILOT MISI HARIAN ---
+    const completeMissionBtn = document.getElementById('btnCompleteMission');
+    if (completeMissionBtn) {
+        completeMissionBtn.addEventListener('click', () => {
+            if (userData.lastMissionDate !== "done") {
+                userData.lastMissionDate = "done";
+                addXP(50);
+                loadDailyMission();
+            }
+        });
+    }
 
-// ==========================================================================
-    // KEMBALIKAN: LOGIKA GLOBAL DARK/LIGHT MODE SYSTEM (MURNI TANPA TRANSLATE)
-    // ==========================================================================
+    // --- PILOT DARK/LIGHT MODE ---
     const themeToggleBtn = document.getElementById('themeToggleBtn');
-    
     if (sessionStorage.getItem('themeMode') === 'dark') {
         document.body.classList.add('dark-mode');
         if (themeToggleBtn) themeToggleBtn.innerText = '🌙';
@@ -211,57 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================================================
-    // ==========================================================================
-    // LOGIKA GLOBAL MULTI-LANGUAGE SYSTEM (TARGETING SPAN TEXT - ANTI BENTROK)
-    // ==========================================================================
+    // --- PILOT MULTI-LANGUAGE ---
     const langSelect = document.getElementById('langSelect');
-
-    const translations = {
-        id: {
-            navDashboard: "Dashboard",
-            navKesehatan: "Kesehatan",
-            navJurnal: "Jurnal",
-            navEdukasi: "Edukasi",
-            navKarir: "Karir",
-            navKeuangan: "Keuangan",
-            navTravel: "Travel"
-        },
-        en: {
-            navDashboard: "Dashboard",
-            navKesehatan: "Health",
-            navJurnal: "Sanctuary",
-            navEdukasi: "EduInnova",
-            navKarir: "CareerCraft",
-            navKeuangan: "WealthLab",
-            navTravel: "Wanderlust"
-        }
-    };
-
-    function applyLanguage(lang) {
-        // JavaScript akan mendeteksi isi tag span khusus nav-text
-        const navTexts = document.querySelectorAll('.nav-menu .nav-text');
-        
-        if (navTexts.length >= 7) {
-            // Mengubah isi text di dalam span tanpa merusak element luar (.nav-link) maupun animasi ungunya!
-            navTexts[0].innerText = translations[lang].navDashboard;
-            navTexts[1].innerText = translations[lang].navKesehatan;
-            navTexts[2].innerText = translations[lang].navJurnal;
-            navTexts[3].innerText = translations[lang].navEdukasi;
-            navTexts[4].innerText = translations[lang].navKarir;
-            navTexts[5].innerText = translations[lang].navKeuangan;
-            navTexts[6].innerText = translations[lang].navTravel;
-        }
-    }
-
-    // Ambil preferensi bahasa yang tersimpan di memori browser juri
     const savedLang = sessionStorage.getItem('appLanguage') || 'id';
-    
-    // Berikan jeda sangat singkat agar DOM HTML terbaca sempurna oleh browser
-    setTimeout(() => {
-        if (langSelect) langSelect.value = savedLang;
-        applyLanguage(savedLang);
-    }, 50);
+    if (langSelect) langSelect.value = savedLang;
+    applyLanguage(savedLang);
 
     if (langSelect) {
         langSelect.addEventListener('change', (e) => {
@@ -270,3 +235,28 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(selectedLang);
         });
     }
+
+    // --- FIXED MUTLAK: LOGIKA SATU-SATUNYA HAMBURGER MENU RESPONSIF ---
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+
+    if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburgerBtn.classList.toggle('active'); // Konsisten memakai class 'active' sesuai CSS Nomor 10
+            navMenu.classList.toggle('active');
+        });
+
+        // Menutup menu otomatis jika mengklik di luar area navbar mobile
+        document.addEventListener('click', (e) => {
+            if (!hamburgerBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburgerBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    }
+
+    // Jalankan render UI awal
+    updateDashboardUI();
+    loadDailyMission();
+});
