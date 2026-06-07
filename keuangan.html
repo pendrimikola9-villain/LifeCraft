@@ -36,93 +36,151 @@
             </div>
         </div>
     </nav>
+<main class="main-container">
+    <section style="margin-bottom: 32px;">
+        <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">WealthLab Dashboard</h2>
+        <p style="color: var(--text-light);">Simulasikan alokasi anggaran bulananmu dan catat pengeluaran harian secara disiplin.</p>
+    </section>
 
-    <main class="main-container">
-        <section style="margin-bottom: 32px;">
-            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">WealthLab Dashboard</h2>
-            <p style="color: var(--text-light);">Simulasikan alokasi anggaran bulananmu dan catat pengeluaran harian secara disiplin.</p>
-        </section>
-
-        <div class="dashboard-grid" style="grid-template-columns: 380px 1fr; align-items: start;">
+    <div class="dashboard-grid" style="display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start;">
+        
+        <div style="display: flex; flex-direction: column; gap: 24px;">
             
             <div class="dash-card" style="min-height: auto; padding: 28px;">
                 <h3>Simulator Alokasi (50/30/20)</h3>
-                <p style="font-size: 13px; margin-bottom: 16px;">Ketik total pendapatan atau uang sakumu untuk membaginya ke pos ideal otomatis.</p>
+                <p style="font-size: 13px; margin-bottom: 16px; color: var(--text-light);">Ketik total pendapatan atau uang sakumu untuk membaginya ke pos ideal otomatis.</p>
                 
-                <div class="form-group">
-                    <label for="inputIncome">Total Pendapatan Sesi Ini (Rp)</label>
-                    <input type="number" id="inputIncome" value="2000000" min="0" step="50000">
+                <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+                    <label for="inputIncome" style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Total Pendapatan Sesi Ini (Rp)</label>
+                    <input type="number" id="inputIncome" value="2000000" min="0" step="50000" style="width: 100%; padding: 8px; margin-top: 6px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
                 </div>
 
-                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 12px; text-align: left;">
-                    <div style="background: rgba(15,23,42,0.03); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
-                        <span style="font-size: 12px; font-weight: 700; color: var(--text-light);">🏠 Kebutuhan Pokok (50%)</span>
-                        <h4 id="allocNeeds" style="font-size: 18px; color: var(--text-dark); margin-top: 2px; font-weight: 800;">Rp 1.000.000</h4>
+                <div style="display: flex; flex-direction: column; gap: 10px; text-align: left; font-size: 13px;">
+                    <div style="background: rgba(16, 185, 129, 0.06); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600; color: #10b981;">🍗 Kebutuhan Pokok (50%):</span>
+                        <strong id="lblSimNeeds" style="color: var(--text-dark);">Rp 1.000.000</strong>
                     </div>
-                    <div style="background: rgba(15,23,42,0.03); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
-                        <span style="font-size: 12px; font-weight: 700; color: var(--text-light);">☕ Keinginan / Gaya Hidup (30%)</span>
-                        <h4 id="allocWants" style="font-size: 18px; color: var(--accent); margin-top: 2px; font-weight: 800;">Rp 600.000</h4>
+                    <div style="background: rgba(59, 130, 246, 0.06); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600; color: #3b82f6;">🎮 Keinginan / Hiburan (30%):</span>
+                        <strong id="lblSimWants" style="color: var(--text-dark);">Rp 600.000</strong>
                     </div>
-                    <div style="background: rgba(16,185,129,0.04); padding: 12px; border-radius: var(--radius-md); border-left: 4px solid #10B981;">
-                        <span style="font-size: 12px; font-weight: 700; color: #10B981;">💰 Tabungan & Investasi (20%)</span>
-                        <h4 id="allocSavings" style="font-size: 18px; color: #10B981; margin-top: 2px; font-weight: 800;">Rp 400.000</h4>
+                    <div style="background: rgba(168, 85, 247, 0.06); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600; color: #a855f7;">📈 Tabungan / Investasi (20%):</span>
+                        <strong id="lblSimSavings" style="color: var(--text-dark);">Rp 400.000</strong>
                     </div>
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 28px;">
-                
-                <div class="dash-card" style="min-height: auto; padding: 24px;">
-                    <h3>Catat Pengeluaran Baru</h3>
-                    <form id="expenseForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 14px; align-items: flex-end;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="expName">Nama Pengeluaran</label>
-                            <input type="text" id="expName" placeholder="Misal: Beli Kuota Internet" required>
+            <div class="dash-card" style="padding: 24px;">
+                <h3>📝 Catat Arus Kas Riil</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px; text-align: left; margin-top: 12px;">
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Jenis Transaksi:</label>
+                        <div style="display: flex; gap: 12px; margin-top: 4px;">
+                            <label style="font-size: 13px; color: var(--text-dark); cursor: pointer;"><input type="radio" name="radType" value="pemasukan" checked style="accent-color: #10b981;"> 🟩 Masuk</label>
+                            <label style="font-size: 13px; color: var(--text-dark); cursor: pointer;"><input type="radio" name="radType" value="pengeluaran" style="accent-color: #ef4444;"> 🟥 Keluar</label>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="expCategory">Kategori Pos</label>
-                            <select id="expCategory" style="width: 100%; padding: 14px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; background: white;">
-                                <option value="Kebutuhan">🏠 Kebutuhan Pokok</option>
-                                <option value="Keinginan">☕ Keinginan</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label for="expAmount">Nominal (Rp)</label>
-                            <input type="number" id="expAmount" placeholder="Contoh: 50000" required>
-                        </div>
-                        <button type="submit" class="btn-primary" style="height: 50px;">💾 Simpan (+10 XP)</button>
-                    </form>
-                </div>
-
-                <div class="dash-card" style="min-height: auto; padding: 28px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
-                        <h3>Riwayat Pengeluaran</h3>
-                        <select id="filterCategorySelect" style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid rgba(99,102,241,0.2); font-family: inherit; font-weight: 600; font-size: 14px; color: var(--text-dark); background: white;">
-                            <option value="Semua">🔍 Tampilkan Semua</option>
-                            <option value="Kebutuhan">🏠 Kebutuhan Pokok</option>
-                            <option value="Keinginan">☕ Keinginan / Gaya Hidup</option>
-                        </select>
                     </div>
-
-                    <div style="overflow-x: auto; width: 100%;">
-                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
-                            <thead>
-                                <tr style="background-color: rgba(15,23,42,0.04); border-bottom: 2px solid rgba(15,23,42,0.08);">
-                                    <th style="padding: 14px; font-weight: 700;">Nama Item Pengeluaran</th>
-                                    <th style="padding: 14px; font-weight: 700;">Kategori</th>
-                                    <th style="padding: 14px; font-weight: 700;">Nominal Transaksi</th>
-                                    <th style="padding: 14px; font-weight: 700; text-align: right;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="expenseTableBody">
-                                </tbody>
-                        </table>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Nominal (Rp):</label>
+                        <input type="number" id="numAmount" placeholder="Contoh: 50000" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
                     </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Tanggal:</label>
+                        <input type="date" id="dateTransaction" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Kategori:</label>
+                        <select id="selCategory">
+    <option value="Gaji / Freelance">💰 Gaji / Freelance</option>
+    <option value="Makanan & Minuman">🍔 Makanan & Minuman</option>
+    <option value="Edukasi & Kuliah">📚 Edukasi & Kuliah</option>
+    <option value="Kebutuhan Kost">🏠 Kebutuhan Kost</option>
+    <option value="Hiburan / Game">🎮 Hiburan / Game</option>
+    <option value="custom">✏️ Kustom Kategori Sendiri...</option>
+</select>
+                    </div>
+                    <div id="customCategoryWrapper" style="display: none; background: rgba(168, 85, 247, 0.05); padding: 8px; border-radius: 6px; border-left: 3px solid var(--primary);">
+                        <input type="text" id="txtCustomCategory" placeholder="Ketik nama kategori baru..." style="width: 100%; padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-dark);">Keterangan:</label>
+                        <input type="text" id="txtNotes" placeholder="Misal: Progres projek, Makan siang..." style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark);">
+                    </div>
+                    <button class="btn-primary" id="btnSaveTransaction" style="width: 100%; margin-top: 4px;">💾 Simpan Transaksi</button>
                 </div>
-
             </div>
+
         </div>
-    </main>
+
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+            
+<div class="dash-card" style="border: 2px dashed rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.01); padding: 24px;">
+                <h3 style="color: #10b981;">🎯 Target Celengan & Multi-Tabungan</h3>
+                <p style="font-size: 13px; color: var(--text-light); margin-bottom: 14px;">Buat beberapa target barang impianmu dan setor dana tabungan secara fleksibel.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px; text-align: left; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px;">
+                        <div>
+                            <label style="font-size: 12px; font-weight: 600; color: var(--text-dark);">Nama Impian / Goal:</label>
+                            <input type="text" id="txtSavingGoalName" placeholder="Misal: Beli POCO F7, Keyboard..." style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark); font-family: inherit;">
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; font-weight: 600; color: var(--text-dark);">Target Dana (Rp):</label>
+                            <input type="number" id="numSavingGoalTarget" placeholder="Contoh: 3000000" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-main); color: var(--text-dark); font-family: inherit;">
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="btnSaveSavingGoal" style="background: #10b981; width: 100%;">🚀 Kunci Target Impian Baru</button>
+                </div>
+
+                <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 16px 0;">
+
+                <div id="multiSavingsContainer" style="display: flex; flex-direction: column; gap: 14px; text-align: left;">
+                    </div>
+            </div>
+
+                <div id="savingGoalActiveBox" style="display: none; margin-top: 16px; text-align: left; background: var(--bg-navbar); padding: 12px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <h4 id="lblGoalTitle" style="color: var(--text-dark); font-size: 14px; margin: 0;">🎯 Nama Goal</h4>
+                        <button id="btnDeleteGoal" style="background: transparent; border: none; color: #ef4444; font-size: 11px; font-weight: bold; cursor: pointer; text-decoration: underline;">Batal</button>
+                    </div>
+                    <div style="width: 100%; background: var(--border-color); height: 12px; border-radius: 10px; overflow: hidden; margin: 10px 0;">
+                        <div id="savingProgressBar" style="width: 0%; background: linear-gradient(90deg, #10b981, #34d399); height: 100%; transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dark); font-weight: 600;">
+                        <span>Progress: <span id="lblCurrentSaving">Rp 0</span></span>
+                        <span>Target: <span id="lblTargetSaving">Rp 0</span></span>
+                    </div>
+                    <div id="lblSavingPercentage" style="text-align: center; margin-top: 6px; font-weight: 700; font-size: 13px; color: #10b981;">0% Tercapai</div>
+                </div>
+            </div>
+
+            <div class="dash-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center;">
+                <div style="background: rgba(16, 185, 129, 0.08); padding: 12px; border-radius: var(--radius-md); border-bottom: 3px solid #10b981;">
+                    <span style="font-size: 11px; font-weight: bold; color: #10b981;">TOTAL PEMASUKAN</span>
+                    <h4 style="font-size: 15px; margin-top: 4px; color: var(--text-dark);" id="lblTotalIn">Rp 0</h4>
+                </div>
+                <div style="background: rgba(239, 68, 68, 0.08); padding: 12px; border-radius: var(--radius-md); border-bottom: 3px solid #ef4444;">
+                    <span style="font-size: 11px; font-weight: bold; color: #ef4444;">TOTAL PENGELUARAN</span>
+                    <h4 style="font-size: 15px; margin-top: 4px; color: var(--text-dark);" id="lblTotalOut">Rp 0</h4>
+                </div>
+                <div style="grid-column: span 2; background: rgba(99, 102, 241, 0.06); padding: 10px; border-radius: 6px; font-weight: 700; color: var(--text-dark); font-size: 14px;">
+                    💰 Saldo Bersih Terkini: <span id="lblNetBalance" style="color: var(--primary);">Rp 0</span>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3>📊 Riwayat Arus Kas (Kronologis)</h3>
+                    <button id="btnClearHistory" style="background: transparent; border: none; color: #ef4444; font-size: 11px; font-weight: bold; cursor: pointer;">✕ Reset Data</button>
+                </div>
+                <div id="financialLogsContainer" style="display: flex; flex-direction: column; gap: 10px; text-align: left; max-height: 280px; overflow-y: auto;">
+                    </div>
+            </div>
+
+        </div>
+    </div>
+</main>
 
     <footer class="footer">
         <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>

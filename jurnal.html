@@ -38,68 +38,74 @@
         </div>
     </nav>
 
-    <main class="main-container">
-        <section style="margin-bottom: 32px;">
-            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Mind Sanctuary</h2>
-            <p style="color: var(--text-light);">Ekspresikan emosimu hari ini dan catat seluruh ide kreatif pengembangan dirimu dengan rapi.</p>
-        </section>
-
-        <section class="dashboard-hero" style="flex-direction: column; align-items: flex-start; padding: 28px; gap: 16px;">
-            <div>
-                <h3 style="font-size: 20px; font-weight: 800;">Bagaimana suasana hatimu hari ini?</h3>
-                <p style="color: var(--text-light); font-size: 14px;">Pilih satu emosi untuk mencatat riwayat log psikologis harianmu.</p>
-            </div>
-            
-            <div style="display: flex; gap: 16px; width: 100%; flex-wrap: wrap;">
-                <button class="btn-primary btn-mood" data-mood="Senang" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😊 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Senang</span></button>
-                <button class="btn-primary btn-mood" data-mood="Biasa" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😐 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Biasa</span></button>
-                <button class="btn-primary btn-mood" data-mood="Sedih" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😢 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Sedih</span></button>
-                <button class="btn-primary btn-mood" data-mood="Kesal" style="flex: 1; min-width: 100px; background: rgba(255,255,255,0.5); color: var(--text-dark); box-shadow: none;">😡 <span style="display:block; font-size:12px; font-weight:700; margin-top:4px;">Kesal</span></button>
-            </div>
-            
-            <div style="font-size: 15px; font-weight: 600; color: var(--text-light);">
-                Status Terpilih: <strong id="todayMoodText" style="color: var(--primary);">Belum memilih</strong>
-            </div>
-        </section>
-
-        <div class="dashboard-grid" style="grid-template-columns: 360px 1fr; align-items: start;">
-            
-            <div class="dash-card" style="min-height: auto; padding: 28px;">
-                <h3>Buat Catatan Baru</h3>
-                <form id="noteForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px; text-align: left;">
-                    <div class="form-group">
-                        <label for="noteTitle">Judul Catatan</label>
-                        <input type="text" id="noteTitle" placeholder="Misal: Ide Project Laravel" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="noteCategory">Kategori</label>
-                       <select id="noteCategory" style="width: 100%; padding: 12px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: white;">
-    <option value="Umum">💡 Umum / Ide Kreatif</option>
-    <option value="Diary">📖 Cerita Diary Hari Ini</option> <option value="Kuliah">📚 Tugas Kuliah</option>
-    <option value="Kerja">💻 Freelance / IT</option>
-    <option value="Penting">🔥 Sangat Penting</option>
-</select>
-                    </div>
-                    <div class="form-group">
-                        <label for="noteContent">Isi Detail Catatan</label>
-                        <textarea id="noteContent" rows="5" placeholder="Tulis rincian ide catatannmu di sini..." style="width: 100%; padding: 12px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.6);" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">💾 Simpan Catatan (+10 XP)</button>
-                </form>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                
-                <div class="form-group" style="width: 100%;">
-                    <input type="text" id="searchNotesInput" placeholder="🔍 Cari catatan berdasarkan judul atau isi secara instan..." style="background: var(--bg-card); backdrop-filter: blur(10px); padding: 16px 20px; border-radius: var(--radius-md); font-size: 15px; box-shadow: var(--shadow-sm);">
-                </div>
-
-                <div class="dashboard-grid" id="notesGrid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;">
-                    </div>
-            </div>
-
+   <main class="main-container">
+    <section class="dashboard-hero">
+        <div class="profile-info">
+            <h2>Sanctuary & Mind Hub 🧠</h2>
+            <p>Ruang aman untuk refleksi diri, melacak mood harian, dan menjaga kesehatan mentalmu.</p>
         </div>
-    </main>
+    </section>
+
+    <div class="dashboard-grid" style="grid-template-columns: 1.2fr 0.8fr; gap: 24px;">
+        
+        <div class="dash-card">
+    <h3>Tulis Catatan atau Jurnal Hari Ini</h3>
+    
+    <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+        <label for="journalCategory" style="font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px;">Jenis Catatan / Kategori:</label>
+        <select id="journalCategory" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; background: var(--bg-main); color: var(--text-dark);">
+            <option value="IT & Coding">💻 IT, Coding & Pemrograman</option>
+            <option value="Kuliah">📚 Materi Kuliah / Akademik</option>
+            <option value="Refleksi Diri">🧠 Refleksi Diri & Mood Check-in</option>
+            <option value="Umum">📝 Catatan Umum / Lainnya</option>
+        </select>
+    </div>
+
+    <label style="font-weight: 600; font-size: 14px;">Bagaimana Perasaanmu? (Opsional untuk Refleksi):</label>
+   <div class="mood-selector" style="display: flex; gap: 12px; margin: 8px 0 16px 0;">
+    <button type="button" class="mood-btn" data-mood="happy" style="font-size: 16px; background: transparent; border: 2px solid var(--border-color); padding: 8px 16px; border-radius: var(--radius-md); color: var(--text-dark); cursor: pointer; transition: var(--transition); font-family: inherit; font-weight: 600;">😊 Happy</button>
+    <button type="button" class="mood-btn" data-mood="neutral" style="font-size: 16px; background: transparent; border: 2px solid var(--border-color); padding: 8px 16px; border-radius: var(--radius-md); color: var(--text-dark); cursor: pointer; transition: var(--transition); font-family: inherit; font-weight: 600;">😐 Neutral</button>
+    <button type="button" class="mood-btn" data-mood="sad" style="font-size: 16px; background: transparent; border: 2px solid var(--border-color); padding: 8px 16px; border-radius: var(--radius-md); color: var(--text-dark); cursor: pointer; transition: var(--transition); font-family: inherit; font-weight: 600;">😔 Low</button>
+</div>
+
+    <label style="font-weight: 600; font-size: 14px;">Tag Status:</label>
+    <div class="emotion-tags" style="display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 20px 0;">
+        <span class="tag-btn" data-tag="Produktif">⚡ Produktif</span>
+        <span class="tag-btn" data-tag="Belajar">📖 Belajar</span>
+        <span class="tag-btn" data-tag="Stuck/Eror">🔥 Stuck/Eror</span>
+        <span class="tag-btn" data-tag="Lelah">💤 Lelah</span>
+        <span class="tag-btn" data-tag="Semangat">🚀 Semangat</span>
+    </div>
+
+    <div id="journalPromptBox" style="background: rgba(99, 102, 241, 0.05); border-left: 4px solid var(--primary); padding: 12px; border-radius: var(--radius-md); margin-bottom: 16px; font-style: italic; color: var(--text-dark); font-size: 13px;">
+        "Memuat inspirasi menulis..."
+    </div>
+
+    <form id="journalForm">
+        <div class="form-group">
+            <textarea id="journalContent" rows="6" placeholder="Ketik materi yang kamu pelajari, progres coding, atau refleksi harimu di sini..." required style="width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; resize: vertical;"></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top: 12px; width: 100%;">💾 Simpan Catatan Jurnal (+10 XP)</button>
+    </form>
+</div>
+
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div class="dash-card">
+                <h3>Riwayat Mood (7 Hari Terakhir)</h3>
+                <div id="moodChart" style="display: flex; justify-content: space-between; align-items: flex-end; height: 150px; padding: 20px 10px 10px 10px; background: rgba(0,0,0,0.02); border-radius: var(--radius-md); margin-top: 16px;">
+                    </div>
+            </div>
+
+            <div class="dash-card">
+                <h3>Daftar Jurnal Kamu</h3>
+                <div id="journalLogs" style="display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; margin-top: 12px;">
+                    <p style="color: var(--text-light); font-size: 13px;">Belum ada riwayat jurnal.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
 
     <footer class="footer">
         <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>

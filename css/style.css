@@ -780,5 +780,101 @@ body.dark-mode #themeToggleBtn:hover {
     }
 }
 
+/* FIX MODE MALAM DROPDOWN KATEGORI JURNAL */
+#journalCategory {
+    background-color: var(--bg-navbar) !important;
+    color: var(--text-dark) !important;
+    border-color: var(--border-color) !important;
+    font-weight: 600;
+}
+
+/* Memastikan elemen option (pilihan list di dalam dropdown) terbaca jelas di mode terang maupun malam */
+#journalCategory option {
+    background-color: var(--bg-navbar) !important;
+    color: var(--text-dark) !important;
+
+}
+
+/* FIX TOTAL VISIBILITAS FORM TABUNGAN DI MODE MALAM */
+#txtSavingGoalName, 
+#numSavingGoalTarget,
+.num-deposit-input {
+    background-color: var(--bg-main) !important;
+    color: var(--text-dark) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Memastikan teks placeholder di dalam inputan celengan tetap kontras */
+#txtSavingGoalName::placeholder,
+#numSavingGoalTarget::placeholder,
+.num-deposit-input::placeholder {
+    color: var(--text-light) !important;
+    opacity: 0.7;
+}
+
+/* ==========================================================================
+   FIX DROPDOWN KATEGORI KEUANGAN (ANTI BACKGROUND PUTIH DI MODE MALAM)
+   ========================================================================== */
+#selCategory {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px;
+    background-color: var(--bg-navbar) !important; /* Memakai warna card/navbar adaptif */
+    color: var(--text-dark) !important; /* Warna teks otomatis kontras */
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Memaksa elemen pilihan list (option) di dalam dropdown agar ikut berwarna gelap saat mode malam */
+#selCategory option {
+    background-color: var(--bg-navbar) !important;
+    color: var(--text-dark) !important;
+    padding: 8px;
+}
+
+/* ==========================================================================
+   FIX MODUL KARIER (INPUT FORM & PREVIEW RESUME DI MODE MALAM)
+   ========================================================================== */
+#cvInputName,
+#cvInputTitle,
+#cvInputSkills,
+#cvInputExperience {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-main) !important; /* Warna input mengikuti mode tema */
+    color: var(--text-dark) !important; /* Teks otomatis putih saat dark mode */
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#cvInputExperience {
+    resize: vertical;
+}
+
+/* Memastikan teks placeholder form CV terbaca jelas di dark mode */
+#cvInputName::placeholder,
+#cvInputTitle::placeholder,
+#cvInputSkills::placeholder,
+#cvInputExperience::placeholder {
+    color: var(--text-light) !important;
+    opacity: 0.6;
+}
+
+/* Mengubah area pembungkus luar kertas menjadi mengikuti warna background navbar saat mode malam */
+#cvPaperWrapper {
+    background-color: var(--bg-navbar) !important;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease;
+}
+
 
 

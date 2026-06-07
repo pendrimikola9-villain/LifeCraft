@@ -32,15 +32,19 @@ const travelWalletText = document.getElementById('travelWalletText');
 const budgetStatusAlert = document.getElementById('budgetStatusAlert');
 
 function renderTravelPlanner() {
-    // A. TAMPILKAN INTERKONEKSI DANA TABUNGAN DARI WEALTHLAB
-    const tabunganTersedia = travelData.wallet || 0;
+    // ==========================================================================
+    // FIX KUNCI: AMBIL PENDAPATAN SIMULATOR & HITUNG ALOKASI 20% SECARA LIVE
+    // ==========================================================================
+    const simmedIncome = parseFloat(sessionStorage.getItem('zenithSimmedIncome')) || 2000000;
+    const tabunganTersedia = Math.floor(simmedIncome * 0.20); // Ambil porsi alokasi ideal 20%
+
     if (travelWalletText) {
         travelWalletText.innerText = `Rp ${tabunganTersedia.toLocaleString('id-ID')}`;
     }
 
     if (!travelGrid) return;
     travelGrid.innerHTML = "";
-
+    
     let totalTravelCost = 0;
 
     if (travelData.savedTrips.length === 0) {
@@ -165,8 +169,70 @@ function escapeHTML(str) {
 }
 
 /* ==========================================================================
-   3. AUTO INITIALIZER ON LOAD (KHUSUS HALAMAN TRAVEL)
+   3. AUTO INITIALIZER ON LOAD (TERPADU & ANTI-BENTROK)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    // Jalankan render perencana travel utama terlebih dahulu
     renderTravelPlanner();
+    
+    // Panggil fungsi pengecekan interkoneksi simulator alokasi
+    checkTravelBudgetFromSimulation();
 });
+
+function checkTravelBudgetFromSimulation() {
+    const budgetStatusAlert = document.getElementById('budgetStatusAlert');
+    if (!budgetStatusAlert) return;
+
+    // 1. Ambil data nilai input pendapatan dari Simulator Alokasi WealthLab
+    const simmedIncome = parseFloat(sessionStorage.getItem('zenithSimmedIncome')) || 2000000;
+
+    // 2. Hitung dana ideal pos tabungan (20% dari hasil simulasi)
+    const simulatedSavings = Math.floor(simmedIncome * 0.20);
+    const formattedSavings = simulatedSavings.toLocaleString('id-ID');
+
+    // 3. Hitung total pengeluaran dari seluruh rute trip yang ada di list saat ini
+    let totalTravelCost = 0;
+    if (travelData.savedTrips && travelData.savedTrips.length > 0) {
+        travelData.savedTrips.forEach(trip => { totalTravelCost += trip.cost; });
+    }
+
+    // Paksa kotak alert status untuk menampung kedua informasi berharga secara simetris
+    budgetStatusAlert.style.display = 'flex';
+    budgetStatusAlert.style.flexDirection = 'column';
+    budgetStatusAlert.style.gap = '8px';
+    budgetStatusAlert.style.width = '340px'; // Lebarkan sedikit agar teks dua baris muat rapi
+
+    // Tentukan warna tema kotak berdasarkan kelayakan: Cukup vs Kurang
+    if (totalTravelCost <= simulatedSavings && simulatedSavings > 0) {
+        // JIKA BUDGET 20% SIMULATOR MASIH AMAN MENUTUPI ESTIMASI BIAYA TRIP
+        budgetStatusAlert.style.borderColor = '#10B981';
+        budgetStatusAlert.style.backgroundColor = 'rgba(16, 185, 129, 0.06)';
+        budgetStatusAlert.style.color = '#10B981';
+        
+        budgetStatusAlert.innerHTML = `
+            <div style="font-weight: 800; font-size: 13px;">✈️ Budget Alokasi (20%): Rp ${formattedSavings}</div>
+            <div style="font-size: 12px; font-weight: 600; border-top: 1px dashed rgba(16,185,129,0.3); padding-top: 6px;">
+                ✅ DANA AMAN! Estimasi rute trip (Rp ${totalTravelCost.toLocaleString('id-ID')}) tercukupi oleh budget simulasi sesimu.
+            </div>
+        `;
+    } else if (simulatedSavings > 0) {
+        // JIKA BUDGET 20% SIMULATOR TERNYATA KURANG (MEMBENGKAK)
+        const deficit = totalTravelCost - simulatedSavings;
+        budgetStatusAlert.style.borderColor = '#EF4444';
+        budgetStatusAlert.style.backgroundColor = 'rgba(239, 68, 68, 0.06)';
+        budgetStatusAlert.style.color = '#EF4444';
+        
+        budgetStatusAlert.innerHTML = `
+            <div style="font-weight: 800; font-size: 13px;">✈️ Budget Alokasi (20%): Rp ${formattedSavings}</div>
+            <div style="font-size: 12px; font-weight: 600; border-top: 1px dashed rgba(239,68,68,0.3); padding-top: 6px;">
+                ❌ DANA KURANG! Biaya trip membengkak. Alokasi budget simulasi kurang sebesar Rp ${deficit.toLocaleString('id-ID')}.
+            </div>
+        `;
+    } else {
+        // JIKA INPUT SIMULATOR DI WEALTHLAB MASIH NOL
+        budgetStatusAlert.style.borderColor = '#ef4444';
+        budgetStatusAlert.style.backgroundColor = 'rgba(239, 68, 68, 0.05)';
+        budgetStatusAlert.style.color = '#ef4444';
+        budgetStatusAlert.innerHTML = `⚠️ <span style="font-size: 12px;">Pendapatan di simulator masih Rp 0. Alokasi budget travel belum tersedia.</span>`;
+    }
+}

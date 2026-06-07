@@ -36,77 +36,76 @@
         </div>
     </nav>
 
-    <main class="main-container">
-        <section style="margin-bottom: 32px;">
-            <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">CareerCraft Suite</h2>
-            <p style="color: var(--text-light);">Rancang resume profesional secara live dan uji skor kelayakannya menghadapi simulasi sistem ATS.</p>
-        </section>
+<main class="main-container">
+    <section style="margin-bottom: 32px;">
+        <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">CareerCraft Suite</h2>
+        <p style="color: var(--text-light);">Rancang resume profesional secara live dan uji skor kelayakannya menghadapi simulasi sistem ATS.</p>
+    </section>
 
-        <div class="dashboard-grid" style="grid-template-columns: 400px 1fr; align-items: start;">
-            
-            <div class="dash-card" style="min-height: auto; padding: 24px;">
-                <h3>Data Resume</h3>
-                <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px; text-align: left;">
-                    <div class="form-group">
-                        <label for="cvInputName">Nama Lengkap</label>
-                        <input type="text" id="cvInputName" placeholder="Masukkan nama kamu...">
-                    </div>
-                    <div class="form-group">
-                        <label for="cvInputTitle">Profesi / Jabatan Target</label>
-                        <input type="text" id="cvInputTitle" placeholder="Misal: Informatics Engineering Student / Web Developer">
-                    </div>
-                    <div class="form-group">
-                        <label for="cvInputSkills">Keahlian (Pisahkan dengan koma)</label>
-                        <input type="text" id="cvInputSkills" placeholder="Misal: HTML, CSS, JavaScript, Laravel, Flutter">
-                    </div>
-                    <div class="form-group">
-                        <label for="cvInputExperience">Deskripsi Pengalaman & Portofolio</label>
-                        <textarea id="cvInputExperience" rows="6" placeholder="Ceritakan proyek aplikasi, riwayat magang, atau pengalaman organisasimu secara detail..." style="width: 100%; padding: 12px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.6);"></textarea>
-                    </div>
-                    
-                    <div style="background: rgba(15, 23, 42, 0.04); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color); text-align: center;">
-                        <span style="font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px;">ATS Keyword Match Score</span>
-                        <h3 id="atsScoreDisplay" style="font-size: 32px; color: #EF4444; margin: 6px 0; font-weight: 800;">0%</h3>
-                        <p style="font-size: 11px; margin-bottom: 0; color: var(--text-light);">Tips: Tambahkan kata kunci industri kompetensi IT seperti <em>Laravel, JavaScript, HTML, CSS, atau Flutter</em> di bagian resume kamu.</p>
-                    </div>
-
-                    <button class="btn-primary" id="btnSaveCVData">💾 Kunci Data Resume (+15 XP)</button>
+    <div class="dashboard-grid" style="display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start;">
+        
+        <div class="dash-card" style="min-height: auto; padding: 24px;">
+            <h3>Data Resume</h3>
+            <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px; text-align: left;">
+                <div class="form-group">
+                    <label for="cvInputName">Nama Lengkap</label>
+                    <input type="text" id="cvInputName" placeholder="Masukkan nama kamu...">
                 </div>
-            </div>
-
-            <div style="background: #334155; padding: 32px; border-radius: var(--radius-lg); display: flex; justify-content: center; box-shadow: var(--shadow-md); overflow-x: auto;">
+                <div class="form-group">
+                    <label for="cvInputTitle">Profesi / Jabatan Target</label>
+                    <input type="text" id="cvInputTitle" placeholder="Misal: Informatics Engineering Student / Web Developer">
+                </div>
+                <div class="form-group">
+                    <label for="cvInputSkills">Keahlian (Pisahkan dengan koma)</label>
+                    <input type="text" id="cvInputSkills" placeholder="Misal: HTML, CSS, JavaScript, Laravel, Flutter">
+                </div>
+                <div class="form-group">
+                    <label for="cvInputExperience">Deskripsi Pengalaman & Portofolio</label>
+                    <textarea id="cvInputExperience" rows="6" placeholder="Ceritakan proyek aplikasi, riwayat magang, atau pengalaman organisasimu secara detail..."></textarea>
+                </div>
                 
-                <div id="cvPaper" style="background: white; width: 100%; max-width: 600px; min-height: 780px; padding: 48px; color: #1E293B; text-align: left; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.3); border-radius: 4px;">
-                    
-                    <div style="border-bottom: 2px solid #1E293B; padding-bottom: 14px; margin-bottom: 24px;">
-                        <h1 id="cvViewName" style="font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; color: #0F172A; line-height: 1.1;">Nama Lengkap</h1>
-                        <p id="cvViewTitle" style="font-size: 13px; color: #475569; font-weight: 700; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.8px;">Profesi / Jabatan Target</p>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 24px;">
-                        
-                        <div>
-                            <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 10px; font-weight: 800; color: #0F172A;">Keahlian Teknis</h3>
-                            <div id="cvViewSkills" style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px;">
-                                <span style="color: #94A3B8; font-style: italic;">Belum ada keahlian yang ditambahkan.</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 10px; font-weight: 800; color: #0F172A;">Pengalaman Profesional & Portofolio Proyek</h3>
-                            <p id="cvViewExperience" style="font-size: 12px; color: #334155; white-space: pre-line; line-height: 1.6;">
-                                Rincian penjelasan proyek dan rekam jejak karyamu akan otomatis dirender di area kertas ini secara langsung saat kamu mengetik di form input data sebelah kiri.
-                            </p>
-                        </div>
-                    </div>
-
-                    <span style="position: absolute; bottom: 20px; right: 48px; font-size: 9px; color: #94A3B8; letter-spacing: 0.5px; font-weight: 600;">Generated by ZenithLife CareerCraft</span>
+                <div style="background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color); text-align: center;">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px;">ATS Keyword Match Score</span>
+                    <h3 id="atsScoreDisplay" style="font-size: 32px; color: #EF4444; margin: 6px 0; font-weight: 800;">0%</h3>
+                    <p style="font-size: 11px; margin-bottom: 0; color: var(--text-light);">Tips: Tambahkan kata kunci industri kompetensi IT seperti <em>Laravel, JavaScript, HTML, CSS, atau Flutter</em> di bagian resume kamu.</p>
                 </div>
 
+                <button class="btn-primary" id="btnSaveCVData" style="width: 100%;">💾 Kunci Data Resume (+15 XP)</button>
+            </div>
+        </div>
+
+        <div id="cvPaperWrapper" style="padding: 32px; border-radius: var(--radius-lg); display: flex; justify-content: center; box-shadow: var(--shadow-md); overflow-x: auto;">
+            
+            <div id="cvPaper" style="background: white; width: 100%; max-width: 600px; min-height: 780px; padding: 48px; color: #1E293B; text-align: left; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-radius: 4px;">
+                
+                <div style="border-bottom: 2px solid #1E293B; padding-bottom: 14px; margin-bottom: 24px;">
+                    <h1 id="cvViewName" style="font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; color: #0F172A; line-height: 1.1;">Nama Lengkap</h1>
+                    <p id="cvViewTitle" style="font-size: 13px; color: #475569; font-weight: 700; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.8px;">Profesi / Jabatan Target</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 10px; font-weight: 800; color: #0F172A;">Keahlian Teknis</h3>
+                        <div id="cvViewSkills" style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px;">
+                            <span style="color: #94A3B8; font-style: italic;">Belum ada keahlian yang ditambahkan.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 10px; font-weight: 800; color: #0F172A;">Pengalaman Profesional & Portofolio Proyek</h3>
+                        <p id="cvViewExperience" style="font-size: 12px; color: #334155; white-space: pre-line; line-height: 1.6;">
+                            Rincian penjelasan proyek dan rekam jejak karyamu akan otomatis dirender di area kertas ini secara langsung saat kamu mengetik di form input data sebelah kiri.
+                        </p>
+                    </div>
+                </div>
+
+                <span style="position: absolute; bottom: 20px; right: 48px; font-size: 9px; color: #94A3B8; letter-spacing: 0.5px; font-weight: 600;">Generated by ZenithLife CareerCraft</span>
             </div>
 
         </div>
-    </main>
+
+    </div>
+</main>
 
     <footer class="footer">
         <p>&copy; 2026 ZenithLife. Karya Web Design Competition HMP-TI UNISKA.</p>
