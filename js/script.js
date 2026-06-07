@@ -184,3 +184,89 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDashboardUI();
     loadDailyMission();
 });
+
+// ==========================================================================
+    // KEMBALIKAN: LOGIKA GLOBAL DARK/LIGHT MODE SYSTEM (MURNI TANPA TRANSLATE)
+    // ==========================================================================
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    if (sessionStorage.getItem('themeMode') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeToggleBtn) themeToggleBtn.innerText = '🌙';
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (themeToggleBtn) themeToggleBtn.innerText = '☀️';
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                sessionStorage.setItem('themeMode', 'dark');
+                themeToggleBtn.innerText = '🌙';
+            } else {
+                sessionStorage.setItem('themeMode', 'light');
+                themeToggleBtn.innerText = '☀️';
+            }
+        });
+    }
+
+    // ==========================================================================
+    // ==========================================================================
+    // LOGIKA GLOBAL MULTI-LANGUAGE SYSTEM (TARGETING SPAN TEXT - ANTI BENTROK)
+    // ==========================================================================
+    const langSelect = document.getElementById('langSelect');
+
+    const translations = {
+        id: {
+            navDashboard: "Dashboard",
+            navKesehatan: "Kesehatan",
+            navJurnal: "Jurnal",
+            navEdukasi: "Edukasi",
+            navKarir: "Karir",
+            navKeuangan: "Keuangan",
+            navTravel: "Travel"
+        },
+        en: {
+            navDashboard: "Dashboard",
+            navKesehatan: "Health",
+            navJurnal: "Sanctuary",
+            navEdukasi: "EduInnova",
+            navKarir: "CareerCraft",
+            navKeuangan: "WealthLab",
+            navTravel: "Wanderlust"
+        }
+    };
+
+    function applyLanguage(lang) {
+        // JavaScript akan mendeteksi isi tag span khusus nav-text
+        const navTexts = document.querySelectorAll('.nav-menu .nav-text');
+        
+        if (navTexts.length >= 7) {
+            // Mengubah isi text di dalam span tanpa merusak element luar (.nav-link) maupun animasi ungunya!
+            navTexts[0].innerText = translations[lang].navDashboard;
+            navTexts[1].innerText = translations[lang].navKesehatan;
+            navTexts[2].innerText = translations[lang].navJurnal;
+            navTexts[3].innerText = translations[lang].navEdukasi;
+            navTexts[4].innerText = translations[lang].navKarir;
+            navTexts[5].innerText = translations[lang].navKeuangan;
+            navTexts[6].innerText = translations[lang].navTravel;
+        }
+    }
+
+    // Ambil preferensi bahasa yang tersimpan di memori browser juri
+    const savedLang = sessionStorage.getItem('appLanguage') || 'id';
+    
+    // Berikan jeda sangat singkat agar DOM HTML terbaca sempurna oleh browser
+    setTimeout(() => {
+        if (langSelect) langSelect.value = savedLang;
+        applyLanguage(savedLang);
+    }, 50);
+
+    if (langSelect) {
+        langSelect.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            sessionStorage.setItem('appLanguage', selectedLang);
+            applyLanguage(selectedLang);
+        });
+    }

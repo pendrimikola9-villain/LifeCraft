@@ -2,8 +2,13 @@
    1. DATABASE LINK SINKRONISASI SESSIONSTORAGE
    ========================================================================== */
 let eduData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || {
-    username: "", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, savedFlashcards: [], lastMissionDate: ""
+    username: "", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, savedFlashcards: [], customQuizArray: [], lastMissionDate: ""
 };
+
+// Pastikan array kuis kustom sudah terdefinisi di memori browser
+if (eduData.customQuizArray === undefined) {
+    eduData.customQuizArray = [];
+}
 
 // Ambil data flashcards bawaan awal (default) jika belum ada isi di memori
 if (eduData.savedFlashcards === undefined || eduData.savedFlashcards.length === 0) {
@@ -32,7 +37,7 @@ function addEduXP(amount) {
    2. CUSTOM POMODORO TIMER ENGINE
    ========================================================================== */
 let pomoInterval = null;
-let pomoTimeLeft = 25 * 60; // Default awal 25 menit
+let pomoTimeLeft = 25 * 60;
 
 const pomoTaskInput = document.getElementById('pomoTaskInput');
 const pomoMinutesInput = document.getElementById('pomoMinutesInput');
@@ -50,7 +55,7 @@ function updatePomoTimerText() {
 
 if (startPomoBtn) {
     startPomoBtn.addEventListener('click', () => {
-        if (pomoInterval !== null) return; // Mencegah bentrokan timer ganda
+        if (pomoInterval !== null) return;
 
         const customMins = parseInt(pomoMinutesInput.value);
         const taskName = pomoTaskInput.value.trim();
@@ -60,18 +65,15 @@ if (startPomoBtn) {
             return;
         }
 
-        // Kunci nilai waktu jika posisi timer baru akan dimulai dari awal
         if (pomoTimeLeft === 25 * 60) {
             pomoTimeLeft = customMins * 60;
         }
 
-        // Munculkan teks info tugas aktif di atas angka timer
         if (taskName && activeTaskText) {
             activeTaskText.style.display = "block";
             activeTaskText.querySelector('span').innerText = taskName;
         }
 
-        // Kunci kolom input saat belajar sedang berlangsung agar user fokus
         pomoTaskInput.disabled = true;
         pomoMinutesInput.disabled = true;
         startPomoBtn.disabled = true;
@@ -111,7 +113,7 @@ function resetPomoEngine() {
 if (resetPomoBtn) resetPomoBtn.addEventListener('click', resetPomoEngine);
 
 /* ==========================================================================
-   3. INTERACTIVE TRIVIA QUIZ ENGINE (IT, BANJAR, & ENGLISH)
+   3. INTERACTIVE TRIVIA QUIZ ENGINE (DENGAN REVISI KUIS KUSTOM DINAMIS)
    ========================================================================== */
 const quizQuestions = {
     it: [
@@ -125,13 +127,31 @@ const quizQuestions = {
     english: [
         { q: "What is the true meaning of the English idiom 'Break a leg'?", o: ["Good luck / Wish you success", "To feel sick", "To break your bone"], a: 0 },
         { q: "Complete the sentence: 'Pendri ... developing a professional web design today.'", o: ["am", "are", "is"], a: 2 }
-    ]
+    ],
+    custom: [] // Akan diisi dinamis dari eduData.customQuizArray
 };
 
 let currentQuizType = "";
 let currentQuestionIndex = 0;
 
+function checkCustomQuizButtonVisibility() {
+    const customBtn = document.getElementById('btnCustomQuizSelect');
+    if (!customBtn) return;
+    
+    // Jika user sudah pernah membuat kuis kustom, munculkan tombol pilihannya
+    if (eduData.customQuizArray && eduData.customQuizArray.length > 0) {
+        customBtn.style.display = "block";
+    } else {
+        customBtn.style.display = "none";
+    }
+}
+
 window.startSelectedQuiz = function(type) {
+    // Jika memilih kuis kustom, isi pertanyaannya dari data sessionStorage
+    if (type === 'custom') {
+        quizQuestions.custom = eduData.customQuizArray;
+    }
+
     currentQuizType = type;
     currentQuestionIndex = 0;
     
@@ -174,11 +194,45 @@ function checkQuizAnswer(selectedIdx) {
         alert("Kuis Selesai! Kamu telah menyelesaikan semua tantangan di kategori ini.");
         document.getElementById('quizSelectionZone').style.display = 'block';
         document.getElementById('quizPlayZone').style.display = 'none';
+        
+        // Sediakan fitur reset kuis kustom jika sudah selesai biar bisa buat baru lagi
+        if (currentQuizType === 'custom' && confirm("Apakah kamu ingin mengosongkan bank soal kuis kustom ini untuk membuat soal baru?")) {
+            eduData.customQuizArray = [];
+            saveEduData();
+            checkCustomQuizButtonVisibility();
+        }
     }
 }
 
+// --- LOGIKA BARU: INPUT FORM KUIS KUSTOM DINAMIS ---
+const customQuizForm = document.getElementById('customQuizForm');
+if (customQuizForm) {
+    customQuizForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const qText = document.getElementById('cqQuestion').value.trim();
+        const opt0 = document.getElementById('cqOpt0').value.trim();
+        const opt1 = document.getElementById('cqOpt1').value.trim();
+        const opt2 = document.getElementById('cqOpt2').value.trim();
+        const answerIdx = parseInt(document.getElementById('cqAnswer').value);
+
+        // Masukkan objek soal baru ke dalam database lokal
+        eduData.customQuizArray.push({
+            q: qText,
+            o: [opt0, opt1, opt2],
+            a: answerIdx
+        });
+
+        addEduXP(20); // Hadiah +20 XP karena berkontribusi membuat soal kuis kustom
+        customQuizForm.reset();
+        alert("Soal berhasil disuntikkan ke daftar kuis! Tombol '🧠 Kuis Kustom Kamu' sekarang aktif.");
+        
+        checkCustomQuizButtonVisibility();
+    });
+}
+
 /* ==========================================================================
-   4. CUSTOM FLASHCARD ENGINE (Spaced Repetition Creator)
+   4. CUSTOM FLASHCARD ENGINE
    ========================================================================== */
 const flashcardForm = document.getElementById('flashcardForm');
 const flashcardsGrid = document.getElementById('flashcardsGrid');
@@ -203,7 +257,6 @@ function renderFlashcards() {
             </div>
         `;
         
-        // Memicu class animasi putar 3D murni CSS saat kartu di-klik
         cardBox.addEventListener('click', () => {
             cardBox.classList.toggle('flipped');
         });
@@ -219,14 +272,14 @@ if (flashcardForm) {
         const back = document.getElementById('fcBack').value.trim();
 
         eduData.savedFlashcards.unshift({ front, back });
-        addEduXP(5); // Reward +5 XP karena rajin merangkum materi
+        addEduXP(5);
         flashcardForm.reset();
         renderFlashcards();
     });
 }
 
 window.deleteFlashcard = function(event, index) {
-    event.stopPropagation(); // Mencegah kartu ikut berputar (flip) saat tombol hapus diklik
+    event.stopPropagation();
     if (confirm("Hapus kartu hafalan ini?")) {
         eduData.savedFlashcards.splice(index, 1);
         saveEduData();
@@ -241,9 +294,10 @@ function escapeHTML(str) {
 }
 
 /* ==========================================================================
-   5. AUTO INITIALIZER ON LOAD (KHUSUS HALAMAN EDUKASI)
+   5. AUTO INITIALIZER ON LOAD
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     updatePomoTimerText();
     renderFlashcards();
+    checkCustomQuizButtonVisibility(); // Pastikan tombol kuis kustom diperiksa saat halaman dibuka
 });

@@ -164,19 +164,28 @@ body {
 }
 
 .profile-avatar {
-    font-size: 42px; /* Diperbesar dari 36px agar emoji telur mengisi ruang kotak */
+    font-size: 42px; 
     background: white;
     border: 2px solid var(--border-color);
     width: 80px;
     height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 24px;
     box-shadow: var(--shadow-sm);
     box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.1);
-    cursor: pointer; /* Mengubah kursor menjadi tangan penunjuk saat didekati */
+    cursor: pointer; 
     transition: var(--transition);
+
+    /* === TAKTIK CADANGAN: KUNCI POSISI TEKS TENGAH PRESISI === */
+    text-align: center;         /* Memaksa teks/emoji rapat ke tengah horizontal */
+    line-height: 76px;          /* Disamakan dengan tinggi kotak (dikurangi border) agar pas di tengah vertikal */
+    display: block;             /* Diubah ke block agar fungsi text-align bekerja penuh */
+}
+
+/* Memastikan tidak ada margin/padding hantu pada elemen animasi di dalam avatar */
+.profile-avatar *, .profile-avatar span {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block;
 }
 
 .profile-avatar:hover {
@@ -687,3 +696,89 @@ body {
         filter: drop-shadow(0 0 16px rgba(99,102,241,0.7));
     }
 }
+
+/* ==========================================================================
+   KEMBALIKAN: GLOBAL DARK MODE SYSTEM (MURNI LOKAL)
+   ========================================================================== */
+body.dark-mode {
+    --bg-main: linear-gradient(135deg, #0F172A 0%, #1E1B4B 40%, #311042 80%, #111827 100%);
+    --bg-card: rgba(15, 23, 42, 0.55);
+    --bg-navbar: rgba(15, 23, 42, 0.75);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-dark: #F8FAFC;
+    --text-light: #94A3B8;
+    --shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .dash-card {
+    background: var(--bg-card);
+}
+
+body.dark-mode .nav-link {
+    color: var(--text-light);
+}
+
+body.dark-mode .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode textarea {
+    background-color: rgba(15, 23, 42, 0.6);
+    color: var(--text-dark);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .status-item {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .glass-visual {
+    background-color: rgba(15, 23, 42, 0.4);
+}
+
+/* ==========================================================================
+   KEMBALIKAN: SAKLAR MODE MALAM HORIZONTAL SEJAJAR (ANTI TIMPA & ANTI GESER)
+   ========================================================================== */
+.theme-toggle-li {
+    display: flex;
+    align-items: center;      /* Kunci posisi vertikal lurus */
+    justify-content: center;
+    margin-left: 20px;         /* Jarak renggang estetik setelah Travel */
+    height: 100%;
+}
+
+#themeToggleBtn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+#themeToggleBtn:hover {
+    background-color: rgba(99, 102, 241, 0.08);
+    transform: scale(1.1);
+}
+
+body.dark-mode #themeToggleBtn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .theme-toggle-li {
+        margin-left: 0;
+        margin-top: 14px;
+        height: auto;
+    }
+}
+
+
+

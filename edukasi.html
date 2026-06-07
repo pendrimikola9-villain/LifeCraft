@@ -10,16 +10,25 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">Dashboard</a></li>
-                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
-                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
-                <li><a href="edukasi.html" class="nav-link active">Edukasi</a></li>
-                <li><a href="karir.html" class="nav-link">Karir</a></li>
-                <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
-                <li><a href="travel.html" class="nav-link">Travel</a></li>
-            </ul>
+            <a href="profil.html" class="nav-logo" title="Lihat Karakter Profil">Zenith<span>Life</span></a>
+           <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html" class="nav-link">Dashboard</a></li>
+    <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
+    <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
+    <li><a href="edukasi.html" class="nav-link active">Edukasi</a></li>
+    <li><a href="karir.html" class="nav-link">Karir</a></li>
+    <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
+    <li><a href="travel.html" class="nav-link">Travel</a></li>
+
+    <li class="theme-toggle-li">
+        <button id="themeToggleBtn" title="Ganti Mode">☀️</button>
+
+        <select id="langSelect" title="Pilih Bahasa" style="background: transparent; border: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-light); cursor: pointer; padding: 4px 8px; margin-left: 8px; outline: none;">
+            <option value="id" style="color: #0F172A;">🇮🇩 ID</option>
+            <option value="en" style="color: #0F172A;">🇬🇧 EN</option>
+        </select>
+    </li>
+</ul>
             <div class="hamburger" id="hamburgerBtn">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -63,6 +72,39 @@
                 </div>
 
                 <div class="dash-card" style="min-height: auto; padding: 24px;">
+    <h3>Buat Kuis Kustom Baru</h3>
+    <p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;">Tambahkan bank soal belajarmu sendiri ke dalam sistem kuis interaktif.</p>
+    
+    <form id="customQuizForm" style="text-align: left; display: flex; flex-direction: column; gap: 12px;">
+        <div class="form-group">
+            <label for="cqQuestion">Pertanyaan Kuis</label>
+            <input type="text" id="cqQuestion" placeholder="Misal: Apa kepanjangan dari PHP?" required>
+        </div>
+        <div class="form-group">
+            <label for="cqOpt0">Pilihan A</label>
+            <input type="text" id="cqOpt0" placeholder="Pilihan jawaban pertama" required>
+        </div>
+        <div class="form-group">
+            <label for="cqOpt1">Pilihan B</label>
+            <input type="text" id="cqOpt1" placeholder="Pilihan jawaban kedua" required>
+        </div>
+        <div class="form-group">
+            <label for="cqOpt2">Pilihan C</label>
+            <input type="text" id="cqOpt2" placeholder="Pilihan jawaban ketiga" required>
+        </div>
+        <div class="form-group">
+            <label for="cqAnswer">Kunci Jawaban Benar</label>
+            <select id="cqAnswer" style="width: 100%; padding: 14px; border: 1px solid rgba(99,102,241,0.2); border-radius: var(--radius-md); font-family: inherit; font-size: 15px; background: white;">
+                <option value="0">Pilihan A</option>
+                <option value="1">Pilihan B</option>
+                <option value="2">Pilihan C</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-primary">➕ Tambah ke Daftar Kuis (+20 XP)</button>
+    </form>
+</div>
+
+                <div class="dash-card" style="min-height: auto; padding: 24px;">
                     <h3>Buat Flashcard Baru</h3>
                     <form id="flashcardForm" style="margin-top: 14px; text-align: left; display: flex; flex-direction: column; gap: 12px;">
                         <div class="form-group">
@@ -76,9 +118,7 @@
                         <button type="submit" class="btn-primary">➕ Tambah Kartu (+5 XP)</button>
                     </form>
                 </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 32px;">
+            </div> <div style="display: flex; flex-direction: column; gap: 32px;">
                 
                 <div class="dash-card" style="min-height: auto; padding: 28px;">
                     <div class="card-badge" style="background: rgba(16,185,129,0.1); color: var(--success);">Interactive Trivia</div>
@@ -90,20 +130,19 @@
                             <button class="btn-primary" onclick="startSelectedQuiz('it')" style="flex: 1; min-width: 120px; background: rgba(99,102,241,0.08); color: var(--primary); box-shadow: none;">💻 Logika IT</button>
                             <button class="btn-primary" onclick="startSelectedQuiz('banjar')" style="flex: 1; min-width: 120px; background: rgba(245,158,11,0.08); color: var(--accent); box-shadow: none;">🌴 Budaya Banjar</button>
                             <button class="btn-primary" onclick="startSelectedQuiz('english')" style="flex: 1; min-width: 120px; background: rgba(16,185,129,0.08); color: var(--success); box-shadow: none;">🇬🇧 English Quiz</button>
+                            <button class="btn-primary" id="btnCustomQuizSelect" onclick="startSelectedQuiz('custom')" style="flex: 1; min-width: 120px; background: rgba(168,85,247,0.08); color: #A855F7; box-shadow: none; display: none;">🧠 Kuis Kustom Kamu</button>
                         </div>
                     </div>
 
                     <div id="quizPlayZone" style="display: none; margin-top: 14px; text-align: left;">
                         <h4 id="quizQuestion" style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-dark);">Pertanyaan kuis?</h4>
-                        <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;">
-                            </div>
+                        <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;"></div>
                     </div>
                 </div>
 
                 <div>
                     <h3 style="margin-bottom: 16px; font-size: 20px; font-weight: 800;">Koleksi Flashcard Kamu (Klik kartu untuk membalik)</h3>
-                    <div class="flashcards-grid" id="flashcardsGrid">
-                        </div>
+                    <div class="flashcards-grid" id="flashcardsGrid"></div>
                 </div>
             </div>
 
