@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerInterval = null;
     let totalSeconds = 25 * 60;
     let isRunning = false;
-    let currentMode = "fokus"; // Kategori mode: fokus atau istirahat
+    let currentMode = "fokus"; 
 
     const timerDisplay = document.getElementById('timerDisplay');
     const btnStartPomo = document.getElementById('btnStartPomo');
@@ -16,14 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const activeTaskText = document.getElementById('activeTaskText');
     const pomoSessionStatus = document.getElementById('pomoSessionStatus');
 
-    // Sistem Sintesis Audio Lokal Bawaan Browser (Bebas Eror Jalur File Mp3)
     let audioCtx = null;
     let instrumentInterval = null;
 
     function playLocalBellSound() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Buat getaran nada bel kustom (Dering Sukses)
         const osc = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
         
@@ -31,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gainNode.connect(audioCtx.destination);
         
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Nada D5 Premium
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); 
         gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
         
@@ -41,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startSynthInstruments() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Nyanyikan ketukan melodi piano rileks pelan tiap 2 detik selama masa istirahat
         instrumentInterval = setInterval(() => {
             if (currentMode !== "istirahat") return;
             const osc = audioCtx.createOscillator();
@@ -50,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             
-            const notes = [261.63, 329.63, 392.00, 523.25]; // Akor C Mayor Rileks
+            const notes = [261.63, 329.63, 392.00, 523.25]; 
             const randomNote = notes[Math.floor(Math.random() * notes.length)];
             
             osc.frequency.setValueAtTime(randomNote, audioCtx.currentTime);
@@ -77,24 +72,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function switchPomodoroMode() {
         if (currentMode === "fokus") {
-            // BERPINDAH KE SINOPSIS MODE ISTIRAHAT OTOMATIS
             currentMode = "istirahat";
-            totalSeconds = 5 * 60; // 5 Menit Rehat
+            totalSeconds = 5 * 60; 
             pomoSessionStatus.innerText = "☕ MODE ISTIRAHAT";
             pomoSessionStatus.style.cssText = "font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(59,130,246,0.1); color:#3b82f6;";
             
             playLocalBellSound();
-            startSynthInstruments(); // Nyalakan alunan musik rileks
+            startSynthInstruments(); 
             alert("Sesi Fokus Selesai! Kerja bagus, Pendri. Waktunya istirahat 5 menit (Musik instrumen menyala) ☕");
         } else {
-            // KEMBALI KE SESI BELAJAR FOKUS
             currentMode = "fokus";
             totalSeconds = (parseInt(pomoMinutesInput.value) || 25) * 60;
             pomoSessionStatus.innerText = "💻 MODE FOKUS";
             pomoSessionStatus.style.cssText = "font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(16,185,129,0.1); color:#10b981;";
             
             playLocalBellSound();
-            stopSynthInstruments(); // Matikan melodi rehat
+            stopSynthInstruments(); 
             alert("Waktu istirahat habis! Yuk, fokus kembali koding dan belajar 🚀");
         }
         updateTimerUI();
@@ -103,13 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnStartPomo) {
         btnStartPomo.addEventListener('click', () => {
             if (isRunning) {
-                // Sesi Pause
                 clearInterval(timerInterval);
                 btnStartPomo.innerText = "Lanjut";
                 isRunning = false;
                 stopSynthInstruments();
             } else {
-                // Sesi Run
                 isRunning = true;
                 btnStartPomo.innerText = "Pause";
                 
@@ -238,7 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
             customList.push({ q, o: [o0, o1, o2], a });
             sessionStorage.setItem('zenithCustomQuizzes', JSON.stringify(customList));
 
-            document.getElementById('btnCustomQuizSelect').style.display = 'inline-block';
+            const btnCust = document.getElementById('btnCustomQuizSelect');
+            if (btnCust) btnCust.style.display = 'inline-block';
             customQuizForm.reset();
             
             alert('Soal kuis baru berhasil ditambahkan! (+20 XP) 🧠');
@@ -246,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tampilkan tombol kuis kustom jika memori deteksi ada data
     if (JSON.parse(sessionStorage.getItem('zenithCustomQuizzes'))) {
         const btnCust = document.getElementById('btnCustomQuizSelect');
         if (btnCust) btnCust.style.display = 'inline-block';
@@ -309,14 +300,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ==========================================================================
+    // 4. ENGINE SINKRONISASI XP EDUKASI KE DASHBOARD UTAMA (VANILLA ONLY)
+    // ==========================================================================
     function addEduGlobalXP(amount) {
-        let currentXP = parseInt(sessionStorage.getItem('userXP')) || 0;
-        currentXP += amount;
-        sessionStorage.setItem('userXP', currentXP);
+        let sessionData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || { username: "Pendri Mikola", xp: 0, level: 1 };
+        
+        sessionData.xp = parseInt(sessionData.xp) || 0;
+        sessionData.level = parseInt(sessionData.level) || 1;
+
+        sessionData.xp += amount;
+        if (sessionData.xp < 0) sessionData.xp = 0;
+
+        if (sessionData.xp >= 100) {
+            sessionData.level += 1;
+            sessionData.xp -= 100;
+            alert(`Luar Basa, Pendri! Karakter ZenithLife Kamu Naik ke Level ${sessionData.level}! 🚀`);
+        }
+
+        sessionStorage.setItem('zenithSessionData', JSON.stringify(sessionData));
+        sessionStorage.setItem('userXP', sessionData.xp); 
+
         if (typeof updateUserStats === 'function') updateUserStats();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI();
+        
+        console.log(`XP Edukasi Masuk! Skor Global Pendri: ${sessionData.xp} XP (Level ${sessionData.level})`);
     }
 
-    // Inisialisasi visual awal komponen
+    // Inisialisasi visual awal komponen pelacakan
     updateTimerUI();
     renderFlashcards();
-});
+
+}); // <-- SEKARANG DIKUNCI AMAN DI BAGIAN PALING AKHIR FILE

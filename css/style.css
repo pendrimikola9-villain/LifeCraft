@@ -1463,71 +1463,63 @@ body, .navbar, .dash-card, .main-container, input, textarea, button, p, h2, h3 {
 
 
 /* ==========================================================================
-   17. SYSTEM OVERRIDE: FIX REPOSNIVITAS LAYOUT TERPOTONG (1024x600)
+   17. SYSTEM OVERRIDE: FIX RESPONSIVITAS LAYOUT TERPOTONG (1024x600)
    ========================================================================== */
 html, body {
-    height: auto !important; /* Membongkar tinggi kaku 100vh yang mengunci layar */
-    min-height: 100vh !important; /* Memastikan background tetap penuh ke bawah */
-    overflow-y: auto !important; /* Memaksa browser memunculkan scroll-bar jika konten meluap */
-    overflow-x: hidden !important; /* Mencegah halaman bergeser patah ke kanan-kiri */
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
-/* Memastikan pembungkus konten utama memberikan ruang gerak alami */
 .main-container {
-    height: auto !important; /* Menghapus batasan tinggi kaku jika ada */
+    height: auto !important;
     min-height: calc(100vh - 80px) !important;
-    padding-bottom: 60px !important; /* Memberikan jarak napas di bawah agar card tidak menempel dasar screen */
+    padding-bottom: 60px !important;
 }
 
-/* Penyesuaian layout grid saat tinggi layar sangat pendek (seperti resolusi 600px) */
 @media (max-width: 1024px) {
     .dashboard-grid {
         height: auto !important;
-        overflow: visible !important; /* Memastikan isi card tidak tersembunyi */
+        overflow: visible !important;
     }
     
     .dash-card {
-        height: auto !important; /* Memaksa tinggi card mengikuti panjang tulisan di dalamnya */
+        height: auto !important;
     }
 }
 
 /* ==========================================================================
    18. TRACKER PAGE RESPONSIVE UTILITY (FIX FOR SMALL MOBILE - 344px)
    ========================================================================== */
-
-/* BREAKPOINT UNTUK HP KECIL HINGGA SEDANG (max-width: 480px) */
 @media (max-width: 480px) {
-    /* 1. Menstabilkan Pembungkus Utama (Main Container) */
     .main-container {
-        padding: 80px 10px 20px 10px !important; /* Kurangi padding agar tidak menekan konten ke dalam */
-        overflow-x: hidden !important; /* Mencegah halaman bergeser ke samping */
+        padding: 80px 10px 20px 10px !important;
+        overflow-x: hidden !important;
     }
 
-    /* 2. Mengubah Grid Menjadi Satu Kolom Memanjang Penuh */
     .dashboard-grid {
         grid-template-columns: 1fr !important;
         display: flex !important;
         flex-direction: column !important;
         gap: 16px !important;
-        padding: 0 4px !important; /* Beri sedikit ruang agar card tidak menempel dinding layar */
+        padding: 0 4px !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
 
-    /* 3. Menghancurkan Padding & Margin Kaku pada Card */
     .dash-card {
-        width: 100% !important; /* Fluid penuh */
-        max-width: 100% !important; /* Fluid penuh */
+        width: 100% !important;
+        max-width: 100% !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
-        padding: 16px 12px !important; /* Gunakan padding kecil agar konten tidak keluar */
+        padding: 16px 12px !important;
         border-radius: 8px !important;
-        box-sizing: border-box !important; /* Wajib agar padding dihitung di dalam lebar */
+        box-sizing: border-box !important;
     }
 
-    /* 4. Menyesuaikan Tipografi Card */
     .dash-card h3 {
-        font-size: 18px !important; /* Perkecil judul agar tidak meluap */
+        font-size: 18px !important;
         line-height: 1.2 !important;
     }
 
@@ -1536,7 +1528,6 @@ html, body {
         margin-bottom: 12px !important;
     }
 
-    /* 5. Mengatur Form Input Group Agar Fluid Penuh */
     .form-group, .habit-input-group {
         width: 100% !important;
         margin-bottom: 12px !important;
@@ -1547,11 +1538,10 @@ html, body {
     .habit-input-group input[type="text"] {
         width: 100% !important;
         box-sizing: border-box !important;
-        padding: 10px 12px !important; /* Padding input lebih kecil agar teks tidak terpotong */
+        padding: 10px 12px !important;
         font-size: 13px !important;
     }
 
-    /* 6. Menyesuaikan Tombol Aksi */
     .btn-primary {
         width: 100% !important;
         display: block !important;
@@ -1559,46 +1549,41 @@ html, body {
         margin-bottom: 16px !important;
     }
 
-    /* 7. Merapikan List Data (Todo/Habit Item) */
     .todo-item-row, .planner-item-row {
         width: 100% !important;
-        padding: 10px 8px !important; /* Gunakan padding kecil di HP sempit */
+        padding: 10px 8px !important;
         box-sizing: border-box !important;
         margin-bottom: 6px !important;
     }
 
     .todo-item-row span, .planner-item-row span {
-        font-size: 12px !important; /* Perkecil teks list agar tidak meluap */
+        font-size: 12px !important;
     }
 
-    /* 8. Merapikan Container Tabs (Harian/Mingguan/Bulanan) */
     .planner-tabs-container {
-        gap: 6px !important; /* Jarak tab lebih kecil */
+        gap: 6px !important;
         margin-bottom: 16px !important;
         width: 100% !important;
         display: flex !important;
-        justify-content: space-around !important; /* Ratakan tab secara proporsional */
+        justify-content: space-around !important;
     }
 
     .planner-tab-btn {
         padding: 6px 10px !important;
         font-size: 12px !important;
-        flex: 1 !important; /* Beri tab ruang tumbuh yang sama */
+        flex: 1 !important;
         text-align: center !important;
     }
 }
 
 /* ==========================================================================
-   19. PRIORITY+ NAVIGATION SYSTEM (DENGAN DROPDOWN FITUR LAIN)
+   19. CLEAN PRIORITY+ NAVIGATION SYSTEM (VERSI TUNGGAL DAN FIX BUG)
    ========================================================================== */
-
-/* Setelan Awal: Tombol Dropdown Sembunyi di Layar Desktop & HP */
 .nav-dropdown-trigger {
     position: relative;
     display: none; 
 }
 
-/* Kotak Submenu Dropdown */
 .nav-dropdown-menu {
     position: absolute;
     top: 100%;
@@ -1608,7 +1593,7 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     min-width: 160px;
-    display: none; /* Sembunyi, baru muncul saat di-hover */
+    display: none; 
     z-index: 999;
     padding: 8px 0;
     list-style: none;
@@ -1630,26 +1615,20 @@ html, body {
     color: var(--primary);
 }
 
-/* Memicu Munculnya Dropdown Saat Kursor Dekat (Hover) */
 .nav-dropdown-trigger:hover .nav-dropdown-menu {
     display: block;
 }
 
-/* --------------------------------------------------------------------------
-   KUNCI BREAKPOINT: BERAKSI KHUSUS PADA UKURAN TABLET (769px - 1024px)
-   -------------------------------------------------------------------------- */
+/* KUNCI BREAKPOINT TABLET: RESOLUSI CRITICAL 820px HINGGA 1024px */
 @media (max-width: 1024px) and (min-width: 769px) {
-    /* Sembunyikan deretan menu panjang (nav-extra) agar tidak meluap */
     .nav-menu .nav-extra {
         display: none !important;
     }
 
-    /* Munculkan tombol "Fitur Lain ▾" sebagai gantinya */
     .nav-dropdown-trigger {
         display: inline-block !important;
     }
 
-    /* Memastikan susunan menu prioritas (1, 2, 3) + Dropdown tetap berjejer lurus */
     .nav-menu {
         display: flex !important;
         flex-direction: row !important;
@@ -1664,7 +1643,6 @@ html, body {
         visibility: visible !important;
     }
 
-    /* Kompatibilitas Tampilan Dropdown Saat Mode Malam Aktif */
     .dark-mode .nav-dropdown-menu {
         background-color: #1E293B !important;
         border-color: #334155 !important;
@@ -1679,10 +1657,7 @@ html, body {
     }
 }
 
-/* --------------------------------------------------------------------------
-   KONDISI DI LAYAR HP MOBILE (Maksimal Lebar 768px ke bawah)
-   Matikan sistem dropdown, kembalikan ke menu vertikal hamburger aslimu
-   -------------------------------------------------------------------------- */
+/* KONDISI DI LAYAR HP MOBILE (MAKSIMAL 768px KE BAWAH) */
 @media (max-width: 768px) {
     .nav-dropdown-trigger {
         display: none !important; 

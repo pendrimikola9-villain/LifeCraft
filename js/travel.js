@@ -1,8 +1,9 @@
 /* ==========================================================================
-   1. DATABASE LINK SINKRONISASI SESSIONSTORAGE
+   1. DATABASE LINK SINKRONISASI SESSIONSTORAGE (SINKRON XP GLOBAL)
    ========================================================================== */
+// Tarik langsung paket data penampung sesi utama ZenithLife agar level terpengaruh global
 let travelData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || {
-    username: "", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, wallet: 0, savedTrips: [], lastMissionDate: ""
+    username: "Pendri Mikola", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, wallet: 0, savedTrips: [], lastMissionDate: ""
 };
 
 // Pastikan array rencana perjalanan sudah siap di memori
@@ -14,13 +15,20 @@ function saveTravelData() {
 }
 
 function addTravelXP(amount) {
+    // Memastikan tipe data berupa angka agar bisa dijumlahkan secara matematis
+    travelData.xp = parseInt(travelData.xp) || 0;
+    travelData.level = parseInt(travelData.level) || 1;
+
     travelData.xp += amount;
+    
+    // Logika naik level otomatis jika menyentuh 100 XP
     if (travelData.xp >= 100) {
         travelData.level += 1;
-        travelData.xp = travelData.xp - 100;
-        alert(`Selamat! Kamu naik ke Level ${travelData.level}! 🚀`);
+        travelData.xp -= 100;
+        alert(`Selamat, Pendri! Kamu naik ke Level ${travelData.level}! 🚀`);
     }
     saveTravelData();
+    console.log(`XP Travel Masuk! Total Skor Global: ${travelData.xp} XP (Level ${travelData.level})`);
 }
 
 /* ==========================================================================
@@ -32,9 +40,7 @@ const travelWalletText = document.getElementById('travelWalletText');
 const budgetStatusAlert = document.getElementById('budgetStatusAlert');
 
 function renderTravelPlanner() {
-    // ==========================================================================
-    // FIX KUNCI: AMBIL PENDAPATAN SIMULATOR & HITUNG ALOKASI 20% SECARA LIVE
-    // ==========================================================================
+    // Ambil pendapatan simulator & hitung alokasi 20% secara live
     const simmedIncome = parseFloat(sessionStorage.getItem('zenithSimmedIncome')) || 2000000;
     const tabunganTersedia = Math.floor(simmedIncome * 0.20); // Ambil porsi alokasi ideal 20%
 
@@ -49,7 +55,7 @@ function renderTravelPlanner() {
 
     if (travelData.savedTrips.length === 0) {
         travelGrid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 40px; border: 2px dashed rgba(99,102,241,0.2); border-radius: var(--radius-lg); background: rgba(255,255,255,0.2);">
+            <div style="grid-column: 1 / -1; text-align: center; color: var(--text-light); padding: 40px; border: 2px dashed rgba(99,102,241,0.2); border-radius: var(--radius-lg); background: rgba(255,255,255,0.02);">
                 <p style="font-weight: 600;">Belum ada rencana rute wisata. Tambahkan destinasi impianmu di form kiri!</p>
             </div>`;
         
@@ -60,9 +66,9 @@ function renderTravelPlanner() {
         return;
     }
 
-    // B. RENDER KARTU DESTINASI LIST
+    // Render Kartu Destinasi List
     travelData.savedTrips.forEach((trip, index) => {
-        totalTravelCost += trip.cost; // Jumlahkan total biaya pengeluaran wisata
+        totalTravelCost += trip.cost; 
 
         const card = document.createElement('div');
         card.className = 'dash-card';
@@ -90,7 +96,7 @@ function renderTravelPlanner() {
         travelGrid.appendChild(card);
     });
 
-    // C. LOGIKA MATEMATIKA DETEKTOR KELAYAKAN ISI DOMPET FINANSIAL
+    // Jalankan pengecekan real-time status kecukupan dana dompet
     if (budgetStatusAlert) {
         if (totalTravelCost <= tabunganTersedia) {
             budgetStatusAlert.innerText = `✅ DANA AMAN! Total estimasi biaya wisata (Rp ${totalTravelCost.toLocaleString('id-ID')}) tercukupi oleh isi dompet tabunganmu.`;
@@ -119,14 +125,12 @@ if (travelForm) {
             return;
         }
 
-        // --- ALGORITMA INTEGRASI RUMUS HITUNG TANGGAL PULANG ---
+        // Algoritma integrasi rumus hitung tanggal pulang otomatis
         const startDateObj = new Date(dateStartInput);
-        
-        // Rumus Tambah Hari Matematika JS: Tanggal Berangkat + Jumlah Hari Durasi
         const endDateObj = new Date(startDateObj);
         endDateObj.setDate(startDateObj.getDate() + duration);
 
-        // Format tampilan tanggal Indonesia (DD-MM-YYYY)
+        // Format tampilan tanggal Indonesia (DD/MM/YYYY)
         const formatIDDate = (dateObj) => {
             const day = dateObj.getDate().toString().padStart(2, '0');
             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
@@ -137,7 +141,7 @@ if (travelForm) {
         const dateStartFormatted = formatIDDate(startDateObj);
         const dateEndFormatted = formatIDDate(endDateObj);
 
-        // Masukkan objek data rute liburan lengkap ke memori sesi
+        // Masukkan objek rute liburan ke memori
         travelData.savedTrips.unshift({
             destination,
             dateStart: dateStartFormatted,
@@ -147,9 +151,10 @@ if (travelForm) {
             activity
         });
 
-        addTravelXP(10); // Reward +10 XP karena cerdas merancang refreshing diri
+        addTravelXP(10); // Hadiah +10 XP global
         travelForm.reset();
         renderTravelPlanner();
+        checkTravelBudgetFromSimulation(); // Perbarui status box alokasi simulator
     });
 }
 
@@ -159,6 +164,7 @@ window.deleteTrip = function(index) {
         travelData.savedTrips.splice(index, 1);
         saveTravelData();
         renderTravelPlanner();
+        checkTravelBudgetFromSimulation(); // Sinkronkan ulang status box alokasi
     }
 };
 
@@ -168,43 +174,25 @@ function escapeHTML(str) {
     );
 }
 
-/* ==========================================================================
-   3. AUTO INITIALIZER ON LOAD (TERPADU & ANTI-BENTROK)
-   ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    // Jalankan render perencana travel utama terlebih dahulu
-    renderTravelPlanner();
-    
-    // Panggil fungsi pengecekan interkoneksi simulator alokasi
-    checkTravelBudgetFromSimulation();
-});
-
 function checkTravelBudgetFromSimulation() {
     const budgetStatusAlert = document.getElementById('budgetStatusAlert');
     if (!budgetStatusAlert) return;
 
-    // 1. Ambil data nilai input pendapatan dari Simulator Alokasi WealthLab
     const simmedIncome = parseFloat(sessionStorage.getItem('zenithSimmedIncome')) || 2000000;
-
-    // 2. Hitung dana ideal pos tabungan (20% dari hasil simulasi)
     const simulatedSavings = Math.floor(simmedIncome * 0.20);
     const formattedSavings = simulatedSavings.toLocaleString('id-ID');
 
-    // 3. Hitung total pengeluaran dari seluruh rute trip yang ada di list saat ini
     let totalTravelCost = 0;
     if (travelData.savedTrips && travelData.savedTrips.length > 0) {
         travelData.savedTrips.forEach(trip => { totalTravelCost += trip.cost; });
     }
 
-    // Paksa kotak alert status untuk menampung kedua informasi berharga secara simetris
     budgetStatusAlert.style.display = 'flex';
     budgetStatusAlert.style.flexDirection = 'column';
     budgetStatusAlert.style.gap = '8px';
-    budgetStatusAlert.style.width = '340px'; // Lebarkan sedikit agar teks dua baris muat rapi
+    budgetStatusAlert.style.width = '340px'; 
 
-    // Tentukan warna tema kotak berdasarkan kelayakan: Cukup vs Kurang
     if (totalTravelCost <= simulatedSavings && simulatedSavings > 0) {
-        // JIKA BUDGET 20% SIMULATOR MASIH AMAN MENUTUPI ESTIMASI BIAYA TRIP
         budgetStatusAlert.style.borderColor = '#10B981';
         budgetStatusAlert.style.backgroundColor = 'rgba(16, 185, 129, 0.06)';
         budgetStatusAlert.style.color = '#10B981';
@@ -216,7 +204,6 @@ function checkTravelBudgetFromSimulation() {
             </div>
         `;
     } else if (simulatedSavings > 0) {
-        // JIKA BUDGET 20% SIMULATOR TERNYATA KURANG (MEMBENGKAK)
         const deficit = totalTravelCost - simulatedSavings;
         budgetStatusAlert.style.borderColor = '#EF4444';
         budgetStatusAlert.style.backgroundColor = 'rgba(239, 68, 68, 0.06)';
@@ -229,10 +216,18 @@ function checkTravelBudgetFromSimulation() {
             </div>
         `;
     } else {
-        // JIKA INPUT SIMULATOR DI WEALTHLAB MASIH NOL
         budgetStatusAlert.style.borderColor = '#ef4444';
         budgetStatusAlert.style.backgroundColor = 'rgba(239, 68, 68, 0.05)';
         budgetStatusAlert.style.color = '#ef4444';
         budgetStatusAlert.innerHTML = `⚠️ <span style="font-size: 12px;">Pendapatan di simulator masih Rp 0. Alokasi budget travel belum tersedia.</span>`;
     }
 }
+
+/* ==========================================================================
+   3. AUTO INITIALIZER ON LOAD (TERPADU & AMAN DARI EMULASI GANDA)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    // Cukup satu listener terpadu untuk merender seluruh komponen halaman travel saat siap
+    renderTravelPlanner();
+    checkTravelBudgetFromSimulation();
+});

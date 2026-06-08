@@ -59,7 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Handler Submit Form Jurnal
+    // ==========================================================================
+    // 3. HANDLER SUBMIT FORM JURNAL (SINKRONISASI REAL-TIME DASHBOARD FIX)
+    // ==========================================================================
     const journalForm = document.getElementById('journalForm');
     if (journalForm) {
         journalForm.addEventListener('submit', (e) => {
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ambil riwayat lama dari sessionStorage
             let journalData = JSON.parse(sessionStorage.getItem('zenithJournals')) || [];
             
-            // Buat objek data jurnal baru (Mood bisa kosong/opsional jika menulis log coding biasa)
+            // Buat objek data jurnal baru
             const newJournal = {
                 date: today,
                 category: category,
@@ -83,6 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             journalData.unshift(newJournal); // Masukkan ke urutan paling atas
             sessionStorage.setItem('zenithJournals', JSON.stringify(journalData));
+
+            // --------------------------------------------------------------------------
+            // KUNCI SINKRONISASI: Hitung total panjang array & tembak ke key widget dashboard
+            // --------------------------------------------------------------------------
+            sessionStorage.setItem('zenithJournalNotesCount', journalData.length);
+
+            // Update juga object local data jika terpasang di file script dashboard utamamu
+            if (typeof userData !== 'undefined') {
+                userData.notesCount = journalData.length;
+                if (typeof saveUserData === 'function') saveUserData();
+            }
 
             // Picu misi kesehatan mental selesai otomatis jika menulis kategori Refleksi Diri
             if (category === "Refleksi Diri") {
@@ -114,8 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
             renderMoodChart();
             renderJournalLogs();
             
-            // Trigger fungsi update stats global jika ada di script.js
+            // Trigger fungsi update stats global agar halaman dashboard utama langsung berubah real-time
             if (typeof updateUserStats === 'function') updateUserStats();
+            if (typeof updateDashboardUI === 'function') updateDashboardUI();
         });
     }
 
@@ -125,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!chartBox) return;
 
         let journalData = JSON.parse(sessionStorage.getItem('zenithJournals')) || [];
-        // Saring jurnal khusus yang memiliki data mood (Refleksi)
         const moodEntries = journalData.filter(d => d.mood !== 'none').slice(0, 7).reverse();
 
         if (moodEntries.length === 0) {
@@ -168,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const moodEmojis = { happy: '😊', neutral: '😐', sad: '😔', none: '' };
         
-        // Pilihan warna badge kategori yang estetik
         const catColors = {
             "IT & Coding": { bg: "rgba(99, 102, 241, 0.1)", text: "var(--primary)" },
             "Kuliah": { bg: "rgba(234, 179, 8, 0.1)", text: "#B45309" },

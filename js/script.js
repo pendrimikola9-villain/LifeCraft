@@ -72,6 +72,7 @@ function loadDailyMission() {
    3. ENGINE LEVEL & REWARD XP (INTEGRASI REAL-TIME AVATAR)
    ========================================================================== */
 function updateDashboardUI() {
+    // A. Sinkronisasi Data Karakter Utama (Menggunakan Objek Asli Kamu)
     if (document.getElementById('userName')) {
         document.getElementById('userName').innerText = userData.username ? `Halo, ${userData.username}!` : "Halo, Penjelajah!";
     }
@@ -79,10 +80,7 @@ function updateDashboardUI() {
     if (document.getElementById('xpText')) document.getElementById('xpText').innerText = `${userData.xp} / 100 XP`;
     if (document.getElementById('xpProgress')) document.getElementById('xpProgress').style.width = `${userData.xp}%`;
 
-    if (document.getElementById('summaryWater')) document.getElementById('summaryWater').innerText = `${userData.waterIntake || 0} ml`;
-    if (document.getElementById('summaryNotes')) document.getElementById('summaryNotes').innerText = `${userData.notesCount || 0} Catatan`;
-    if (document.getElementById('summaryATS')) document.getElementById('summaryATS').innerText = `${userData.atsScore || 0}% ATS`;
-
+    // B. Sistem Evolusi Avatar Berbasis Level (Aman & Utuh)
     const dashboardAvatarBtn = document.getElementById('profileAvatarBtn');
     if (dashboardAvatarBtn) {
         const currentLevel = userData.level || 1;
@@ -109,7 +107,102 @@ function updateDashboardUI() {
         dashboardAvatarBtn.className = "profile-avatar " + currentAnimClass;
         dashboardAvatarBtn.innerText = currentEmoji;
     }
+
+    // ==========================================================================
+    // C. PARSING DATA KE RANGKUMAN AKTIVITAS WIDGET & STATISTIK PRESTASI DIRI
+    // Berdiri mandiri di dalam fungsi agar selalu dieksekusi secara live
+    // ==========================================================================
+    // 1. Deklarasi Target Element UI Rangkuman Aktivitas
+    const summaryWater = document.getElementById('summaryWater');
+    const summaryNotes = document.getElementById('summaryNotes');
+    const summaryATS = document.getElementById('summaryATS');
+
+    // 2. Deklarasi Target Element UI Statistik Prestasi Diri Baru
+    const statsWater = document.getElementById('statsWater');
+    const statsNotes = document.getElementById('statsNotes');
+    const statsAts = document.getElementById('statsAts');
+    const statsFlashcards = document.getElementById('statsFlashcards');
+    const statsTrips = document.getElementById('statsTrips');
+
+    // 3. Ambil data mentah dari memori penyimpanan riil tiap halaman
+    let currentWater = parseInt(sessionStorage.getItem('currentWaterAmount')) || 0;
+    let atsScore = parseInt(sessionStorage.getItem('zenithATSScore')) || 0;
+    
+    // Sinkronisasi data hitungan Jurnal (Membaca objek asli kamu / fallback session)
+    let totalNotes = 0;
+    if (typeof userData !== 'undefined' && userData.notesCount) {
+        totalNotes = userData.notesCount;
+    } else {
+        totalNotes = parseInt(sessionStorage.getItem('zenithJournalNotesCount')) || 0;
+    }
+
+    // Sinkronisasi data Rencana Wisata Travel secara dinamis dari array savedTrips
+    let totalTrips = 0;
+    let savedTravelData = JSON.parse(sessionStorage.getItem('zenithSessionData'));
+    if (savedTravelData && savedTravelData.savedTrips) {
+        totalTrips = savedTravelData.savedTrips.length;
+    }
+
+    // Sinkronisasi data Flashcard dari array lokal halaman edukasi
+    let totalFlashcards = 0;
+    let savedFlashcards = JSON.parse(sessionStorage.getItem('zenithFlashcards'));
+    if (savedFlashcards) {
+        totalFlashcards = savedFlashcards.length;
+    }
+
+    // ==========================================================================
+    // D. EKSEKUSI PENEMBAKAN DATA REAL-TIME KE WIDGET ELEMEN HTML
+    // ==========================================================================
+    // Area Rangkuman Aktivitas (Widget Atas)
+    if (summaryWater) summaryWater.innerText = `${currentWater} ml`;
+    if (summaryNotes) summaryNotes.innerText = `${totalNotes} Catatan`;
+    if (summaryATS) summaryATS.innerText = `${atsScore}% ATS`;
+
+    // Area Statistik Prestasi Diri (Widget Baru Lengkap)
+    if (statsWater) {
+        let glassCount = Math.floor(currentWater / 250); // Konversi otomatis ml ke Gelas
+        statsWater.innerText = `${glassCount} Gelas`;
+    }
+    
+    if (statsNotes) {
+        statsNotes.innerText = `${totalNotes} Catatan`;
+    }
+    
+    if (statsAts) {
+        statsAts.innerText = `${atsScore}%`;
+        // Dinamika variasi warna teks formal representasi skor kelayakan ATS
+        if (atsScore >= 80) {
+            statsAts.style.color = "#10B981"; // Hijau
+        } else if (atsScore >= 40) {
+            statsAts.style.color = "#F59E0B"; // Oranye
+        } else {
+            statsAts.style.color = "#EF4444"; // Merah
+        }
+    }
+    
+    if (statsFlashcards) {
+        statsFlashcards.innerText = `${totalFlashcards} Kartu`;
+    }
+    
+    if (statsTrips) {
+        statsTrips.innerText = `${totalTrips} Destinasi`;
+    }
 }
+
+// ==========================================================================
+// AUTO INITIALIZER ON LOAD (DIKUNCI AGAR SELALU MEMAKSA UPDATE LIVE)
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Jalankan render pertama kali saat struktur DOM selesai dimuat
+    updateDashboardUI();
+    
+    // 2. KUNCI FIX PROFIL: Paksa jalankan sekali lagi setelah 100ms 
+    // Ini mendongkrak browser jika elemen profil baru muncul belakangan atau berupa tab tersembunyi
+    setTimeout(() => {
+        updateDashboardUI();
+        console.log("Sistem ZenithLife: Statistik Prestasi Diri Berhasil Sinkron!");
+    }, 100);
+});
 
 function addXP(amount) {
     userData.xp += amount;

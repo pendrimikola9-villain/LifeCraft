@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // REVISI 3: LOGIKA MONITORING BERAT BADAN + PREDIKSI & SARAN IDEAL (BMI)
+    // C. LOGIKA MONITORING BERAT BADAN + PREDIKSI & SARAN IDEAL (BMI)
     // ==========================================================================
     const btnSaveWeight = document.getElementById('btnSaveWeight');
     const bmiResultBox = document.getElementById('bmiResultBox');
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const heightM = heightCm / 100;
         const bmi = (weight / (heightM * heightM)).toFixed(1);
         
-        // Hitung batas berat badan ideal berdasarkan rumus standar medis (BMI 18.5 - 24.9)
         const idealMin = (18.5 * (heightM * heightM)).toFixed(1);
         const idealMax = (24.9 * (heightM * heightM)).toFixed(1);
 
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // REVISI 1 & 2: LOGIKA MULTI-CHALLENGE INPUT BERKALI-KALI & BERKATEGORI
+    // D. LOGIKA MULTI-CHALLENGE INPUT BERKALI-KALI & BERKATEGORI
     // ==========================================================================
     const txtCustomChallenge = document.getElementById('txtCustomChallenge');
     const selChallengeType = document.getElementById('selChallengeType');
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCustomChallenges() {
         if (!customChallengesContainer) return;
         
-        // Mengambil array daftar tantangan dari memori
         let challengesList = JSON.parse(sessionStorage.getItem('zenithMultiChallenges')) || [];
         
         if (challengesList.length === 0) {
@@ -130,17 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         challengesList.forEach((challenge, index) => {
             const card = document.createElement('div');
-            // Pemisahan warna tema lencana berdasarkan kategori tugas
             const badgeColors = { "Harian": "#10b981", "Mingguan": "#A855F7", "Bulanan": "#f59e0b" };
             const badgeColor = badgeColors[challenge.type] || "var(--primary)";
 
             card.style.cssText = "background: var(--bg-navbar); padding: 14px; border-radius: var(--radius-md); border-left: 4px solid " + badgeColor + "; box-shadow: var(--shadow-sm); position: relative;";
             
-            // Hitung jumlah kotak tercentang
             let completedUnits = challenge.progress.filter(p => p === true).length;
             let isAllDone = completedUnits === challenge.progress.length;
 
-            // Generate barisan kotak check-in harian/mingguan/bulanan
             let progressHtml = '';
             challenge.progress.forEach((status, pIdx) => {
                 const labelName = challenge.type === "Harian" ? "Hari" : (challenge.type === "Mingguan" ? `H-${pIdx+1}` : `M-${pIdx+1}`);
@@ -152,12 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
 
-            // Set reward XP berdasarkan kategori tugas
             const xpRewards = { "Harian": 20, "Mingguan": 100, "Bulanan": 300 };
             const xpReward = xpRewards[challenge.type] || 50;
 
             card.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <div style="flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
                     <span style="font-size: 10px; background: ${badgeColor}20; color: ${badgeColor}; padding: 2px 8px; border-radius: 4px; font-weight: 700;">${challenge.type}</span>
                     <button class="btn-delete-challenge" data-index="${index}" style="background:transparent; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
                 </div>
@@ -176,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
             customChallengesContainer.appendChild(card);
         });
 
-        // Event Listener: Klik Checkbox Progress Unit Mandiri
         document.querySelectorAll('.challenge-unit-chk').forEach(chk => {
             chk.addEventListener('change', () => {
                 const cIdx = parseInt(chk.getAttribute('data-c-idx'));
@@ -188,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Event Listener: Klik Tombol Klaim XP Kustom Misi
         document.querySelectorAll('.btn-claim-multi-xp').forEach(btn => {
             btn.addEventListener('click', () => {
                 const idx = parseInt(btn.getAttribute('data-index'));
@@ -206,11 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Event Listener: Klik Tombol Hapus Tantangan
         document.querySelectorAll('.btn-delete-challenge').forEach(btn => {
             btn.addEventListener('click', () => {
                 const idx = parseInt(btn.getAttribute('data-index'));
-                challengesList.splice(idx, 1); // Buang dari array
+                challengesList.splice(idx, 1);
                 sessionStorage.setItem('zenithMultiChallenges', JSON.stringify(challengesList));
                 renderCustomChallenges();
             });
@@ -227,8 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Tentukan panjang jumlah kotak progress berdasarkan kategori tugas
-            let length = 1; // Harian
+            let length = 1;
             if (type === "Mingguan") length = 5;
             if (type === "Bulanan") length = 4;
 
@@ -243,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             sessionStorage.setItem('zenithMultiChallenges', JSON.stringify(challengesList));
-            txtCustomChallenge.value = ''; // Reset input text
+            txtCustomChallenge.value = '';
             
             alert(`Berhasil menambahkan tantangan baru kategori ${type}! 🔥`);
             renderCustomChallenges();
@@ -251,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // E. MISI HARIAN DAN UTILITY GLOBAL XP
+    // E. MISI HARIAN DAN KONEKTOR TARGET KESEHATAN AKTIF
     // ==========================================================================
     const chkJournalMission = document.getElementById('chkJournalMission');
     const healthCheckboxes = document.querySelectorAll('.health-checkbox');
@@ -267,30 +257,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Deteksi interaksi klik pada checkbox kesehatan bawaan halamanmu
     healthCheckboxes.forEach(chk => {
         if (savedMissions[chk.id]) chk.checked = true;
         chk.addEventListener('change', () => {
             savedMissions = JSON.parse(sessionStorage.getItem('zenithSavedMissions')) || {};
+            const xpValue = parseInt(chk.getAttribute('data-xp')) || 0;
+            
             if (chk.checked) {
                 savedMissions[chk.id] = true;
-                addGlobalXP(parseInt(chk.getAttribute('data-xp')) || 0);
+                addGlobalXP(xpValue);
+                console.log(`Target ${chk.id} Berhasil Selesai: +${xpValue} XP dikirim`);
             } else {
                 savedMissions[chk.id] = false;
-                addGlobalXP(-(parseInt(chk.getAttribute('data-xp')) || 0));
+                addGlobalXP(-xpValue);
+                console.log(`Target ${chk.id} Dibatalkan: -${xpValue} XP dikurangi`);
             }
             sessionStorage.setItem('zenithSavedMissions', JSON.stringify(savedMissions));
         });
     });
 
+    // ==========================================================================
+    // F. ENGINE UTILITY GLOBAL XP SINKRONISASI TOTAL (SINKRON DASHBOARD UTAMA)
+    // ==========================================================================
     function addGlobalXP(amount) {
-        let currentXP = parseInt(sessionStorage.getItem('userXP')) || 0;
-        currentXP += amount;
-        if (currentXP < 0) currentXP = 0;
-        sessionStorage.setItem('userXP', currentXP);
+        // Ambil penampung data utama ZenithLife agar level di index.html ikut bergerak maju
+        let sessionData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || { username: "Pendri Mikola", xp: 0, level: 1 };
+        
+        sessionData.xp = parseInt(sessionData.xp) || 0;
+        sessionData.level = parseInt(sessionData.level) || 1;
+
+        // Tambahkan XP
+        sessionData.xp += amount;
+        if (sessionData.xp < 0) sessionData.xp = 0;
+
+        // Logika naik level otomatis jika menyentuh 100 XP
+        if (sessionData.xp >= 100) {
+            sessionData.level += 1;
+            sessionData.xp -= 100;
+            alert(`Luar Biasa, Pendri! Karakter ZenithLife Kamu Naik ke Level ${sessionData.level}! 🚀`);
+        }
+
+        // Amankan penyimpanan ke data internal dan eksternal halaman kesehatan
+        sessionStorage.setItem('zenithSessionData', JSON.stringify(sessionData));
+        sessionStorage.setItem('userXP', sessionData.xp); // Tetap simpan untuk cadangan visual bar halaman lama
+
+        // Memicu pembaharuan visual grafik atau dashboard jika tersedia
         if (typeof updateUserStats === 'function') updateUserStats();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI();
     }
 
-    // Pemicu render awal komponen
+    // Pemicu eksekusi komponen awal saat halaman dimuat
     updateWaterUI();
     renderCustomChallenges();
 });

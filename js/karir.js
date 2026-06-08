@@ -1,12 +1,23 @@
 /* ==========================================================================
    1. DATABASE LINK SINKRONISASI SESSIONSTORAGE
    ========================================================================== */
+// Samakan key penyimpanan dengan dashboard utama: 'zenithSessionData'
 let careerData = JSON.parse(sessionStorage.getItem('zenithSessionData')) || {
     username: "", xp: 0, level: 1, waterIntake: 0, notesCount: 0, atsScore: 0, lastMissionDate: ""
 };
 
 function saveCareerData() {
     sessionStorage.setItem('zenithSessionData', JSON.stringify(careerData));
+    
+    // Sinkronkan ke objek global userData milik dashboard jika file script.js termuat
+    if (typeof userData !== 'undefined') {
+        userData.atsScore = careerData.atsScore;
+        userData.xp = careerData.xp;
+        userData.level = careerData.level;
+        if (typeof saveUserData === 'function') saveUserData();
+    }
+    
+    // Pemicu pembaruan visual dashboard utama secara langsung
     if (typeof updateDashboardUI === 'function') updateDashboardUI();
 }
 
@@ -110,11 +121,14 @@ function calculateATSScore(fullText) {
     // Kalkulasi persentase skor (Maksimal 100% jika menemukan minimal 5 kata kunci)
     const finalScore = Math.min(Math.round((matches / 5) * 100), 100);
     
-    // Update data ke memori utama
+    // Update data ke memori utama karir
     careerData.atsScore = finalScore;
     sessionStorage.setItem('zenithSessionData', JSON.stringify(careerData));
+    
+    // KUNCI EMAS SINKRONISASI: Set item mandiri untuk dibaca langsung oleh widget dashboard
+    sessionStorage.setItem('zenithATSScore', finalScore);
 
-    // Update elemen visual angka skor ATS
+    // Update elemen visual angka skor ATS di halaman karir
     const scoreDisplay = document.getElementById('atsScoreDisplay');
     if (scoreDisplay) {
         scoreDisplay.innerText = `${finalScore}%`;
@@ -128,8 +142,10 @@ function calculateATSScore(fullText) {
             scoreDisplay.style.color = "#EF4444"; // Merah jika terlalu rendah
         }
     }
+    
+    // Pemicu update dashboard waktu nyata saat user mengetik resume
+    if (typeof updateDashboardUI === 'function') updateDashboardUI();
 }
-
 /* ==========================================================================
    4. AUTO INITIALIZER ON LOAD (KHUSUS HALAMAN KARIR)
    ========================================================================== */
