@@ -9,134 +9,107 @@
 <body>
 
     <nav class="navbar">
-        <div class="nav-container">
+        <div class="nav-container" style="position: relative;">
             <a href="index.html" class="nav-logo">Zenith<span>Life</span></a>
+            
+              <ul class="nav-menu" id="navMenu">
+                <li class="nav-priority"><a href="index.html" class="nav-link"><span class="nav-text">Dashboard</span></a></li>
+                <li class="nav-priority"><a href="todo.html" class="nav-link active"><span class="nav-text">Tracker</span></a></li>
+                <li class="nav-priority"><a href="kesehatan.html" class="nav-link"><span class="nav-text">Kesehatan</span></a></li>
+                
+                <li class="nav-extra"><a href="jurnal.html" class="nav-link"><span class="nav-text">Jurnal</span></a></li>
+                <li class="nav-extra"><a href="edukasi.html" class="nav-link"><span class="nav-text">Edukasi</span></a></li>
+                <li class="nav-extra"><a href="karir.html" class="nav-link"><span class="nav-text">Karir</span></a></li>
+                <li class="nav-extra"><a href="keuangan.html" class="nav-link"><span class="nav-text">Keuangan</span></a></li>
+                <li class="nav-extra"><a href="travel.html" class="nav-link"><span class="nav-text">Travel</span></a></li>
+
+                <li class="nav-dropdown-trigger">
+                    <a href="#" class="nav-link dropdown-toggle">Fitur Lain ▾</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="jurnal.html">Jurnal</a></li>
+                        <li><a href="edukasi.html">Edukasi</a></li>
+                        <li><a href="karir.html">Karir</a></li>
+                        <li><a href="keuangan.html">Keuangan</a></li>
+                        <li><a href="travel.html">Travel</a></li>
+                    </ul>
+            
             <div class="hamburger" id="hamburgerBtn">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">Dashboard</a></li>
-                <li><a href="kesehatan.html" class="nav-link">Kesehatan</a></li>
-                <li><a href="jurnal.html" class="nav-link">Jurnal</a></li>
-                <li><a href="edukasi.html" class="nav-link">Edukasi</a></li>
-                <li><a href="karir.html" class="nav-link">Karir</a></li>
-                <li><a href="keuangan.html" class="nav-link">Keuangan</a></li>
-                <li><a href="travel.html" class="nav-link">Travel</a></li>
-                <li><a href="todo.html" class="nav-link active">Tracker</a></li>
-            </ul>
         </div>
     </nav>
 
-    <main class="main-container" style="margin-top: 100px;">
+    <main class="main-container">
         
-        <section class="dashboard-hero" style="margin-bottom: 24px;">
-            <div class="profile-info">
-                <h2>ZenithLife Master Planner 🛡️</h2>
-                <p>Sistem terpadu: Eksekusi tugas berkala, eliminasi bad habit, dan analisis target pintar dengan metode SMART.</p>
+        <section class="dashboard-hero">
+            <div class="user-profile-box">
+                <div class="profile-avatar">🛡️</div>
+                <div class="profile-info">
+                    <h2>ZenithLife Master Planner</h2>
+                    <p>Eksekusi rencana tugas berkala harian, bangun kebiasaan positif, dan hancurkan kebiasaan burukmu.</p>
+                </div>
             </div>
         </section>
 
-        <div class="todo-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 24px;">
+        <div class="dashboard-grid">
             
-            <div class="left-section">
-                <div class="main-tracker-card" style="background: var(--bg-navbar); padding: 24px; border-radius: 16px; margin-bottom: 24px; border: 1px solid var(--border-color);">
-                    <h3>📅 Task & Tracker Ecosystem</h3>
-                    <p class="section-desc">Pilih skala waktu, selesaikan tugas, dan dapatkan +10 XP!</p>
-                    
-                    <div class="tabs-nav" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                        <button class="tab-btn active" id="tabDaily">Harian</button>
-                        <button class="tab-btn" id="tabWeekly">Mingguan</button>
-                        <button class="tab-btn" id="tabMonthly">Bulanan</button>
-                    </div>
-
-                    <div class="todo-input-box" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="todoInput" placeholder="Ketik rencana tugas baru..." style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-dark);">
-                        <button id="btnAddTodo" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Tambah</button>
-                    </div>
-
-                    <div id="todoListContainer"></div>
+            <div class="dash-card">
+                <div class="card-badge">Task Tracker</div>
+                <h3>📅 Task Ecosystem</h3>
+                <p class="planner-subtitle">Selesaikan tugas berkala untuk mengklaim +10 XP!</p>
+                
+                <div class="planner-tabs-container">
+                    <button class="planner-tab-btn active" id="tabDaily">Harian</button>
+                    <button class="planner-tab-btn" id="tabWeekly">Mingguan</button>
+                    <button class="planner-tab-btn" id="tabMonthly">Bulanan</button>
                 </div>
 
-                <div class="main-tracker-card" style="background: var(--bg-navbar); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color);">
-                    <h3>🚫 Habits to Eliminate</h3>
-                    <p class="section-desc">Hancurkan kebiasaan buruk yang menghambat produktivitasmu.</p>
-                    
-                    <div class="todo-input-box" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="habitInput" placeholder="Contoh: Scroll TikTok berlebihan..." style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-dark);">
-                        <button id="btnAddHabit" style="padding: 10px 20px; background: #EF4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Tambah</button>
-                    </div>
-
-                    <div id="habitContainer"></div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <input type="text" id="todoInput" placeholder="Ketik rencana tugas baru...">
                 </div>
+                
+                <button id="btnAddTodo" class="btn-primary" style="width: 100%; margin-bottom: 20px;">Tambah Tugas ➕</button>
+
+                <div id="todoListContainer"></div>
             </div>
 
-            <div class="right-section">
-                <div class="side-planner-card" style="background: var(--bg-navbar); padding: 24px; border-radius: 16px; margin-bottom: 24px; border: 1px solid var(--border-color);">
-                    <h3>🚀 Vision Boards Target</h3>
-                    <div style="margin-top: 15px;">
-                        <label style="font-weight: 600; font-size: 14px;">Tujuan Jangka Pendek (1-6 Bulan)</label>
-                        <textarea id="goalShort" placeholder="Contoh: Lulus sertifikasi Flutter Developer..." style="width: 100%; height: 60px; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-dark); resize: none;"></textarea>
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <label style="font-weight: 600; font-size: 14px;">Tujuan Jangka Panjang (1-5 Tahun)</label>
-                        <textarea id="goalLong" placeholder="Contoh: Menjadi IT Consultant & Content Creator Game..." style="width: 100%; height: 60px; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-dark); resize: none;"></textarea>
-                    </div>
-                    <button id="btnSaveVision" style="width: 100%; margin-top: 15px; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">💾 Amankan Vision Boards</button>
+            <div class="dash-card">
+                <div class="card-badge" style="background: #10B981;">Habit Ecosystem</div>
+                <h3>⚡ Habits & Routines</h3>
+                <p class="planner-subtitle">Kelola keseimbangan kebiasaan hidupmu secara real-time.</p>
+                
+            <div class="habit-input-group" style="margin-top: 15px; margin-bottom: 12px;">
+                    <label style="font-size: 12px; font-weight: 700; color: #10B981; display: block; margin-bottom: 4px;">👍 KEBIASAAN BAIK (GOOD HABIT)</label>
+                    <input type="text" id="goodHabitInput" placeholder="Contoh: Belajar Coding Laravel, Olahraga 15 Menit..." style="width: 100%; box-sizing: border-box;">
+                    <button id="btnAddGoodHabit" class="btn-primary" style="width: 100%; background: #10B981; margin-top: 8px; margin-bottom: 16px;">Tambah Kebiasaan Baik 👍</button>
                 </div>
 
-                <div class="side-planner-card" style="background: var(--bg-navbar); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color);">
-                    <h3>🎯 SMART Goal Builder & Analyst</h3>
-                    <p class="section-desc">Isi form terpisah di bawah ini untuk menguji kelayakan targetmu.</p>
-                    
-                    <div class="smart-form-group" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                        <div>
-                            <label style="font-size: 12px; font-weight: bold;">Specific (Apa target detailnya?)</label>
-                            <input type="text" id="smartS" placeholder="Misal: Menyelesaikan kursus JavaScript dasar">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; font-weight: bold;">Measurable (Apa angka ukuran suksesnya?)</label>
-                            <input type="text" id="smartM" placeholder="Misal: Belajar 1 jam setiap hari">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; font-weight: bold;">Achievable (Bagaimana cara mencapainya?)</label>
-                            <input type="text" id="smartA" placeholder="Misal: Mengikuti modul kelas online">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; font-weight: bold;">Relevant (Kenapa target ini penting bagi karir?)</label>
-                            <input type="text" id="smartR" placeholder="Misal: Untuk syarat membangun portofolio IT">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; font-weight: bold;">Time-Bound (Berapa batas waktu selesainya?)</label>
-                            <input type="text" id="smartT" placeholder="Misal: Dalam waktu 30 hari">
-                        </div>
-                    </div>
-
-                    <button id="btnAnalyzeSMART" style="width: 100%; margin-top: 20px; padding: 12px; background: #10B981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">📊 Analisis & Generate Tabel Target</button>
-
-                    <div id="smartOutputContainer" style="display: none; margin-top: 20px;">
-                        <h4 style="margin-bottom: 10px;">📋 Hasil Evaluasi Parameter SMART</h4>
-                        <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; color: var(--text-dark);">
-                            <thead>
-                                <tr style="background: rgba(79, 70, 229, 0.1); border-bottom: 2px solid var(--border-color);">
-                                    <th style="padding: 8px;">Kriteria</th>
-                                    <th style="padding: 8px;">Input Kamu</th>
-                                    <th style="padding: 8px;">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="smartTableBody">
-                                </tbody>
-                        </table>
-                        
-                        <div id="smartReportSummary" style="margin-top: 15px; padding: 12px; border-radius: 8px; border-left: 4px solid #10B981; background: var(--bg-main); font-size: 13px; line-height: 1.5;">
-                        </div>
-                    </div>
-
+                <div class="habit-input-group" style="border-top: 1px dashed var(--border-color); padding-top: 12px;">
+                    <label style="font-size: 12px; font-weight: 700; color: #EF4444; display: block; margin-bottom: 4px;">🚫 KEBIASAAN BURUK (BAD HABIT)</label>
+                    <input type="text" id="habitInput" placeholder="Contoh: Begadang tanpa tujuan, Doomscrolling TikTok..." style="width: 100%; box-sizing: border-box;">
+                    <button id="btnAddHabit" class="btn-primary" style="width: 100%; background: #EF4444; margin-top: 8px; margin-bottom: 16px;">Tambah Tantangan Buruk 🚫</button>
                 </div>
+
+                <div id="habitContainer"></div>
             </div>
 
         </div>
+
+        <section style="margin-top: 24px; padding: 0 4px;">
+            <div class="dash-card">
+                <div class="card-badge" style="background: #4F46E5;">Analisis Keseimbangan</div>
+                <h3>📊 Lifestyle Balance Analytics</h3>
+                <p class="planner-subtitle">Perbandingan grafik real-time tingkat konsistensi <span style="color:#10B981; font-weight:bold;">Kebiasaan Baik (Hijau)</span> dan <span style="color:#EF4444; font-weight:bold;">Kebiasaan Buruk (Merah)</span>.</p>
+                
+                <div class="pure-chart-wrapper">
+                    <div id="pureChartContainer" class="pure-chart-container">
+                        </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="footer">

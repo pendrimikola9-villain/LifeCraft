@@ -8,15 +8,17 @@
 </head>
 <body>
 
-    <div class="modal-overlay" id="welcomeModal">
+   <div class="modal-overlay" id="welcomeModal">
         <div class="modal-box">
             <h2>Selamat Datang di <span>ZenithLife</span></h2>
-            <p>Platform interaktif pengembangan diri, kesehatan fisik, dan pelestarian budaya lokal.</p>
-            <div class="form-group" style="margin: 20px 0; text-align: left;">
+            <p>Platform interaktif gamifikasi pengembangan diri dan penyeimbang kebiasaan hidup harian (Lifestyle Balance)</p>
+            
+            <div class="form-group modal-spacing-block">
                 <label for="inputWelcomeName">Siapa nama kamu?</label>
                 <input type="text" id="inputWelcomeName" placeholder="Masukkan nama kamu..." required>
             </div>
-            <button class="btn-primary" id="btnSaveName">Mulai Petualangan 🚀</button>
+            
+            <button class="btn-primary" id="btnSaveName" style="width: 100%;">Mulai Petualangan 🚀</button>
         </div>
     </div>
 
@@ -24,24 +26,35 @@
         <div class="nav-container" style="position: relative;"> <a href="profil.html" class="nav-logo">Zenith<span>Life</span></a>
     
 <ul class="nav-menu" id="navMenu">
-    <li><a href="index.html" class="nav-link active"><span class="nav-text">Dashboard</span></a></li>
-    <li><a href="kesehatan.html" class="nav-link"><span class="nav-text">Kesehatan</span></a></li>
-    <li><a href="jurnal.html" class="nav-link"><span class="nav-text">Jurnal</span></a></li>
-    <li><a href="edukasi.html" class="nav-link"><span class="nav-text">Edukasi</span></a></li>
-    <li><a href="karir.html" class="nav-link"><span class="nav-text">Karir</span></a></li>
-    <li><a href="keuangan.html" class="nav-link"><span class="nav-text">Keuangan</span></a></li>
-    <li><a href="travel.html" class="nav-link"><span class="nav-text">Travel</span></a></li>
-    <li><a href="todo.html" class="nav-link"><span class="nav-text">Tracker</span></a></li>
+                <li class="nav-priority"><a href="index.html" class="nav-link active"><span class="nav-text">Dashboard</span></a></li>
+                <li class="nav-priority"><a href="todo.html" class="nav-link"><span class="nav-text">Tracker</span></a></li>
+                <li class="nav-priority"><a href="kesehatan.html" class="nav-link"><span class="nav-text">Kesehatan</span></a></li>
+                
+                <li class="nav-extra"><a href="jurnal.html" class="nav-link"><span class="nav-text">Jurnal</span></a></li>
+                <li class="nav-extra"><a href="edukasi.html" class="nav-link"><span class="nav-text">Edukasi</span></a></li>
+                <li class="nav-extra"><a href="karir.html" class="nav-link"><span class="nav-text">Karir</span></a></li>
+                <li class="nav-extra"><a href="keuangan.html" class="nav-link"><span class="nav-text">Keuangan</span></a></li>
+                <li class="nav-extra"><a href="travel.html" class="nav-link"><span class="nav-text">Travel</span></a></li>
 
-    <li class="theme-toggle-li">
-        <button id="themeToggleBtn" title="Ganti Mode">☀️</button>
+                <li class="nav-dropdown-trigger">
+                    <a href="#" class="nav-link dropdown-toggle">Fitur Lain ▾</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="jurnal.html">Jurnal</a></li>
+                        <li><a href="edukasi.html">Edukasi</a></li>
+                        <li><a href="karir.html">Karir</a></li>
+                        <li><a href="keuangan.html">Keuangan</a></li>
+                        <li><a href="travel.html">Travel</a></li>
+                    </ul>
+                </li>
 
-        <select id="langSelect" title="Pilih Bahasa" style="background: transparent; border: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-light); cursor: pointer; padding: 4px 8px; margin-left: 8px; outline: none;">
-            <option value="id" style="color: #0F172A;">🇮🇩 ID</option>
-            <option value="en" style="color: #0F172A;">🇬🇧 EN</option>
-        </select>
-    </li>
-</ul>
+                <li class="theme-toggle-li">
+                    <button id="themeToggleBtn" title="Ganti Mode">☀️</button>
+                    <select id="langSelect" title="Pilih Bahasa">
+                        <option value="id" style="color: #0F172A;">🇮🇩 ID</option>
+                        <option value="en" style="color: #0F172A;">🇬🇧 EN</option>
+                    </select>
+                </li>
+            </ul>
    <div class="hamburger" id="hamburgerBtn">
     <span class="bar"></span>
     <span class="bar"></span>

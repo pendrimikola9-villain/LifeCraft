@@ -1091,4 +1091,603 @@ body.dark-mode #themeToggleBtn:hover {
 }
 
 
+/* ==========================================================================
+   12. MASTER PLANNER UTENSION RULES (REVISI ULTRA KONTRAS & SMOOTH TRANSITION)
+   ========================================================================== */
+/* Solusi transisi agar perpindahan mode gelap tidak mengedipkan warna kasar ke mata */
+body, .navbar, .dash-card, .main-container, input, textarea, button, p, h2, h3, th, td {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
 
+/* Memaksa text kontras tinggi saat mode malam */
+.dark-mode .planner-smart-label, 
+.dark-mode .dash-card h3, 
+.dark-mode .dash-card h4, 
+.dark-mode .planner-vision-item strong,
+.dark-mode .todo-item-row span,
+.dark-mode .planner-custom-table td,
+.dark-mode .planner-custom-table th strong {
+    color: #F8FAFC !important; /* Warna putih salju super kontras */
+}
+
+.dark-mode .planner-subtitle,
+.dark-mode .planner-vision-item p {
+    color: #94A3B8 !important; /* Abu-abu terang kontras */
+}
+
+.planner-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.planner-tabs-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.planner-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.planner-tab-btn.active {
+    background: var(--primary);
+    color: #FFFFFF !important;
+}
+
+/* Desain baris list kustom terpadu */
+.todo-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--bg-main, rgba(0, 0, 0, 0.02));
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.todo-item-row.completed-task span {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.planner-smart-label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: var(--text-dark);
+}
+
+/* Desain Output Vision Board Box */
+.planner-vision-display-box {
+    margin-top: 15px;
+    padding: 16px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.planner-vision-item p {
+    color: var(--text-dark);
+    word-break: break-all;
+}
+
+.planner-smart-output {
+    display: none; 
+    margin-top: 25px; 
+    border-top: 2px dashed var(--border-color); 
+    padding-top: 20px;
+}
+
+.planner-smart-output h4 {
+    font-size: 15px; 
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.planner-custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+.planner-custom-table th, 
+.planner-custom-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    color: var(--text-dark);
+}
+
+.planner-custom-table th {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.dark-mode .planner-custom-table th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.planner-summary-box {
+    margin-top: 15px; 
+    padding: 15px; 
+    border-radius: 8px; 
+    border-left: 4px solid #10B981; 
+    background: rgba(16, 185, 129, 0.05); 
+    font-size: 13px; 
+    line-height: 1.6; 
+    color: var(--text-dark);
+}
+
+/* ==========================================================================
+   12. MASTER PLANNER UTILITY SYSTEM (SUPER CLEAN, VANILLA ONLY & RESPONSIVE)
+   ========================================================================== */
+body, .navbar, .dash-card, .main-container, input, textarea, button, p, h2, h3 {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.planner-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.planner-tabs-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.planner-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.planner-tab-btn.active {
+    background: var(--primary);
+    color: #FFFFFF !important;
+}
+
+.todo-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.todo-item-row.completed-task span {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+#todoListContainer, #habitContainer {
+    margin-top: 16px;
+}
+
+.form-group input[type="text"], .habit-input-group input[type="text"] {
+    padding: 11px 14px !important;
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    border-radius: 6px;
+    outline: none;
+}
+
+/* ARSITEKTUR GRAFIK BATANG GABUNGAN MURNI CSS */
+.pure-chart-wrapper {
+    width: 100%;
+    margin-top: 25px;
+    padding: 20px 10px;
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.pure-chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    min-height: 240px;
+    gap: 12px;
+    padding-top: 20px;
+}
+
+.chart-bar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 70px;
+}
+
+.chart-bar-actual {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    transition: height 0.4s ease;
+}
+
+/* Pewarnaan Dinamis Batang */
+.chart-bar-actual.bad-habit-bar {
+    background: linear-gradient(180deg, #EF4444, #B91C1C);
+}
+
+.chart-bar-actual.good-habit-bar {
+    background: linear-gradient(180deg, #10B981, #065F46);
+}
+
+.chart-bar-value {
+    position: absolute;
+    top: -22px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.chart-bar-label {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+/* FIXING CONTRAST MODE MALAM DAN KETIKAN INPUT ANTI-GAIB */
+.dark-mode input[type="text"] {
+    color: #FFFFFF !important;
+    background-color: var(--bg-main) !important;
+}
+
+.dark-mode input::placeholder {
+    color: #94A3B8 !important;
+}
+
+.dark-mode .dash-card h3,
+.dark-mode .todo-item-row span,
+.dark-mode .chart-bar-value,
+.dark-mode .chart-bar-label {
+    color: #F8FAFC !important;
+}
+
+.dark-mode .planner-subtitle {
+    color: #94A3B8 !important;
+}
+
+.dark-mode .pure-chart-wrapper {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* ==========================================================================
+   13. FIXING INPUT COLOR CONTRAST MODE MALAM (ANTI-TEKS GAIB SAAT KETIK)
+   ========================================================================== */
+.dark-mode input[type="text"],
+.dark-mode textarea {
+    color: #FFFFFF !important; /* Memaksa tulisan yang kamu ketik berwarna putih bersih */
+    background-color: var(--bg-main) !important; /* Menjaga background input tetap gelap sesuai tema */
+}
+
+/* Mengubah warna teks placeholder (tulisan samar petunjuk) saat mode malam */
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+    color: #94A3B8 !important; /* Abu-abu terang agar tetap terbaca sebelum kamu mengetik */
+}
+
+/* ==========================================================================
+   14. INPUT FORMS STANDARDIZATION (SINKRON PANJANG UT UTAMA)
+   ========================================================================== */
+.habit-input-group input[type="text"] {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block;
+    padding: 12px 14px !important;
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   15. HABIT STREAK BADGE CONTRAST TUNING
+   ========================================================================== */
+.dark-mode .habit-streak-badge {
+    background: #7F1D1D !important; /* Merah gelap tua agar nyaman di mata malam hari */
+    color: #FECACA !important; /* Teks merah muda terang */
+    border-color: #991B1B !important;
+}
+
+/* ==========================================================================
+   16. WELCOME MODAL TUNING (ANTI-TEKS GAIB MODE MALAM & BERSIDIR)
+   ========================================================================== */
+.modal-spacing-block {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.modal-spacing-block label {
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+}
+
+/* Memaksa elemen teks di dalam modal menyala putih bersih saat mode malam aktif */
+.dark-mode .modal-box h2 {
+    color: #F8FAFC !important;
+}
+
+.dark-mode .modal-box p,
+.dark-mode .modal-spacing-block label {
+    color: #94A3B8 !important; /* Abu-abu terang kontras tinggi */
+}
+
+.dark-mode #inputWelcomeName {
+    color: #FFFFFF !important;
+    background-color: var(--bg-main) !important;
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode #inputWelcomeName::placeholder {
+    color: #64748B !important;
+}
+
+
+/* ==========================================================================
+   17. SYSTEM OVERRIDE: FIX REPOSNIVITAS LAYOUT TERPOTONG (1024x600)
+   ========================================================================== */
+html, body {
+    height: auto !important; /* Membongkar tinggi kaku 100vh yang mengunci layar */
+    min-height: 100vh !important; /* Memastikan background tetap penuh ke bawah */
+    overflow-y: auto !important; /* Memaksa browser memunculkan scroll-bar jika konten meluap */
+    overflow-x: hidden !important; /* Mencegah halaman bergeser patah ke kanan-kiri */
+}
+
+/* Memastikan pembungkus konten utama memberikan ruang gerak alami */
+.main-container {
+    height: auto !important; /* Menghapus batasan tinggi kaku jika ada */
+    min-height: calc(100vh - 80px) !important;
+    padding-bottom: 60px !important; /* Memberikan jarak napas di bawah agar card tidak menempel dasar screen */
+}
+
+/* Penyesuaian layout grid saat tinggi layar sangat pendek (seperti resolusi 600px) */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        height: auto !important;
+        overflow: visible !important; /* Memastikan isi card tidak tersembunyi */
+    }
+    
+    .dash-card {
+        height: auto !important; /* Memaksa tinggi card mengikuti panjang tulisan di dalamnya */
+    }
+}
+
+/* ==========================================================================
+   18. TRACKER PAGE RESPONSIVE UTILITY (FIX FOR SMALL MOBILE - 344px)
+   ========================================================================== */
+
+/* BREAKPOINT UNTUK HP KECIL HINGGA SEDANG (max-width: 480px) */
+@media (max-width: 480px) {
+    /* 1. Menstabilkan Pembungkus Utama (Main Container) */
+    .main-container {
+        padding: 80px 10px 20px 10px !important; /* Kurangi padding agar tidak menekan konten ke dalam */
+        overflow-x: hidden !important; /* Mencegah halaman bergeser ke samping */
+    }
+
+    /* 2. Mengubah Grid Menjadi Satu Kolom Memanjang Penuh */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        padding: 0 4px !important; /* Beri sedikit ruang agar card tidak menempel dinding layar */
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Menghancurkan Padding & Margin Kaku pada Card */
+    .dash-card {
+        width: 100% !important; /* Fluid penuh */
+        max-width: 100% !important; /* Fluid penuh */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 16px 12px !important; /* Gunakan padding kecil agar konten tidak keluar */
+        border-radius: 8px !important;
+        box-sizing: border-box !important; /* Wajib agar padding dihitung di dalam lebar */
+    }
+
+    /* 4. Menyesuaikan Tipografi Card */
+    .dash-card h3 {
+        font-size: 18px !important; /* Perkecil judul agar tidak meluap */
+        line-height: 1.2 !important;
+    }
+
+    .planner-subtitle {
+        font-size: 12px !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* 5. Mengatur Form Input Group Agar Fluid Penuh */
+    .form-group, .habit-input-group {
+        width: 100% !important;
+        margin-bottom: 12px !important;
+        padding: 0 !important;
+    }
+
+    .form-group input[type="text"], 
+    .habit-input-group input[type="text"] {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 10px 12px !important; /* Padding input lebih kecil agar teks tidak terpotong */
+        font-size: 13px !important;
+    }
+
+    /* 6. Menyesuaikan Tombol Aksi */
+    .btn-primary {
+        width: 100% !important;
+        display: block !important;
+        text-align: center !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* 7. Merapikan List Data (Todo/Habit Item) */
+    .todo-item-row, .planner-item-row {
+        width: 100% !important;
+        padding: 10px 8px !important; /* Gunakan padding kecil di HP sempit */
+        box-sizing: border-box !important;
+        margin-bottom: 6px !important;
+    }
+
+    .todo-item-row span, .planner-item-row span {
+        font-size: 12px !important; /* Perkecil teks list agar tidak meluap */
+    }
+
+    /* 8. Merapikan Container Tabs (Harian/Mingguan/Bulanan) */
+    .planner-tabs-container {
+        gap: 6px !important; /* Jarak tab lebih kecil */
+        margin-bottom: 16px !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-around !important; /* Ratakan tab secara proporsional */
+    }
+
+    .planner-tab-btn {
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+        flex: 1 !important; /* Beri tab ruang tumbuh yang sama */
+        text-align: center !important;
+    }
+}
+
+/* ==========================================================================
+   19. PRIORITY+ NAVIGATION SYSTEM (DENGAN DROPDOWN FITUR LAIN)
+   ========================================================================== */
+
+/* Setelan Awal: Tombol Dropdown Sembunyi di Layar Desktop & HP */
+.nav-dropdown-trigger {
+    position: relative;
+    display: none; 
+}
+
+/* Kotak Submenu Dropdown */
+.nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    display: none; /* Sembunyi, baru muncul saat di-hover */
+    z-index: 999;
+    padding: 8px 0;
+    list-style: none;
+}
+
+.nav-dropdown-menu li a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.nav-dropdown-menu li a:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--primary);
+}
+
+/* Memicu Munculnya Dropdown Saat Kursor Dekat (Hover) */
+.nav-dropdown-trigger:hover .nav-dropdown-menu {
+    display: block;
+}
+
+/* --------------------------------------------------------------------------
+   KUNCI BREAKPOINT: BERAKSI KHUSUS PADA UKURAN TABLET (769px - 1024px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) and (min-width: 769px) {
+    /* Sembunyikan deretan menu panjang (nav-extra) agar tidak meluap */
+    .nav-menu .nav-extra {
+        display: none !important;
+    }
+
+    /* Munculkan tombol "Fitur Lain ▾" sebagai gantinya */
+    .nav-dropdown-trigger {
+        display: inline-block !important;
+    }
+
+    /* Memastikan susunan menu prioritas (1, 2, 3) + Dropdown tetap berjejer lurus */
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 14px !important;
+        position: static !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        width: auto !important;
+        height: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Kompatibilitas Tampilan Dropdown Saat Mode Malam Aktif */
+    .dark-mode .nav-dropdown-menu {
+        background-color: #1E293B !important;
+        border-color: #334155 !important;
+    }
+    
+    .dark-mode .nav-dropdown-menu li a {
+        color: #F8FAFC !important;
+    }
+    
+    .dark-mode .nav-dropdown-menu li a:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   KONDISI DI LAYAR HP MOBILE (Maksimal Lebar 768px ke bawah)
+   Matikan sistem dropdown, kembalikan ke menu vertikal hamburger aslimu
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .nav-dropdown-trigger {
+        display: none !important; 
+    }
+    .nav-menu .nav-extra {
+        display: block !important; 
+    }
+}
